@@ -38,24 +38,53 @@ export default function Header() {
           </nav>
 
           {/* Expandable Search */}
-          <div className="hidden lg:flex items-center flex-1 justify-end">
-            {isSearchOpen ? (
-              <div className="flex items-center w-full max-w-md mx-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <div className="hidden lg:flex items-center flex-1 justify-end relative">
+            <div className="flex items-center h-10">
+              {/* Search Icon Button - Always Present */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className={`transition-all duration-300 ease-in-out ${
+                  isSearchOpen ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
+                } mr-4`}
+                data-testid="button-open-search"
+              >
+                <Search className="w-5 h-5" />
+              </Button>
+
+              {/* Expandable Search Field */}
+              <div className={`absolute right-4 top-0 h-10 flex items-center transition-all duration-300 ease-in-out ${
+                isSearchOpen 
+                  ? 'w-80 opacity-100 scale-100' 
+                  : 'w-0 opacity-0 scale-95 pointer-events-none'
+              }`}>
+                <div className="relative w-full">
+                  <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 transition-opacity duration-200 ${
+                    isSearchOpen ? 'opacity-100 delay-150' : 'opacity-0'
+                  }`} />
                   <Input
                     type="search"
                     placeholder="Search locations or providers..."
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
-                    className="pl-10 pr-10 w-full"
+                    className={`pl-10 pr-10 w-full h-10 transition-all duration-300 ease-in-out ${
+                      isSearchOpen ? 'border-primary shadow-sm' : 'border-transparent'
+                    }`}
                     data-testid="input-search"
-                    autoFocus
+                    autoFocus={isSearchOpen}
+                    onBlur={() => {
+                      if (!searchValue) {
+                        setTimeout(() => setIsSearchOpen(false), 150);
+                      }
+                    }}
                   />
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8"
+                    className={`absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 transition-all duration-200 ${
+                      isSearchOpen ? 'opacity-100 scale-100 delay-150' : 'opacity-0 scale-90 pointer-events-none'
+                    }`}
                     onClick={() => {
                       setIsSearchOpen(false);
                       setSearchValue("");
@@ -66,17 +95,7 @@ export default function Header() {
                   </Button>
                 </div>
               </div>
-            ) : (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsSearchOpen(true)}
-                className="mr-4"
-                data-testid="button-open-search"
-              >
-                <Search className="w-5 h-5" />
-              </Button>
-            )}
+            </div>
           </div>
 
           {/* CTA Buttons */}
