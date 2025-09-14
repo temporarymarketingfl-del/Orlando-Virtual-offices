@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <header className="w-full bg-card border-b border-card-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center h-16 gap-4">
           {/* Logo */}
           <div className="flex-shrink-0">
             <h1 className="text-xl font-semibold text-primary" data-testid="logo">
@@ -20,46 +20,46 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:block" data-testid="nav-desktop">
-            <div className="flex items-center space-x-8">
-              <a href="#" className="text-foreground hover:text-primary transition-colors" data-testid="link-locations">
+          <nav className="hidden md:flex" data-testid="nav-desktop">
+            <div className="flex items-center gap-6 lg:gap-8">
+              <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-locations">
                 Locations
               </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors" data-testid="link-providers">
+              <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-providers">
                 Providers
               </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors" data-testid="link-blog">
+              <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-blog">
                 Resources
               </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors" data-testid="link-pricing">
+              <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-pricing">
                 Pricing
               </a>
             </div>
           </nav>
 
-          {/* Expandable Search */}
-          <div className="hidden lg:flex items-center flex-1 justify-end relative">
-            <div className="flex items-center h-10">
-              {/* Search Icon Button - Always Present */}
+          {/* Flexible Space for Search */}
+          <div className="hidden lg:flex items-center justify-end min-w-0 flex-1">
+            <div className="relative flex items-center">
+              {/* Search Icon Button */}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className={`transition-all duration-300 ease-in-out ${
                   isSearchOpen ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
-                } mr-4`}
+                }`}
                 data-testid="button-open-search"
               >
                 <Search className="w-5 h-5" />
               </Button>
 
               {/* Expandable Search Field */}
-              <div className={`absolute right-4 top-0 h-10 flex items-center transition-all duration-300 ease-in-out ${
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
                 isSearchOpen 
-                  ? 'w-80 opacity-100 scale-100' 
-                  : 'w-0 opacity-0 scale-95 pointer-events-none'
+                  ? 'w-72 xl:w-80 opacity-100' 
+                  : 'w-0 opacity-0'
               }`}>
-                <div className="relative w-full">
+                <div className="relative ml-2">
                   <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 transition-opacity duration-200 ${
                     isSearchOpen ? 'opacity-100 delay-150' : 'opacity-0'
                   }`} />
@@ -99,7 +99,7 @@ export default function Header() {
           </div>
 
           {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center gap-3 flex-shrink-0">
             <Button variant="ghost" data-testid="button-signin">
               Sign In
             </Button>
