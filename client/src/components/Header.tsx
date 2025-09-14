@@ -5,6 +5,8 @@ import { Search, Menu, X } from "lucide-react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   return (
     <header className="w-full bg-card border-b border-card-border sticky top-0 z-50">
@@ -35,17 +37,46 @@ export default function Header() {
             </div>
           </nav>
 
-          {/* Search Bar */}
-          <div className="hidden lg:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                type="search"
-                placeholder="Search locations or providers..."
-                className="pl-10 w-full"
-                data-testid="input-search"
-              />
-            </div>
+          {/* Expandable Search */}
+          <div className="hidden lg:flex items-center flex-1 justify-end">
+            {isSearchOpen ? (
+              <div className="flex items-center w-full max-w-md mx-4">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <Input
+                    type="search"
+                    placeholder="Search locations or providers..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    className="pl-10 pr-10 w-full"
+                    data-testid="input-search"
+                    autoFocus
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8"
+                    onClick={() => {
+                      setIsSearchOpen(false);
+                      setSearchValue("");
+                    }}
+                    data-testid="button-close-search"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsSearchOpen(true)}
+                className="mr-4"
+                data-testid="button-open-search"
+              >
+                <Search className="w-5 h-5" />
+              </Button>
+            )}
           </div>
 
           {/* CTA Buttons */}
