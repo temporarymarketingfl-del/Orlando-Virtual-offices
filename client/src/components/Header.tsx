@@ -38,14 +38,14 @@ export default function Header() {
           </nav>
 
           {/* Flexible Space for Search */}
-          <div className="hidden lg:flex items-center justify-end min-w-0 flex-1">
-            <div className="relative flex items-center">
+          <div className="hidden lg:flex items-center justify-end min-w-0 flex-1 h-10">
+            <div className="flex items-center h-full">
               {/* Search Icon Button */}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className={`transition-all duration-300 ease-in-out ${
+                className={`transition-all duration-300 ease-in-out h-10 ${
                   isSearchOpen ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
                 }`}
                 data-testid="button-open-search"
@@ -53,14 +53,14 @@ export default function Header() {
                 <Search className="w-5 h-5" />
               </Button>
 
-              {/* Expandable Search Field */}
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              {/* Expandable Search Field Container */}
+              <div className={`flex items-center h-10 overflow-hidden transition-all duration-300 ease-in-out ${
                 isSearchOpen 
-                  ? 'w-72 xl:w-80 opacity-100' 
-                  : 'w-0 opacity-0'
+                  ? 'w-72 xl:w-80 opacity-100 ml-2' 
+                  : 'w-0 opacity-0 ml-0'
               }`}>
-                <div className="relative ml-2">
-                  <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 transition-opacity duration-200 ${
+                <div className="relative w-full h-full flex items-center">
+                  <Search className={`absolute left-3 z-10 text-muted-foreground w-4 h-4 transition-opacity duration-200 ${
                     isSearchOpen ? 'opacity-100 delay-150' : 'opacity-0'
                   }`} />
                   <Input
@@ -82,7 +82,7 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 transition-all duration-200 ${
+                    className={`absolute right-1 h-8 w-8 transition-all duration-200 ${
                       isSearchOpen ? 'opacity-100 scale-100 delay-150' : 'opacity-0 scale-90 pointer-events-none'
                     }`}
                     onClick={() => {
