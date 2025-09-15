@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, MapPin, Building } from "lucide-react";
 import heroImage from "@assets/generated_images/Modern_office_building_hero_3a280a24.png";
-import receptionistPortrait from "@assets/generated_images/Professional_receptionist_portrait_headset_c09a6933.png";
+import receptionistPortrait from "@assets/generated_images/Clean_receptionist_portrait_no_squares_2878fa84.png";
 
 export default function HeroSection() {
   const [searchLocation, setSearchLocation] = useState("");
@@ -29,7 +29,7 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
         {/* Professional Receptionist */}
-        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hidden xl:block opacity-30">
+        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hidden xl:block">
           <img
             src={receptionistPortrait}
             alt=""
