@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, MapPin, Building } from "lucide-react";
 import heroImage from "@assets/generated_images/Modern_office_building_hero_3a280a24.png";
+import corporateBuilding from "@assets/generated_images/Corporate_building_transparent_overlay_fd91b873.png";
 
 export default function HeroSection() {
   const [searchLocation, setSearchLocation] = useState("");
@@ -27,7 +28,16 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-        <div className="max-w-3xl">
+        {/* Corporate Building Decoration */}
+        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hidden xl:block opacity-20">
+          <img
+            src={corporateBuilding}
+            alt=""
+            className="w-96 h-auto"
+          />
+        </div>
+        
+        <div className="max-w-3xl relative z-10">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6" data-testid="hero-title">
             Find Your Perfect{" "}
             <span className="text-primary-foreground">Virtual Office</span> Space
