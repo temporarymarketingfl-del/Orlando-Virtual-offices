@@ -6,43 +6,43 @@ export default function PopularProviders() {
   // todo: remove mock functionality
   const providers = [
     {
-      id: "regus-manhattan",
-      name: "Regus Manhattan",
+      id: "regus-downtown-orlando",
+      name: "Regus Downtown Orlando",
       image: officeImage1,
-      rating: 4.5,
-      reviewCount: 127,
-      location: "Manhattan, NY",
-      priceRange: "$199 - $899/month",
+      rating: 4.6,
+      reviewCount: 94,
+      location: "Downtown, Orlando, FL",
+      priceRange: "$149 - $599/month",
       services: ["Virtual Office", "Meeting Rooms", "Mail Service", "Phone Answering"],
-      description: "Professional virtual office solutions in the heart of Manhattan with prestigious business addresses and full-service support.",
+      description: "Premier virtual office solutions in downtown Orlando's business district with prestigious Orange Avenue addresses and comprehensive business support.",
       isPopular: true,
-      affiliateUrl: "https://example.com/regus"
+      affiliateUrl: "https://example.com/regus-orlando"
     },
     {
-      id: "wework-austin",
-      name: "WeWork Austin",
+      id: "wework-lake-nona",
+      name: "WeWork Lake Nona",
       image: officeImage2,
-      rating: 4.3,
-      reviewCount: 89,
-      location: "Austin, TX",
-      priceRange: "$149 - $749/month",
+      rating: 4.4,
+      reviewCount: 67,
+      location: "Lake Nona, Orlando, FL",
+      priceRange: "$129 - $549/month",
       services: ["Coworking", "Private Office", "Meeting Rooms", "Virtual Office"],
-      description: "Modern coworking spaces and virtual office solutions in Austin's thriving business district with flexible membership options.",
+      description: "Modern workspace solutions in Orlando's fastest-growing tech district, perfect for startups and established businesses in Medical City.",
       isPopular: true,
-      affiliateUrl: "https://example.com/wework"
+      affiliateUrl: "https://example.com/wework-lakenona"
     },
     {
-      id: "spaces-chicago",
-      name: "Spaces Chicago",
+      id: "orlando-executive-center",
+      name: "Orlando Executive Center",
       image: officeImage1,
-      rating: 4.4,
-      reviewCount: 156,
-      location: "Chicago, IL",
-      priceRange: "$179 - $699/month",
-      services: ["Virtual Office", "Hot Desk", "Meeting Rooms", "Business Lounge"],
-      description: "Creative workspace solutions in Chicago's Loop district, offering inspiring environments for entrepreneurs and growing businesses.",
+      rating: 4.3,
+      reviewCount: 112,
+      location: "Dr. Phillips, Orlando, FL",
+      priceRange: "$99 - $459/month",
+      services: ["Virtual Office", "Executive Suites", "Meeting Rooms", "Business Lounge"],
+      description: "Upscale virtual office solutions in the Dr. Phillips business corridor, offering flexible packages for growing Central Florida businesses.",
       isPopular: false,
-      affiliateUrl: "https://example.com/spaces"
+      affiliateUrl: "https://example.com/orlando-executive"
     }
   ];
 
@@ -51,11 +51,11 @@ export default function PopularProviders() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4" data-testid="popular-providers-title">
-            Popular Virtual Office Providers
+            Top Virtual Office Providers in Orlando
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="popular-providers-description">
-            Discover top-rated virtual office providers trusted by thousands of businesses worldwide. 
-            Compare features, pricing, and locations to find your perfect workspace solution.
+            Discover Orlando's most trusted virtual office providers. 
+            Compare features, pricing, and locations across Central Florida's premier business districts.
           </p>
         </div>
 

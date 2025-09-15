@@ -6,7 +6,7 @@ import { Search, Menu, X } from "lucide-react";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState("Orlando, FL");
 
   return (
     <header className="w-full bg-card border-b border-card-border sticky top-0 z-50">
@@ -65,7 +65,7 @@ export default function Header() {
                   }`} />
                   <Input
                     type="search"
-                    placeholder="Search locations or providers..."
+                    placeholder="Search Orlando areas or providers..."
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                     className={`pl-10 pr-10 w-full h-10 transition-all duration-300 ease-in-out ${
@@ -130,7 +130,9 @@ export default function Header() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   type="search"
-                  placeholder="Search locations or providers..."
+                  placeholder="Search Orlando areas or providers..."
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
                   className="pl-10 w-full"
                   data-testid="input-search-mobile"
                 />

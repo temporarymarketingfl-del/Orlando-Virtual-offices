@@ -18,8 +18,8 @@ export default function Footer() {
               VirtualOffice Hub
             </h3>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Your trusted partner in finding the perfect virtual office solution. 
-              Compare providers, explore locations, and grow your business with confidence.
+              Your trusted partner for virtual office solutions in Orlando, Florida. 
+              Compare local providers, explore Central Florida locations, and grow your business with confidence.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-background transition-colors" data-testid="link-facebook">

@@ -7,7 +7,7 @@ import heroImage from "@assets/generated_images/Modern_office_building_hero_3a28
 import receptionistPortrait from "@assets/generated_images/Clean_receptionist_portrait_no_squares_2878fa84.png";
 
 export default function HeroSection() {
-  const [searchLocation, setSearchLocation] = useState("");
+  const [searchLocation, setSearchLocation] = useState("Orlando, FL");
   const [officeType, setOfficeType] = useState("");
 
   const handleSearch = () => {
@@ -40,13 +40,13 @@ export default function HeroSection() {
         <div className="max-w-3xl relative z-10">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6" data-testid="hero-title">
             Find Your Perfect{" "}
-            <span className="text-primary-foreground">Virtual Office</span> Space
+            <span className="text-primary-foreground">Virtual Office</span> in Orlando
           </h1>
           
           <p className="text-xl text-gray-200 mb-8 leading-relaxed" data-testid="hero-description">
-            Compare and discover virtual office providers across different locations. 
-            Get professional business addresses, meeting rooms, and support services 
-            for entrepreneurs and growing businesses.
+            Discover the best virtual office providers in Orlando, FL. 
+            Get prestigious business addresses, professional meeting rooms, and support services 
+            to grow your business in Central Florida's thriving market.
           </p>
 
           {/* Search Form */}
@@ -60,7 +60,7 @@ export default function HeroSection() {
                 </label>
                 <Input
                   type="text"
-                  placeholder="Enter city, state, or ZIP code"
+                  placeholder="Enter Orlando neighborhood or ZIP code"
                   value={searchLocation}
                   onChange={(e) => setSearchLocation(e.target.value)}
                   className="w-full"
@@ -102,20 +102,20 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Popular Searches */}
+          {/* Popular Areas */}
           <div className="mt-6">
-            <p className="text-gray-300 text-sm mb-3">Popular searches:</p>
+            <p className="text-gray-300 text-sm mb-3">Popular Orlando areas:</p>
             <div className="flex flex-wrap gap-2">
-              {["New York City", "Los Angeles", "Chicago", "Miami", "Austin"].map((city) => (
+              {["Downtown Orlando", "Winter Park", "Lake Nona", "Dr. Phillips", "Millenia"].map((area) => (
                 <Button
-                  key={city}
+                  key={area}
                   variant="outline"
                   size="sm"
                   className="bg-white/20 border-white/30 text-white hover:bg-white/30"
-                  onClick={() => setSearchLocation(city)}
-                  data-testid={`button-popular-${city.toLowerCase().replace(/\s+/g, '-')}`}
+                  onClick={() => setSearchLocation(area)}
+                  data-testid={`button-popular-${area.toLowerCase().replace(/\s+/g, '-')}`}
                 >
-                  {city}
+                  {area}
                 </Button>
               ))}
             </div>

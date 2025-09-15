@@ -46,12 +46,12 @@ export default function NewsletterSignup() {
             <div className="text-center">
               <Mail className="w-12 h-12 text-primary mx-auto mb-6" />
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4" data-testid="newsletter-title">
-                Stay Updated with Virtual Office Trends
+                Stay Updated with Orlando's Virtual Office Market
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto" data-testid="newsletter-description">
-                Get exclusive access to new provider listings, special discounts, 
-                and industry insights delivered straight to your inbox. Join thousands 
-                of entrepreneurs who trust our recommendations.
+                Get exclusive access to new Orlando provider listings, special Central Florida discounts, 
+                and local business insights delivered straight to your inbox. Join hundreds 
+                of Orlando entrepreneurs who trust our local recommendations.
               </p>
 
               <form onSubmit={handleSubmit} className="max-w-md mx-auto">
