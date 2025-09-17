@@ -16,3 +16,25 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+// Location interface for Orlando business districts (used by client-side location data)
+export interface Location {
+  id: string;
+  cityName: string;
+  stateName: string;
+  image: string;
+  providerCount: number;
+  averagePrice: number;
+  popularAreas: string[];
+  isHotspot: boolean;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  priceRange: {
+    min: number;
+    max: number;
+  };
+  description: string;
+  keyFeatures: string[];
+}
