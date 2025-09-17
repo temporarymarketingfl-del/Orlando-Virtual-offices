@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Map as LeafletMap } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -39,28 +39,100 @@ const createCustomIcon = (isHotspot: boolean, providerCount: number) => {
   });
 };
 
+// Helper component to set the map reference
+function MapRefSetter({ mapRef }: { mapRef: React.MutableRefObject<LeafletMap | null> }) {
+  const map = useMap();
+  
+  useEffect(() => {
+    mapRef.current = map;
+    console.log('Map created and ref set via useMap');
+  }, [map, mapRef]);
+  
+  return null;
+}
+
 interface InteractiveMapProps {
   selectedLocationId?: string;
   onLocationSelect?: (location: Location) => void;
   className?: string;
+  viewMode?: string;
+  isLargeScreen?: boolean;
 }
 
 export default function InteractiveMap({ 
   selectedLocationId, 
   onLocationSelect,
-  className = "h-96 w-full"
+  className = "h-96 w-full",
+  viewMode,
+  isLargeScreen
 }: InteractiveMapProps) {
-  const mapRef = useRef<LeafletMap>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
+
+  // Invalidate map size when view mode OR screen size changes (as recommended by architect)
+  useEffect(() => {
+    if (mapRef.current && (viewMode || isLargeScreen !== undefined)) {
+      console.log('Layout changed - viewMode:', viewMode, 'isLargeScreen:', isLargeScreen, '- invalidating map size');
+      // Small delay to ensure CSS transitions complete
+      const timer = setTimeout(() => {
+        if (mapRef.current) {
+          mapRef.current.invalidateSize();
+          console.log('Map size invalidated after layout change');
+        }
+      }, 250);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [viewMode, isLargeScreen]);
 
   // Center map on selected location when it changes
   useEffect(() => {
     if (selectedLocationId && mapRef.current) {
       const location = ORLANDO_LOCATIONS.find(loc => loc.id === selectedLocationId);
-      if (location) {
-        mapRef.current.flyTo([location.coordinates.lat, location.coordinates.lng], 14, {
-          animate: true,
-          duration: 1.5,
-        });
+      if (location && location.coordinates) {
+        // Add validation to prevent NaN coordinates
+        const lat = Number(location.coordinates.lat);
+        const lng = Number(location.coordinates.lng);
+        
+        if (!isNaN(lat) && !isNaN(lng)) {
+          console.log('Flying to location:', location.cityName, 'at coordinates:', lat, lng);
+          console.log('Types:', typeof lat, typeof lng);
+          console.log('Array to be passed:', [lat, lng]);
+          console.log('MapRef exists:', !!mapRef.current);
+          
+          try {
+            // Create the coordinate array and validate it one more time
+            const coords: [number, number] = [lat, lng];
+            console.log('Final coords array:', coords, 'Valid array elements:', coords.every(c => typeof c === 'number' && !isNaN(c)));
+            
+            if (mapRef.current && coords.every(c => typeof c === 'number' && !isNaN(c))) {
+              // Use whenReady to ensure map is fully initialized and invalidateSize before flyTo
+              mapRef.current.whenReady(() => {
+                if (mapRef.current) {
+                  console.log('Map is ready, calling invalidateSize and flyTo');
+                  mapRef.current.invalidateSize();
+                  mapRef.current.flyTo(coords, 14, {
+                    animate: true,
+                    duration: 1.5,
+                  });
+                  console.log('flyTo completed successfully');
+                }
+              });
+            } else {
+              console.error('Failed validation before flyTo:', {
+                mapRefExists: !!mapRef.current,
+                coordsValid: coords.every(c => typeof c === 'number' && !isNaN(c)),
+                coords
+              });
+            }
+          } catch (error) {
+            console.error('Error in flyTo operation:', error);
+            console.error('Coordinates at error time:', lat, lng);
+          }
+        } else {
+          console.error('Invalid coordinates for location:', location.cityName, location.coordinates);
+        }
+      } else {
+        console.warn('Location not found for ID:', selectedLocationId);
       }
     }
   }, [selectedLocationId]);
@@ -75,24 +147,34 @@ export default function InteractiveMap({
         center={[ORLANDO_CENTER.lat, ORLANDO_CENTER.lng]}
         zoom={DEFAULT_ZOOM}
         className="h-full w-full rounded-lg"
-        ref={mapRef}
         scrollWheelZoom={true}
         zoomControl={true}
       >
+        <MapRefSetter mapRef={mapRef} />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        {ORLANDO_LOCATIONS.map((location) => (
-          <Marker
-            key={location.id}
-            position={[location.coordinates.lat, location.coordinates.lng]}
-            icon={createCustomIcon(location.isHotspot, location.providerCount)}
-            eventHandlers={{
-              click: () => handleMarkerClick(location),
-            }}
-          >
+        {ORLANDO_LOCATIONS.map((location) => {
+          // Validate coordinates before rendering marker
+          const lat = Number(location.coordinates.lat);
+          const lng = Number(location.coordinates.lng);
+          
+          if (isNaN(lat) || isNaN(lng)) {
+            console.error('Skipping marker for location with invalid coordinates:', location.cityName, location.coordinates);
+            return null;
+          }
+          
+          return (
+            <Marker
+              key={location.id}
+              position={[lat, lng]}
+              icon={createCustomIcon(location.isHotspot, location.providerCount)}
+              eventHandlers={{
+                click: () => handleMarkerClick(location),
+              }}
+            >
             <Popup closeOnClick={false} className="custom-popup">
               <Card className="border-0 shadow-none min-w-80" data-testid={`popup-card-${location.id}`}>
                 <CardHeader className="p-3 pb-2">
@@ -172,8 +254,9 @@ export default function InteractiveMap({
                 </CardContent>
               </Card>
             </Popup>
-          </Marker>
-        ))}
+            </Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, X } from "lucide-react";
@@ -23,9 +24,9 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex" data-testid="nav-desktop">
             <div className="flex items-center gap-6 lg:gap-8">
-              <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-locations">
+              <Link href="/locations" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-locations">
                 Locations
-              </a>
+              </Link>
               <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-providers">
                 Providers
               </a>
@@ -141,9 +142,9 @@ export default function Header() {
               </div>
               
               {/* Mobile Navigation Links */}
-              <a href="#" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-locations-mobile">
+              <Link href="/locations" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-locations-mobile">
                 Locations
-              </a>
+              </Link>
               <a href="#" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-providers-mobile">
                 Providers
               </a>

@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Phone, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
@@ -41,7 +42,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-background">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-300 hover:text-background transition-colors" data-testid="link-locations">Locations</a></li>
+              <li><Link href="/locations" className="text-gray-300 hover:text-background transition-colors" data-testid="link-locations">Locations</Link></li>
               <li><a href="#" className="text-gray-300 hover:text-background transition-colors" data-testid="link-providers">Providers</a></li>
               <li><a href="#" className="text-gray-300 hover:text-background transition-colors" data-testid="link-pricing">Pricing</a></li>
               <li><a href="#" className="text-gray-300 hover:text-background transition-colors" data-testid="link-resources">Resources</a></li>

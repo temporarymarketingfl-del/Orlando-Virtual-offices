@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, List, Grid } from 'lucide-react';
@@ -8,82 +8,41 @@ import type { Location } from '@shared/schema';
 
 type ViewMode = 'map' | 'list' | 'split';
 
+// Custom hook for media query
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(() => {
+    // Initialize with the actual media query result on first render
+    return typeof window !== 'undefined' ? window.matchMedia(query).matches : false;
+  });
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    console.log('Media query initialized:', query, 'matches:', media.matches);
+    
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+      console.log('Media query updated:', matches, '->', media.matches);
+    }
+    
+    const listener = () => {
+      console.log('Media query changed:', media.matches);
+      setMatches(media.matches);
+    };
+    
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
+  }, [query]); // Fixed: removed 'matches' from deps to avoid unnecessary re-runs
+
+  return matches;
+}
+
 export default function Locations() {
   const [selectedLocationId, setSelectedLocationId] = useState<string>();
   const [viewMode, setViewMode] = useState<ViewMode>('split');
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)'); // lg breakpoint
 
   const handleLocationSelect = (location: Location) => {
     setSelectedLocationId(location.id);
-  };
-
-  const renderContent = () => {
-    switch (viewMode) {
-      case 'map':
-        return (
-          <InteractiveMap
-            selectedLocationId={selectedLocationId}
-            onLocationSelect={handleLocationSelect}
-            className="h-full w-full"
-          />
-        );
-      
-      case 'list':
-        return (
-          <LocationsList
-            selectedLocationId={selectedLocationId}
-            onLocationSelect={handleLocationSelect}
-            className="h-full w-full flex flex-col"
-          />
-        );
-      
-      case 'split':
-      default:
-        return (
-          <>
-            {/* Desktop Split View */}
-            <div className="hidden lg:flex h-full">
-              {/* Left Panel - Locations List */}
-              <div className="w-2/5 border-r border-border">
-                <LocationsList
-                  selectedLocationId={selectedLocationId}
-                  onLocationSelect={handleLocationSelect}
-                  className="h-full flex flex-col"
-                />
-              </div>
-              
-              {/* Right Panel - Interactive Map */}
-              <div className="flex-1">
-                <InteractiveMap
-                  selectedLocationId={selectedLocationId}
-                  onLocationSelect={handleLocationSelect}
-                  className="h-full w-full"
-                />
-              </div>
-            </div>
-
-            {/* Mobile/Tablet Stacked View */}
-            <div className="lg:hidden flex flex-col h-full">
-              {/* Map Section */}
-              <div className="h-1/2 border-b border-border">
-                <InteractiveMap
-                  selectedLocationId={selectedLocationId}
-                  onLocationSelect={handleLocationSelect}
-                  className="h-full w-full"
-                />
-              </div>
-              
-              {/* List Section */}
-              <div className="flex-1">
-                <LocationsList
-                  selectedLocationId={selectedLocationId}
-                  onLocationSelect={handleLocationSelect}
-                  className="h-full flex flex-col"
-                />
-              </div>
-            </div>
-          </>
-        );
-    }
   };
 
   return (
@@ -171,9 +130,55 @@ export default function Locations() {
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main Content - Single map instance always mounted, controlled with CSS Grid */}
       <main className="flex-1 overflow-hidden" data-testid="main-content">
-        {renderContent()}
+        <div 
+          className={`
+            h-full transition-all duration-200
+            ${viewMode === 'map' ? 'grid grid-cols-1' : ''}
+            ${viewMode === 'list' ? 'grid grid-cols-1' : ''}
+            ${viewMode === 'split' ? (
+              isLargeScreen 
+                ? 'grid grid-cols-[2fr_3fr]' 
+                : 'grid grid-rows-[1fr_1fr]'
+            ) : ''}
+          `}
+        >
+          {/* Single LocationsList instance - always mounted */}
+          <div 
+            className={`
+              ${viewMode === 'map' ? 'hidden' : ''}
+              ${viewMode === 'list' ? 'block' : ''}
+              ${viewMode === 'split' ? 'block' : ''}
+              ${isLargeScreen && viewMode === 'split' ? 'border-r border-border' : ''}
+              ${!isLargeScreen && viewMode === 'split' ? 'border-b border-border' : ''}
+            `}
+          >
+            <LocationsList
+              selectedLocationId={selectedLocationId}
+              onLocationSelect={handleLocationSelect}
+              className="h-full flex flex-col"
+            />
+          </div>
+
+          {/* Single InteractiveMap instance - always mounted */}
+          <div 
+            className={`
+              ${viewMode === 'list' ? 'hidden' : ''}
+              ${viewMode === 'map' ? 'block' : ''}
+              ${viewMode === 'split' ? 'block' : ''}
+            `}
+          >
+            <InteractiveMap
+              key="single-persistent-map"
+              selectedLocationId={selectedLocationId}
+              onLocationSelect={handleLocationSelect}
+              className="h-full w-full"
+              viewMode={viewMode}
+              isLargeScreen={isLargeScreen}
+            />
+          </div>
+        </div>
       </main>
 
       {/* Footer */}
