@@ -27,9 +27,9 @@ export default function Header() {
               <Link href="/locations" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-locations">
                 Locations
               </Link>
-              <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-providers">
+              <Link href="/providers" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-providers">
                 Providers
-              </a>
+              </Link>
               <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-blog">
                 Resources
               </a>
@@ -100,15 +100,9 @@ export default function Header() {
             </div>
           </div>
 
-          {/* CTA Buttons */}
+          {/* Theme Toggle */}
           <div className="hidden md:flex items-center gap-3 flex-shrink-0">
             <ThemeToggle />
-            <Button variant="ghost" data-testid="button-signin">
-              Sign In
-            </Button>
-            <Button data-testid="button-getstarted">
-              Get Started
-            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -145,25 +139,15 @@ export default function Header() {
               <Link href="/locations" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-locations-mobile">
                 Locations
               </Link>
-              <a href="#" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-providers-mobile">
+              <Link href="/providers" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-providers-mobile">
                 Providers
-              </a>
+              </Link>
               <a href="#" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-blog-mobile">
                 Resources
               </a>
               <a href="#" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-pricing-mobile">
                 Pricing
               </a>
-              
-              {/* Mobile CTA Buttons */}
-              <div className="flex flex-col space-y-2 pt-4">
-                <Button variant="ghost" className="w-full" data-testid="button-signin-mobile">
-                  Sign In
-                </Button>
-                <Button className="w-full" data-testid="button-getstarted-mobile">
-                  Get Started
-                </Button>
-              </div>
             </div>
           </div>
         )}
