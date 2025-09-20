@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Users, Building2, TrendingUp } from "lucide-react";
@@ -122,7 +124,7 @@ export default function NeighborhoodDeepDive() {
             <Card key={index} className="hover-elevate overflow-hidden" data-testid={`neighborhood-card-${index}`}>
               <div className="aspect-video relative">
                 <img
-                  src={neighborhood.image}
+                  src={neighborhood.image.src}
                   alt={`${neighborhood.name} business district in Orlando showing modern commercial buildings and business environment`}
                   className="w-full h-full object-cover"
                   data-testid={`neighborhood-image-${index}`}
