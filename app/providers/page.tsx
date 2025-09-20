@@ -10,6 +10,23 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import officeImage1 from "@assets/generated_images/Coworking_space_interior_80761a04.png";
 import officeImage2 from "@assets/generated_images/Business_meeting_room_012350ca.png";
+import Image from "next/image";
+
+export const metadata = {
+  title: "Orlando Virtual Office Providers | Compare Top Services",
+  description: "Compare Orlando's top virtual office providers including Regus, Opus, Alliance, and Davinci. Find the perfect virtual office solution for your business with pricing, features, and location coverage.",
+  keywords: "Orlando virtual office providers, virtual office comparison, Regus Orlando, Opus Virtual Offices, Alliance Virtual Offices, Davinci Virtual Offices, Orlando business address",
+  alternates: {
+    canonical: "https://virtualoffice-hub.com/providers"
+  },
+  openGraph: {
+    title: "Orlando Virtual Office Providers | Compare Top Services",
+    description: "Compare Orlando's top virtual office providers. Find the perfect virtual office solution for your business.",
+    url: "https://virtualoffice-hub.com/providers",
+    siteName: "VirtualOffice Hub",
+    type: "website",
+  },
+}
 
 export default function Providers() {
   const [selectedTab, setSelectedTab] = useState("overview");
@@ -221,10 +238,12 @@ export default function Providers() {
                         <div className="grid md:grid-cols-3 gap-6">
                           {/* Provider Image */}
                           <div className="relative">
-                            <img
+                            <Image
                               src={provider.image}
                               alt={`${provider.name} office space`}
                               className="w-full h-48 object-cover rounded-lg"
+                              width={400}
+                              height={192}
                             />
                             {provider.isPopular && (
                               <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground" data-testid={`provider-popular-${provider.id}`}>
