@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { BlogPostCard } from "./BlogPostCard";
 import { BlogPost, Author, BlogCategory } from "@shared/schema";

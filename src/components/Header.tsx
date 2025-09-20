@@ -32,9 +32,9 @@ export default function Header() {
               <Link href="/providers" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-providers">
                 Providers
               </Link>
-              <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-blog">
-                Resources
-              </a>
+              <Link href="/blog" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-blog">
+                Blog
+              </Link>
               <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-pricing">
                 Pricing
               </a>
@@ -144,9 +144,9 @@ export default function Header() {
               <Link href="/providers" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-providers-mobile">
                 Providers
               </Link>
-              <a href="#" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-blog-mobile">
-                Resources
-              </a>
+              <Link href="/blog" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-blog-mobile">
+                Blog
+              </Link>
               <a href="#" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-pricing-mobile">
                 Pricing
               </a>
