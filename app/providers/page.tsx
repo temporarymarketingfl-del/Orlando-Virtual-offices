@@ -12,22 +12,6 @@ import officeImage1 from "@assets/generated_images/Coworking_space_interior_8076
 import officeImage2 from "@assets/generated_images/Business_meeting_room_012350ca.png";
 import Image from "next/image";
 
-export const metadata = {
-  title: "Orlando Virtual Office Providers | Compare Top Services",
-  description: "Compare Orlando's top virtual office providers including Regus, Opus, Alliance, and Davinci. Find the perfect virtual office solution for your business with pricing, features, and location coverage.",
-  keywords: "Orlando virtual office providers, virtual office comparison, Regus Orlando, Opus Virtual Offices, Alliance Virtual Offices, Davinci Virtual Offices, Orlando business address",
-  alternates: {
-    canonical: "https://virtualoffice-hub.com/providers"
-  },
-  openGraph: {
-    title: "Orlando Virtual Office Providers | Compare Top Services",
-    description: "Compare Orlando's top virtual office providers. Find the perfect virtual office solution for your business.",
-    url: "https://virtualoffice-hub.com/providers",
-    siteName: "VirtualOffice Hub",
-    type: "website",
-  },
-}
-
 export default function Providers() {
   const [selectedTab, setSelectedTab] = useState("overview");
 
