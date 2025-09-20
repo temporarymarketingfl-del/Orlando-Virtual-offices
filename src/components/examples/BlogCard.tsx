@@ -13,7 +13,7 @@ export default function BlogCardExample() {
         publishDate="Dec 15, 2024"
         readTime="8 min read"
         category="Guides"
-        image={officeImage}
+        image={officeImage.src}
         slug="/blog/virtual-office-guide-2024"
       />
     </div>
