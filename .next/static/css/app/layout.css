@@ -2220,6 +2220,9 @@ video {
 .ease-linear {
   animation-timing-function: linear;
 }
+.running {
+  animation-play-state: running;
+}
 /* Hide ugly search cancel button in Chrome until we can style it properly */
 input[type="search"]::-webkit-search-cancel-button {
   display: none;
