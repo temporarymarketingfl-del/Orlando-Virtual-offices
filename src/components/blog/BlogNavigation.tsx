@@ -46,10 +46,10 @@ export function BlogNavigation({ className = "" }: BlogNavigationProps) {
       testId: "nav-authors"
     },
     {
-      href: "/blog/popular",
-      label: "Popular",
+      href: "/blog/categories",
+      label: "Categories", 
       icon: TrendingUp,
-      testId: "nav-popular"
+      testId: "nav-categories"
     }
   ];
 
@@ -89,6 +89,7 @@ export function BlogNavigation({ className = "" }: BlogNavigationProps) {
           <ScrollArea className="h-60">
             <div className="space-y-1">
               {categories.map((category) => {
+                if (!category.slug) return null;
                 const isActive = pathname.includes(`/blog/categories/${category.slug}`);
                 
                 return (

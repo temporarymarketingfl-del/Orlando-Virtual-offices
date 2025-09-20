@@ -52,7 +52,7 @@ export function BlogPostCard({
               </Badge>
             </div>
           )}
-          {post.viewCount !== null && post.viewCount > 0 && (
+          {typeof post.viewCount === 'number' && post.viewCount > 0 && (
             <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/60 text-white px-2 py-1 rounded text-sm">
               <Eye className="w-3 h-3" />
               <span>{post.viewCount}</span>
@@ -73,7 +73,7 @@ export function BlogPostCard({
         <div className="flex items-center justify-between text-sm text-muted-foreground">
           <div className="flex items-center gap-3">
             {/* Author */}
-            {author && (
+            {author && author.slug && (
               <Link href={`/blog/authors/${author.slug}`}>
                 <div className="flex items-center gap-2 hover:text-foreground transition-colors cursor-pointer" data-testid={`author-link-${author.slug}`}>
                   <Avatar className="w-6 h-6">

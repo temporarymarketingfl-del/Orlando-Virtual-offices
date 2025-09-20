@@ -36,11 +36,17 @@ export function AuthorCard({
         </div>
 
         {/* Author Name */}
-        <Link href={`/blog/authors/${author.slug}`}>
-          <h3 className="text-lg font-semibold hover:text-primary transition-colors cursor-pointer" data-testid={`name-${author.slug}`}>
+        {author.slug ? (
+          <Link href={`/blog/authors/${author.slug}`}>
+            <h3 className="text-lg font-semibold hover:text-primary transition-colors cursor-pointer" data-testid={`name-${author.slug}`}>
+              {author.name}
+            </h3>
+          </Link>
+        ) : (
+          <h3 className="text-lg font-semibold text-foreground" data-testid={`name-${author.id}`}>
             {author.name}
           </h3>
-        </Link>
+        )}
 
       </CardHeader>
 
@@ -79,13 +85,15 @@ export function AuthorCard({
 
 
         {/* View Profile Link */}
-        <div className="pt-2 border-t border-border">
-          <Link href={`/blog/authors/${author.slug}`}>
-            <div className="text-center text-sm text-primary hover:text-primary/80 font-medium cursor-pointer transition-colors" data-testid={`view-profile-${author.slug}`}>
-              View Profile
-            </div>
-          </Link>
-        </div>
+        {author.slug && (
+          <div className="pt-2 border-t border-border">
+            <Link href={`/blog/authors/${author.slug}`}>
+              <div className="text-center text-sm text-primary hover:text-primary/80 font-medium cursor-pointer transition-colors" data-testid={`view-profile-${author.slug}`}>
+                View Profile
+              </div>
+            </Link>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
