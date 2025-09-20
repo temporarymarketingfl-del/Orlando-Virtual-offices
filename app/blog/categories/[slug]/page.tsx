@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Header from '@/components/Header';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
@@ -53,6 +54,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      <Header />
       {/* Back Navigation */}
       <div className="border-b bg-card/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

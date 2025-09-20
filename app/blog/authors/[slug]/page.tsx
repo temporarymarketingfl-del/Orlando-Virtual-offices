@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Header from '@/components/Header';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -57,6 +58,7 @@ export default function AuthorPage({ params }: AuthorPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      <Header />
       {/* Back Navigation */}
       <div className="border-b bg-card/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
