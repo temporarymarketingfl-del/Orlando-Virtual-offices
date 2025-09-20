@@ -1,3 +1,5 @@
+"use client";
+
 import LocationCard from "./LocationCard";
 import cityImage1 from "@assets/generated_images/Downtown_business_district_58542a85.png";
 import cityImage2 from "@assets/generated_images/Modern_office_building_hero_3a280a24.png";

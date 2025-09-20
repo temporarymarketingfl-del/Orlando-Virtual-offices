@@ -281,54 +281,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "(rsc)/./node_modules/@radix-ui/react-accordion/dist/index.mjs":
-/*!***************************************************************!*\
-  !*** ./node_modules/@radix-ui/react-accordion/dist/index.mjs ***!
-  \***************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Accordion: () => (/* binding */ e0),
-/* harmony export */   AccordionContent: () => (/* binding */ e1),
-/* harmony export */   AccordionHeader: () => (/* binding */ e2),
-/* harmony export */   AccordionItem: () => (/* binding */ e3),
-/* harmony export */   AccordionTrigger: () => (/* binding */ e4),
-/* harmony export */   Content: () => (/* binding */ e5),
-/* harmony export */   Header: () => (/* binding */ e6),
-/* harmony export */   Item: () => (/* binding */ e7),
-/* harmony export */   Root: () => (/* binding */ e8),
-/* harmony export */   Trigger: () => (/* binding */ e9),
-/* harmony export */   createAccordionScope: () => (/* binding */ e10)
-/* harmony export */ });
-/* harmony import */ var next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
-
-
-const e0 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#Accordion`);
-
-const e1 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#AccordionContent`);
-
-const e2 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#AccordionHeader`);
-
-const e3 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#AccordionItem`);
-
-const e4 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#AccordionTrigger`);
-
-const e5 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#Content`);
-
-const e6 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#Header`);
-
-const e7 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#Item`);
-
-const e8 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#Root`);
-
-const e9 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#Trigger`);
-
-const e10 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/runner/workspace/node_modules/@radix-ui/react-accordion/dist/index.mjs#createAccordionScope`);
-
-
-/***/ }),
-
 /***/ "(rsc)/./node_modules/@radix-ui/react-compose-refs/dist/index.mjs":
 /*!******************************************************************!*\
   !*** ./node_modules/@radix-ui/react-compose-refs/dist/index.mjs ***!

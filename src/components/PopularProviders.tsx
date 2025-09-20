@@ -1,3 +1,5 @@
+"use client";
+
 import ProviderCard from "./ProviderCard";
 import officeImage1 from "@assets/generated_images/Coworking_space_interior_80761a04.png";
 import officeImage2 from "@assets/generated_images/Business_meeting_room_012350ca.png";
