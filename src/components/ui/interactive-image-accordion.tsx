@@ -73,38 +73,70 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: {
         relative h-[450px] rounded-2xl overflow-hidden cursor-pointer
         transition-all duration-700 ease-in-out
         ${isActive ? 'w-[400px]' : 'w-[60px]'}
+        bg-gradient-to-br ${item.bgGradient} border border-gray-200
       `}
       onMouseEnter={onMouseEnter}
     >
-      {/* Background Image */}
-      <img
-        src={item.imageUrl}
-        alt={item.title}
-        className="absolute inset-0 w-full h-full object-cover"
-        onError={(e) => { 
-          const target = e.target as HTMLImageElement;
-          target.onerror = null; 
-          target.src = 'https://placehold.co/400x450/2d3748/ffffff?text=Image+Error'; 
-        }}
-      />
-      {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+      {/* Inactive State: Category Label */}
+      {!isActive && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span
+            className="text-gray-700 text-lg font-semibold whitespace-nowrap transform rotate-90"
+          >
+            {item.category}
+          </span>
+        </div>
+      )}
 
-      {/* Caption Text */}
-      <span
-        className={`
-          absolute text-white text-lg font-semibold whitespace-nowrap
-          transition-all duration-300 ease-in-out
-          ${
-            isActive
-              ? 'bottom-6 left-1/2 -translate-x-1/2 rotate-0' // Active state: horizontal, bottom-center
-              // Inactive state: vertical, positioned at the bottom, for all screen sizes
-              : 'w-auto text-left bottom-24 left-1/2 -translate-x-1/2 rotate-90'
-          }
-        `}
-      >
-        {item.title}
-      </span>
+      {/* Active State: Provider Card */}
+      {isActive && (
+        <div className="absolute inset-0 p-6 flex flex-col justify-between">
+          {/* Provider Header */}
+          <div className="text-center">
+            {/* Provider Logo Placeholder */}
+            <div 
+              className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-white font-bold text-xl"
+              style={{ backgroundColor: item.logoColor }}
+            >
+              {item.providerName.split(' ').map(word => word[0]).join('')}
+            </div>
+            
+            {/* Provider Name */}
+            <h3 className="text-xl font-bold text-gray-900 mb-2" data-testid={`text-provider-${item.providerName.toLowerCase().replace(/\s+/g, '-')}`}>
+              {item.providerName}
+            </h3>
+            
+            {/* Selling Point */}
+            <p className="text-sm font-medium text-gray-700 mb-4" data-testid={`text-selling-point-${item.id}`}>
+              {item.sellingPoint}
+            </p>
+          </div>
+
+          {/* Features List */}
+          <div className="flex-1">
+            <ul className="space-y-2">
+              {item.features.map((feature, index) => (
+                <li key={index} className="flex items-start text-sm text-gray-600">
+                  <span className="text-green-500 mr-2 mt-0.5">✓</span>
+                  <span data-testid={`text-feature-${item.id}-${index}`}>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* CTA Button */}
+          <div className="mt-4">
+            <a
+              href={item.ctaLink}
+              className="block w-full text-center py-3 px-4 text-white font-semibold rounded-lg transition-colors duration-300"
+              style={{ backgroundColor: item.logoColor }}
+              data-testid={`button-cta-${item.providerName.toLowerCase().replace(/\s+/g, '-')}`}
+            >
+              {item.ctaText}
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -168,9 +200,9 @@ export function LandingAccordionItem() {
             </div>
           </div>
 
-          {/* Right Side: Image Accordion */}
+          {/* Right Side: Provider Accordion */}
           <div className="w-full md:w-1/2">
-            {/* Changed flex-col to flex-row to keep the layout consistent */}
+            {/* Provider accordion showing featured virtual office providers */}
             <div className="flex flex-row items-center justify-center gap-4 overflow-x-auto p-4">
               {accordionItems.map((item, index) => (
                 <AccordionItem
