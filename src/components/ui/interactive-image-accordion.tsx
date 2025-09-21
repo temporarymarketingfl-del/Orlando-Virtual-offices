@@ -1,38 +1,69 @@
 'use client'
 import React, { useState } from 'react';
 
-// --- Data for the virtual office services accordion ---
-const accordionItems = [
+// --- Data for the virtual office providers accordion ---
+interface ProviderItem {
+  id: number;
+  category: string;
+  providerName: string;
+  sellingPoint: string;
+  features: string[];
+  ctaText: string;
+  ctaLink: string;
+  logoColor: string;
+  bgGradient: string;
+}
+
+const accordionItems: ProviderItem[] = [
   {
     id: 1,
-    title: 'Cost Savvy',
-    imageUrl: 'https://images.unsplash.com/photo-1486312338219-ce68e2c6068d?q=80&w=2072&auto=format&fit=crop',
+    category: 'All-Inclusive',
+    providerName: 'Opus Virtual Offices',
+    sellingPoint: 'Complete business solutions from $99/month',
+    features: ['Professional phone answering', 'Mail handling & forwarding', 'Meeting room access'],
+    ctaText: 'View Opus Locations',
+    ctaLink: '/locations?provider=opus',
+    logoColor: '#1e40af',
+    bgGradient: 'from-blue-50 to-blue-100'
   },
   {
     id: 2,
-    title: 'Prestigious Address',
-    imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop',
+    category: 'Cost Savvy',
+    providerName: 'iPostal',
+    sellingPoint: 'Affordable solutions starting at $29/month',
+    features: ['Basic mail service', 'Digital mail scanning', 'Multiple Orlando locations'],
+    ctaText: 'View iPostal Locations',
+    ctaLink: '/locations?provider=ipostal',
+    logoColor: '#059669',
+    bgGradient: 'from-green-50 to-green-100'
   },
   {
     id: 3,
-    title: 'All-Inclusive',
-    imageUrl: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop',
+    category: 'Prestigious Address',
+    providerName: 'Davinci Virtual',
+    sellingPoint: 'Premium downtown addresses from $79/month',
+    features: ['Prime business districts', 'Professional reception', 'Boardroom access'],
+    ctaText: 'View Davinci Locations',
+    ctaLink: '/locations?provider=davinci',
+    logoColor: '#dc2626',
+    bgGradient: 'from-red-50 to-red-100'
   },
   {
     id: 4,
-    title: 'Flexible Plans',
-    imageUrl: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=2126&auto=format&fit=crop',
-  },
-  {
-    id: 5,
-    title: 'Prime Locations',
-    imageUrl: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop',
-  },
+    category: 'Prime Locations',
+    providerName: 'Regus',
+    sellingPoint: 'Global network with Orlando presence',
+    features: ['Downtown Orlando towers', 'Worldwide access', '24/7 building access'],
+    ctaText: 'View Regus Locations',
+    ctaLink: '/locations?provider=regus',
+    logoColor: '#7c3aed',
+    bgGradient: 'from-purple-50 to-purple-100'
+  }
 ];
 
 // --- Accordion Item Component ---
 const AccordionItem = ({ item, isActive, onMouseEnter }: { 
-  item: { id: number; title: string; imageUrl: string };
+  item: ProviderItem;
   isActive: boolean;
   onMouseEnter: () => void;
 }) => {
@@ -81,7 +112,7 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: {
 
 // --- Main App Component ---
 export function LandingAccordionItem() {
-  const [activeIndex, setActiveIndex] = useState(4);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleItemHover = (index: number) => {
     setActiveIndex(index);
