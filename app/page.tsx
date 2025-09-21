@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { HeroSection } from "@/components/ui/hero-section-6"
+import { LandingAccordionItem } from "@/components/ui/interactive-image-accordion"
 import OrlandoBusinessAdvantages from "@/components/OrlandoBusinessAdvantages"
 import PopularProviders from "@/components/PopularProviders"
 import NeighborhoodDeepDive from "@/components/NeighborhoodDeepDive"
@@ -32,7 +32,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       <main>
-        <HeroSection />
+        <LandingAccordionItem />
         <OrlandoBusinessAdvantages />
         <PopularProviders />
         <NeighborhoodDeepDive />
