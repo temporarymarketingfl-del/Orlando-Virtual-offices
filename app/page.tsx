@@ -1,6 +1,5 @@
 import { Metadata } from "next"
-import Header from "@/components/Header"
-import HeroSection from "@/components/HeroSection"
+import { HeroSection } from "@/components/ui/hero-section-6"
 import OrlandoBusinessAdvantages from "@/components/OrlandoBusinessAdvantages"
 import PopularProviders from "@/components/PopularProviders"
 import NeighborhoodDeepDive from "@/components/NeighborhoodDeepDive"
@@ -32,7 +31,6 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main>
         <HeroSection />
         <OrlandoBusinessAdvantages />
