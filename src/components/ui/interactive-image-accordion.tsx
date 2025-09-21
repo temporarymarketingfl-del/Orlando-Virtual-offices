@@ -1,32 +1,32 @@
 'use client'
 import React, { useState } from 'react';
 
-// --- Data for the image accordion ---
+// --- Data for the virtual office services accordion ---
 const accordionItems = [
   {
     id: 1,
-    title: 'Voice Assistant',
-    imageUrl: 'https://images.unsplash.com/photo-1628258334105-2a0b3d6efee1?q=80&w=1974&auto=format&fit=crop',
+    title: 'Cost Savvy',
+    imageUrl: 'https://images.unsplash.com/photo-1486312338219-ce68e2c6068d?q=80&w=2072&auto=format&fit=crop',
   },
   {
     id: 2,
-    title: 'AI Image Generation',
-    imageUrl: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=2070&auto=format&fit=crop',
+    title: 'Prestigious Address',
+    imageUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop',
   },
   {
     id: 3,
-    title: 'AI Chatbot + Local RAG',
-    imageUrl: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1974&auto=format&fit=crop',
+    title: 'All-Inclusive',
+    imageUrl: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop',
   },
   {
     id: 4,
-    title: 'AI Agent',
-    imageUrl: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=2090&auto=format&fit=crop',
+    title: 'Flexible Plans',
+    imageUrl: 'https://images.unsplash.com/photo-1560472355-536de3962603?q=80&w=2126&auto=format&fit=crop',
   },
   {
     id: 5,
-    title: 'Visual Understanding',
-    imageUrl: 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=2070&auto=format&fit=crop',
+    title: 'Prime Locations',
+    imageUrl: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop',
   },
 ];
 
@@ -95,10 +95,10 @@ export function LandingAccordionItem() {
           {/* Left Side: Text Content */}
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight tracking-tighter">
-              Accelerate Gen-AI Tasks on Any Device
+              Find Your Perfect Virtual Office in Orlando
             </h1>
             <p className="mt-6 text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
-              Build high-performance AI apps on-device without the hassle of model compression or edge deployment.
+              Compare Orlando's top virtual office providers and find professional business addresses in Downtown, Lake Nona, Winter Park, and other prime Central Florida locations.
             </p>
             <div className="mt-8">
               <a
