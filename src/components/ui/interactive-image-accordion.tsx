@@ -89,8 +89,9 @@ export function LandingAccordionItem() {
 
   return (
     <div className="bg-white font-sans">
-      <section className="container mx-auto px-4 py-12 md:py-24">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+      <section className="py-12 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           
           {/* Left Side: Text Content */}
           <div className="w-full md:w-1/2 text-center md:text-left">
@@ -150,6 +151,7 @@ export function LandingAccordionItem() {
               ))}
             </div>
           </div>
+        </div>
         </div>
       </section>
     </div>
