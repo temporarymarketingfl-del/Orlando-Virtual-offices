@@ -100,12 +100,38 @@ export function LandingAccordionItem() {
             <p className="mt-6 text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
               Compare Orlando's top virtual office providers and find professional business addresses in Downtown, Lake Nona, Winter Park, and other prime Central Florida locations.
             </p>
+            
+            {/* Search Field */}
+            <div className="mt-8 max-w-lg mx-auto md:mx-0">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="text"
+                  placeholder="Search Orlando neighborhoods..."
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  data-testid="input-location-search"
+                />
+                <button
+                  className="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-300 whitespace-nowrap"
+                  data-testid="button-search-offices"
+                >
+                  Search Virtual Offices
+                </button>
+              </div>
+              {/* Popular suggestions */}
+              <div className="mt-3 text-sm text-gray-500">
+                Popular: <span className="text-blue-600 hover:underline cursor-pointer">Downtown Orlando</span>, 
+                <span className="text-blue-600 hover:underline cursor-pointer ml-1">Lake Nona</span>, 
+                <span className="text-blue-600 hover:underline cursor-pointer ml-1">Winter Park</span>
+              </div>
+            </div>
+            
             <div className="mt-8">
               <a
-                href="#contact"
+                href="#providers"
                 className="inline-block bg-gray-900 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-300"
+                data-testid="button-browse-providers"
               >
-                Contact Us
+                Browse Virtual Offices
               </a>
             </div>
           </div>
