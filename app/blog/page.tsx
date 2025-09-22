@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Header from '@/components/Header';
 import { BlogPostGrid } from '@/components/blog/BlogPostGrid';
 import { BlogNavigation } from '@/components/blog/BlogNavigation';
 import { Button } from '@/components/ui/button';
@@ -19,7 +18,6 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary/5 to-primary/10 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">

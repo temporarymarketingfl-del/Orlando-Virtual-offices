@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Header from '@/components/Header';
 import { AuthorCard } from '@/components/blog/AuthorCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,7 +27,6 @@ export default function AuthorsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary/5 to-primary/10 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">

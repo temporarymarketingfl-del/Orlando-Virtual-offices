@@ -25,10 +25,11 @@ export default function NavDropdown({
   align = "start" 
 }: NavDropdownProps) {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
+          type="button"
           className={`text-foreground hover:text-primary transition-colors px-3 py-2 h-auto font-normal group ${className}`}
           data-testid={`button-dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
         >
@@ -38,8 +39,19 @@ export default function NavDropdown({
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align={align}
-        className="w-64 mt-1"
+        className="w-64 mt-1 z-[60]"
         data-testid={`dropdown-content-${label.toLowerCase().replace(/\s+/g, '-')}`}
+        side="bottom"
+        sideOffset={4}
+        onEscapeKeyDown={(e) => {
+          e.currentTarget.closest('[data-radix-dropdown-menu-content]')?.dispatchEvent(
+            new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })
+          );
+        }}
+        onPointerDownOutside={(e) => {
+          // Ensure outside clicks close the dropdown
+          e.preventDefault();
+        }}
       >
         {children}
       </DropdownMenuContent>

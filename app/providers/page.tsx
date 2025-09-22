@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Star, MapPin, Building, Users, TrendingUp, Check, X, ExternalLink } from "lucide-react";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import officeImage1 from "@assets/generated_images/Coworking_space_interior_80761a04.png";
 import officeImage2 from "@assets/generated_images/Business_meeting_room_012350ca.png";
@@ -172,7 +171,6 @@ export default function Providers() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main>
         {/* Hero Section */}
         <section className="py-16 bg-gradient-to-r from-primary/10 to-primary/5">
