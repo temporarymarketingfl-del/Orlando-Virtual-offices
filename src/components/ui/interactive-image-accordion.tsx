@@ -66,16 +66,17 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: {
       className={`
         relative h-[450px] cursor-pointer overflow-hidden
         transition-all duration-700 ease-in-out
-        ${isActive ? 'w-[400px]' : 'w-[60px]'}
+        ${isActive ? 'w-[400px] md:w-[400px]' : 'w-full md:w-[60px]'}
       `}
       onMouseEnter={onMouseEnter}
+      onClick={onMouseEnter}
       data-testid={`card-provider-${item.id}`}
     >
       {/* Inactive State: Category Label */}
       {!isActive && (
         <CardContent className="h-full flex items-center justify-center p-0">
           <span
-            className="text-muted-foreground text-lg font-semibold whitespace-nowrap transform rotate-90"
+            className="text-muted-foreground text-lg font-semibold whitespace-nowrap transform md:rotate-90"
           >
             {item.category}
           </span>
@@ -138,6 +139,7 @@ export function LandingAccordionItem() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleItemHover = (index: number) => {
+    console.log(`Hovering over item ${index}`);
     setActiveIndex(index);
   };
 
