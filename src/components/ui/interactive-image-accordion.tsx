@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -139,11 +139,26 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: {
 
 // --- Main App Component ---
 export function LandingAccordionItem() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(-1); // No item active by default on mobile
 
   const handleItemHover = (index: number) => {
     setActiveIndex(index);
   };
+
+  // Set first item as active on desktop only
+  React.useEffect(() => {
+    const checkScreenSize = () => {
+      if (window.innerWidth >= 768) { // md breakpoint
+        setActiveIndex(0); // Desktop: first item active
+      } else {
+        setActiveIndex(-1); // Mobile: no item active
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   return (
     <div className="bg-background font-sans">
