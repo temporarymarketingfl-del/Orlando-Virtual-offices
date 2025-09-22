@@ -9,7 +9,7 @@ interface LocationCardProps {
   id: string;
   cityName: string;
   stateName: string;
-  image: string;
+  image: string | any;
   providerCount: number;
   averagePrice: string;
   popularAreas: string[];

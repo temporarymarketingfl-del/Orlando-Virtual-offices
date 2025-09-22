@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import LocationsDropdown from "./ui/LocationsDropdown";
+import ProvidersDropdown from "./ui/ProvidersDropdown";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,19 +27,12 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex" data-testid="nav-desktop">
-            <div className="flex items-center gap-6 lg:gap-8">
-              <Link href="/locations" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-locations">
-                Locations
-              </Link>
-              <Link href="/providers" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-providers">
-                Providers
-              </Link>
+            <div className="flex items-center gap-4 lg:gap-6">
+              <LocationsDropdown />
+              <ProvidersDropdown />
               <Link href="/blog" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-blog">
                 Blog
               </Link>
-              <a href="#" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-pricing">
-                Pricing
-              </a>
             </div>
           </nav>
 
@@ -138,18 +133,13 @@ export default function Header() {
               </div>
               
               {/* Mobile Navigation Links */}
-              <Link href="/locations" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-locations-mobile">
-                Locations
-              </Link>
-              <Link href="/providers" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-providers-mobile">
-                Providers
-              </Link>
-              <Link href="/blog" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-blog-mobile">
-                Blog
-              </Link>
-              <a href="#" className="text-foreground hover:text-primary transition-colors py-2" data-testid="link-pricing-mobile">
-                Pricing
-              </a>
+              <div className="space-y-2">
+                <LocationsDropdown />
+                <ProvidersDropdown />
+                <Link href="/blog" className="text-foreground hover:text-primary transition-colors py-2 block" data-testid="link-blog-mobile">
+                  Blog
+                </Link>
+              </div>
             </div>
           </div>
         )}
