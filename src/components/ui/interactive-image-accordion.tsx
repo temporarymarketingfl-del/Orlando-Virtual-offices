@@ -196,7 +196,7 @@ export function LandingAccordionItem() {
           {/* Right Side: Provider Accordion */}
           <div className="w-full md:w-1/2">
             {/* Provider accordion showing featured virtual office providers */}
-            <div className="flex flex-row items-center justify-center gap-4 overflow-x-auto p-4">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:overflow-x-auto p-4">
               {accordionItems.map((item, index) => (
                 <AccordionItem
                   key={item.id}

@@ -4472,6 +4472,10 @@ input[type="search"]::-webkit-search-cancel-button {
     flex-wrap: nowrap;
   }
 
+  .md\:overflow-x-auto {
+    overflow-x: auto;
+  }
+
   .md\:py-24 {
     padding-top: 6rem;
     padding-bottom: 6rem;
