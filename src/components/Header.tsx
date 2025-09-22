@@ -20,9 +20,11 @@ export default function Header() {
         <div className="flex items-center h-16 gap-4">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-xl font-semibold text-primary" data-testid="logo">
-              VirtualOffice Hub
-            </h1>
+            <Link href="/">
+              <h1 className="text-xl font-semibold text-primary hover:text-primary/80 transition-colors cursor-pointer" data-testid="logo">
+                VirtualOffice Hub
+              </h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
