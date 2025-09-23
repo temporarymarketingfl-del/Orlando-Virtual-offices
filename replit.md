@@ -1,8 +1,8 @@
-# VirtualOffice Hub
+# Orlando Virtual Offices
 
 ## Overview
 
-VirtualOffice Hub is a location-based affiliate marketing platform that helps users find and compare virtual office providers in Orlando, Florida. The platform is designed with SEO optimization and affiliate conversion in mind, featuring comprehensive provider comparisons, location-based search functionality, and educational content to drive organic traffic and revenue through affiliate partnerships.
+Orlando Virtual Offices is a location-based affiliate marketing platform that helps users find and compare virtual office providers in Orlando, Florida. The platform is designed with SEO optimization and affiliate conversion in mind, featuring comprehensive provider comparisons, location-based search functionality, and educational content to drive organic traffic and revenue through affiliate partnerships.
 
 ## User Preferences
 

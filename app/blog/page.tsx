@@ -6,12 +6,17 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Blog - Virtual Office Insights & Orlando Business Tips | VirtualOffice Hub',
+  title: 'Blog - Virtual Office Insights & Orlando Business Tips | Orlando Virtual Offices',
   description: 'Discover expert insights on virtual offices, remote work strategies, and Orlando business opportunities. Stay updated with the latest trends in flexible workspace solutions.',
+  alternates: {
+    canonical: 'https://orlandovirtualoffices.com/blog'
+  },
   openGraph: {
     title: 'Virtual Office Blog - Expert Business Insights',
     description: 'Expert insights on virtual offices, remote work, and Orlando business opportunities from industry professionals.',
     type: 'website',
+    url: 'https://orlandovirtualoffices.com/blog',
+    siteName: 'Orlando Virtual Offices',
   },
 };
 

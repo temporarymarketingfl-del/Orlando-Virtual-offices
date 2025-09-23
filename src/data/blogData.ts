@@ -18,7 +18,7 @@ export const mockAuthors: Author[] = [
     name: "Sarah Mitchell",
     bio: "Sarah is a business consultant and virtual office expert with over 10 years of experience helping Orlando entrepreneurs establish professional business presences. She specializes in guiding startups and small businesses through the process of selecting virtual office solutions that scale with their growth.",
     avatar: femaleExpertImg.src,
-    email: "sarah@virtualoffcehub.com",
+    email: "sarah@orlandovirtualoffices.com",
     socialLinks: JSON.stringify({
       linkedin: "https://linkedin.com/in/sarahmitchell",
       twitter: "https://twitter.com/sarahmitchell"
@@ -32,7 +32,7 @@ export const mockAuthors: Author[] = [
     name: "David Rodriguez",
     bio: "David is a Florida business attorney and entrepreneur who has launched three successful companies from virtual offices in Orlando. His expertise in business formation, compliance, and Orlando's business ecosystem makes him a trusted voice for entrepreneurs considering virtual office solutions.",
     avatar: maleExpertImg.src,
-    email: "david@virtualofficehub.com",
+    email: "david@orlandovirtualoffices.com",
     socialLinks: JSON.stringify({
       linkedin: "https://linkedin.com/in/davidrodriguez",
       website: "https://davidrodriguezlaw.com"
@@ -46,7 +46,7 @@ export const mockAuthors: Author[] = [
     name: "Emily Chen",
     bio: "Emily is a digital marketing strategist and remote work advocate who helps businesses establish professional online presences. Based in Orlando, she has helped dozens of companies transition to virtual operations while maintaining credibility with clients and partners.",
     avatar: youngProfessionalImg.src,
-    email: "emily@virtualofficehub.com", 
+    email: "emily@orlandovirtualoffices.com", 
     socialLinks: JSON.stringify({
       linkedin: "https://linkedin.com/in/emilychen",
       twitter: "https://twitter.com/emilychen"
@@ -60,7 +60,7 @@ export const mockAuthors: Author[] = [
     name: "Robert Thompson",
     bio: "Robert is a seasoned Orlando real estate developer and business advisor with 25 years of experience in Central Florida's commercial market. He provides insights into Orlando's business districts and helps companies choose virtual office locations that align with their brand and growth plans.",
     avatar: matureExpertImg.src,
-    email: "robert@virtualofficehub.com",
+    email: "robert@orlandovirtualoffices.com",
     socialLinks: JSON.stringify({
       linkedin: "https://linkedin.com/in/robertthompson"
     }),

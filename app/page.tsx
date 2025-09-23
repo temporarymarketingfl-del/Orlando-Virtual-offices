@@ -13,17 +13,17 @@ import NewsletterSignup from "@/components/NewsletterSignup"
 import Footer from "@/components/Footer"
 
 export const metadata: Metadata = {
-  title: "VirtualOffice Hub - Orlando Virtual Office Providers",
+  title: "Orlando Virtual Offices - Find Your Perfect Virtual Office Provider",
   description: "Find and compare Orlando's top virtual office providers. Discover flexible workspace solutions, business addresses, and professional services in Central Florida's prime business districts.",
   keywords: "virtual office Orlando, business address Orlando, virtual office providers, Orlando workspace, Central Florida virtual offices",
   alternates: {
-    canonical: "https://virtualoffice-hub.com"
+    canonical: "https://orlandovirtualoffices.com"
   },
   openGraph: {
-    title: "VirtualOffice Hub - Orlando Virtual Office Providers",
+    title: "Orlando Virtual Offices - Find Your Perfect Virtual Office Provider",
     description: "Find and compare Orlando's top virtual office providers. Discover flexible workspace solutions in Central Florida.",
-    url: "https://virtualoffice-hub.com",
-    siteName: "VirtualOffice Hub",
+    url: "https://orlandovirtualoffices.com",
+    siteName: "Orlando Virtual Offices",
     type: "website",
   },
 }

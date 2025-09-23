@@ -8,7 +8,7 @@ import { Search, FolderOpen, FileText } from 'lucide-react';
 import { mockCategories, getPostsByCategory } from '@/data/blogData';
 
 export const metadata: Metadata = {
-  title: 'Categories - Explore Topics | VirtualOffice Hub Blog',
+  title: 'Categories - Explore Topics | Orlando Virtual Offices Blog',
   description: 'Browse articles by category. Find content on virtual offices, remote work, Orlando business, legal guidance, and more.',
   openGraph: {
     title: 'Blog Categories - Virtual Office Topics',

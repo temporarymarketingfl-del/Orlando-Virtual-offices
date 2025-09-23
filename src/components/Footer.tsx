@@ -18,7 +18,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-background" data-testid="footer-logo">
-              VirtualOffice Hub
+              Orlando Virtual Offices
             </h3>
             <p className="text-gray-300 text-sm leading-relaxed">
               Your trusted partner for virtual office solutions in Orlando, Florida. 
@@ -70,7 +70,7 @@ export default function Footer() {
             <div className="space-y-3 text-sm">
               <div className="flex items-center text-gray-300">
                 <Mail className="w-4 h-4 mr-2" />
-                <span>hello@virtualofficehub.com</span>
+                <span>hello@orlandovirtualoffices.com</span>
               </div>
               <div className="flex items-center text-gray-300">
                 <Phone className="w-4 h-4 mr-2" />
@@ -79,9 +79,9 @@ export default function Footer() {
               <div className="flex items-start text-gray-300">
                 <MapPin className="w-4 h-4 mr-2 mt-0.5" />
                 <span>
-                  123 Business Ave<br />
+                  123 Orange Ave<br />
                   Suite 100<br />
-                  New York, NY 10001
+                  Orlando, FL 32801
                 </span>
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-            <p>&copy; 2024 VirtualOffice Hub. All rights reserved.</p>
+            <p>&copy; 2024 Orlando Virtual Offices. All rights reserved.</p>
             <p className="mt-2 md:mt-0">
               Made with passion for entrepreneurs worldwide
             </p>

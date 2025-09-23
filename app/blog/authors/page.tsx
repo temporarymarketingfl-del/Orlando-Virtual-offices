@@ -6,7 +6,7 @@ import { Search, Users } from 'lucide-react';
 import { mockAuthors, getPostsByAuthor } from '@/data/blogData';
 
 export const metadata: Metadata = {
-  title: 'Authors - Meet Our Virtual Office Experts | VirtualOffice Hub',
+  title: 'Authors - Meet Our Virtual Office Experts | Orlando Virtual Offices',
   description: 'Meet our team of virtual office and remote work experts. Get insights from business consultants, attorneys, and industry professionals.',
   openGraph: {
     title: 'Virtual Office Experts & Authors',
