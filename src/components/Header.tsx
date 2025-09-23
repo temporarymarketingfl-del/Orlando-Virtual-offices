@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, X } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 import LocationsDropdown from "./ui/LocationsDropdown";
 import ProvidersDropdown from "./ui/ProvidersDropdown";
 
@@ -25,7 +24,7 @@ export default function Header() {
                 <img 
                   src="/logo.svg" 
                   alt="Orlando Virtual Offices" 
-                  className="h-8 w-auto"
+                  className="h-16 w-auto"
                 />
               </div>
             </Link>
@@ -103,10 +102,6 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Theme Toggle */}
-          <div className="hidden md:flex items-center gap-3 flex-shrink-0">
-            <ThemeToggle />
-          </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
