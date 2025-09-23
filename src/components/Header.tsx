@@ -21,9 +21,13 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/">
-              <h1 className="text-xl font-semibold text-primary hover:text-primary/80 transition-colors cursor-pointer" data-testid="logo">
-                Orlando Virtual Offices
-              </h1>
+              <div className="flex items-center hover:opacity-80 transition-opacity cursor-pointer" data-testid="logo">
+                <img 
+                  src="/logo.svg" 
+                  alt="Orlando Virtual Offices" 
+                  className="h-8 w-auto"
+                />
+              </div>
             </Link>
           </div>
 

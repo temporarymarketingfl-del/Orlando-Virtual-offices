@@ -4,6 +4,7 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-24_05"
+packages = ["unzip"]
 
 [deployment]
 deploymentTarget = "autoscale"
@@ -19,12 +20,20 @@ localPort = 33497
 externalPort = 3002
 
 [[ports]]
+localPort = 39241
+externalPort = 6000
+
+[[ports]]
 localPort = 39805
 externalPort = 3001
 
 [[ports]]
 localPort = 41867
 externalPort = 3003
+
+[[ports]]
+localPort = 42507
+externalPort = 6800
 
 [[ports]]
 localPort = 42763
