@@ -24,7 +24,7 @@ export default function Header() {
                 <img 
                   src="/logo.svg" 
                   alt="Orlando Virtual Offices" 
-                  className="h-16 w-auto"
+                  className="h-auto w-1/2 md:w-1/4"
                 />
               </div>
             </Link>
