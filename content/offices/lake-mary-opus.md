@@ -12,7 +12,6 @@ officeType: "Virtual Office - Premium Location"
 pricing:
   allInclusive: 99
   mailOnly: 59
-  addressOnly: 49
   currency: "USD"
   period: "monthly"
 availability: true
@@ -159,13 +158,6 @@ For businesses primarily needing mail services:
 - Package receipt with signature capability
 - Mail forwarding or pickup options
 
-### Corporate Address Only - $49/Month
-Entry-level package:
-- Prestigious corporate address
-- Mail and package receipt
-- Meeting rooms on demand
-- Basic mail handling
-
 ## Meeting Room Facilities
 
 As a Premium Location, Lake Mary offers professional meeting spaces perfect for:
@@ -240,7 +232,7 @@ Complimentary monthly reporting to Moody's Credit Bureau helps establish busines
 
 ### Easy Activation Process
 
-1. **Choose Your Package**: Select from our $49, $59, or $99 monthly plans
+1. **Choose Your Package**: Select from our $59 or $99 monthly plans
 2. **Customize Services**: Add any optional features you need
 3. **Complete Registration**: Simple online signup process
 4. **Start Immediately**: Begin using services and meeting rooms right away

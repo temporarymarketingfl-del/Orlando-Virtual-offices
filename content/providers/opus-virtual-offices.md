@@ -61,13 +61,6 @@ Perfect for businesses that primarily need mail services:
 - Package receipt with signature capability
 - Mail forwarding or pickup options
 
-### Corporate Address Only - $49/month
-Entry-level package for basic needs:
-- Prestigious corporate address
-- Mail and package receipt
-- Meeting rooms on demand
-- Basic mail handling
-
 ## Key Features
 
 ### Mail & Package Management
@@ -138,7 +131,7 @@ Enhance your business credibility with a prestigious downtown Orlando address an
 
 ## Getting Started
 
-1. **Choose Your Package**: Select from $49, $59, or $99 monthly packages
+1. **Choose Your Package**: Select from $59 or $99 monthly packages
 2. **Contact Opus**: Call (407) 559-2000 or (888) 898-9868
 3. **Quick Setup**: Operational within 2 business days
 4. **Start Using Services**: Immediate access to all package features

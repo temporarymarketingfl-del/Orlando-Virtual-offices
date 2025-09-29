@@ -12,7 +12,6 @@ officeType: "Virtual Office"
 pricing:
   allInclusive: 99
   mailOnly: 59
-  addressOnly: 49
   currency: "USD"
   period: "monthly"
 availability: true
@@ -144,13 +143,6 @@ Ideal for businesses primarily needing mail services:
 - Package receipt with signature capability
 - Mail forwarding or pickup options
 
-### Corporate Address Only - $49/Month
-Entry-level solution for basic needs:
-- Prestigious corporate address
-- Mail and package receipt
-- Meeting rooms on demand (at premium locations)
-- Basic mail handling
-
 ## Customize Your Virtual Office
 
 ### Communication Add-Ons
@@ -209,7 +201,7 @@ Month-to-month terms mean no long-term commitment. Scale up or down as your busi
 
 ### Simple Sign-Up Process
 
-1. **Select Your Package**: Choose $49, $59, or $99 monthly plan
+1. **Select Your Package**: Choose $59 or $99 monthly plan
 2. **Add Features**: Customize with any add-on services you need
 3. **Complete Registration**: Quick online sign-up process
 4. **Activate Immediately**: Start using services right away

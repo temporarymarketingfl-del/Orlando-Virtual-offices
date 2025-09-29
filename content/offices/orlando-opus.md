@@ -14,7 +14,6 @@ officeType: "Virtual Office - Premium Location"
 pricing:
   allInclusive: 99
   mailOnly: 59
-  addressOnly: 49
   currency: "USD"
   period: "monthly"
 availability: true
@@ -183,14 +182,6 @@ Perfect for businesses primarily needing mail services:
 - Mail forwarding or pickup options
 - Digital mail notifications
 
-**Corporate Address Only - $49/Month**
-Entry-level package:
-- Prestigious downtown address
-- Mail and package receipt
-- Meeting rooms on demand
-- Basic mail handling
-- [View Address-Only Details](https://www.opusvirtualoffices.com/business-address/florida/orlando/location-1499/)
-
 ## Customize Your Virtual Office
 
 ### Communication Enhancements
@@ -282,7 +273,7 @@ While Orlando is known worldwide as the vacation capital, it's also a thriving b
 
 ### Simple 4-Step Process
 
-1. **Choose Your Package**: Select from $49, $59, or $99 monthly plans
+1. **Choose Your Package**: Select from $59 or $99 monthly plans
 2. **Customize Services**: Add any optional features your business needs
 3. **Complete Sign-Up**: Quick online registration process
 4. **Start Immediately**: Begin using your downtown Orlando address and services
