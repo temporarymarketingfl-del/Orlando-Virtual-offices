@@ -20,7 +20,7 @@ function parseFrontmatter(content: string): { data: Record<string, any>, content
     if (colonIndex === -1) continue;
     
     const key = line.substring(0, colonIndex).trim();
-    let value = line.substring(colonIndex + 1).trim();
+    let value: any = line.substring(colonIndex + 1).trim();
     
     // Remove quotes if present
     if ((value.startsWith('"') && value.endsWith('"')) || 
@@ -30,7 +30,7 @@ function parseFrontmatter(content: string): { data: Record<string, any>, content
     
     // Handle arrays (simple implementation for tags, etc.)
     if (value.startsWith('[') && value.endsWith(']')) {
-      value = value.slice(1, -1).split(',').map(item => item.trim().replace(/["']/g, ''));
+      value = value.slice(1, -1).split(',').map((item: string) => item.trim().replace(/["']/g, ''));
     }
     
     // Handle booleans
@@ -167,9 +167,10 @@ export function getAllContent(type: string, options?: {
   
   // Sort content
   if (options?.sortBy) {
+    const sortBy = options.sortBy;
     content.sort((a, b) => {
-      const aValue = a.data[options.sortBy] || '';
-      const bValue = b.data[options.sortBy] || '';
+      const aValue = a.data[sortBy] || '';
+      const bValue = b.data[sortBy] || '';
       
       if (options.sortOrder === 'desc') {
         return bValue > aValue ? 1 : -1;
