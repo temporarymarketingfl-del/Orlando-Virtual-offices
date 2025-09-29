@@ -12,7 +12,6 @@ officeType: "Virtual Office"
 pricing:
   allInclusive: 99
   mailOnly: 59
-  addressOnly: 49
   currency: "USD"
   period: "monthly"
 availability: true
@@ -140,13 +139,6 @@ Perfect for businesses primarily needing mail services:
 - Package receipt with signature capability
 - Mail forwarding or pickup options
 
-### Corporate Address Only - $49/Month
-Entry-level package for basic needs:
-- Prestigious corporate address
-- Mail and package receipt
-- Meeting rooms on demand (at premium locations)
-- Basic mail handling
-
 ## Optional Add-On Services
 
 Customize your virtual office with additional features:
@@ -205,7 +197,7 @@ Monthly reporting to Moody's Credit Bureau helps establish and build your busine
 
 ## Getting Started
 
-1. **Choose Your Package**: Select from $49, $59, or $99 monthly options
+1. **Choose Your Package**: Select from $59 or $99 monthly options
 2. **Sign Up Online**: Quick and easy online registration
 3. **Customize Services**: Add any optional features you need
 4. **Start Immediately**: Begin using services right away
