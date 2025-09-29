@@ -132,7 +132,10 @@ function markdownToHtml(markdown: string, contentType?: string, slug?: string): 
       if (contentType && slug && src.startsWith('./')) {
         src = resolveMediaPath(contentType, slug, src);
       }
-      return `<img src="${src}" alt="${alt}" loading="lazy" />`;
+      // Escape HTML in alt text and validate URL
+      const escapedAlt = alt.replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const escapedSrc = src.replace(/"/g, '&quot;');
+      return `<img src="${escapedSrc}" alt="${escapedAlt}" loading="lazy" />`;
     })
     
     // Lists
@@ -149,7 +152,11 @@ function markdownToHtml(markdown: string, contentType?: string, slug?: string): 
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     
     // Links with security (but not images)
-    .replace(/(?<!\!)\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" rel="noopener noreferrer">$1</a>')
+    .replace(/(?<!\!)\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+      const escapedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const escapedUrl = url.replace(/"/g, '&quot;');
+      return `<a href="${escapedUrl}" rel="noopener noreferrer">${escapedText}</a>`;
+    })
     
     // Convert double newlines to paragraph breaks
     .replace(/\n\n/g, '\n\n__PARAGRAPH_BREAK__\n\n')

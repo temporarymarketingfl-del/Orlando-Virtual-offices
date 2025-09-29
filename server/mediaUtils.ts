@@ -12,7 +12,6 @@ const VALID_EXTENSIONS = [...VALID_IMAGE_EXTENSIONS, ...VALID_VIDEO_EXTENSIONS];
 
 export interface MediaFile {
   name: string;
-  path: string;
   url: string;
   type: 'image' | 'video' | 'other';
   size: number;
@@ -101,7 +100,6 @@ export function listMediaFiles(contentType: string, slug: string): MediaFile[] {
 
       return {
         name: file,
-        path: filePath,
         url: resolveMediaPath(contentType, slug, `./${file}`),
         type,
         size: stats.size
@@ -135,7 +133,7 @@ export function sanitizeFileName(fileName: string): string {
   // Remove path traversal attempts and dangerous characters
   return fileName
     .replace(/[\/\\]/g, '') // Remove path separators
-    .replace(/[^a-zA-Z0-9.-_]/g, '_') // Replace special chars with underscore
+    .replace(/[^a-zA-Z0-9._-]/g, '_') // Replace special chars with underscore (fixed dash position)
     .replace(/_{2,}/g, '_') // Collapse multiple underscores
     .toLowerCase();
 }
