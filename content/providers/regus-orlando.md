@@ -22,8 +22,13 @@ socialLinks:
   linkedin: "https://linkedin.com/company/regus"
   twitter: "https://twitter.com/regus"
   facebook: "https://facebook.com/regus"
-images: ["/images/providers/regus-orlando-1.jpg", "/images/providers/regus-orlando-2.jpg"]
-logo: "/images/providers/regus-logo.png"
+images: 
+  - path: "./gallery/office-space.jpg"
+    alt: "Modern office space at Regus Orlando"
+  - path: "./gallery/meeting-room.jpg" 
+    alt: "Professional meeting room"
+logo: "./logo.png"
+featuredImage: "./hero-image.jpg"
 featured: true
 verified: true
 status: "active"
@@ -38,6 +43,8 @@ Regus is a global leader in flexible workspace solutions, offering comprehensive
 ## About Regus Orlando
 
 With over 30 years of experience, Regus provides businesses with professional addresses, dedicated phone lines, and access to meeting rooms across Orlando's most prestigious locations.
+
+![Regus Orlando Hero](./hero-image.jpg)
 
 ## Services Offered
 
