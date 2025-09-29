@@ -1608,6 +1608,9 @@ video {
 .h-60 {
   height: 15rem;
 }
+.h-64 {
+  height: 16rem;
+}
 .h-7 {
   height: 1.75rem;
 }
@@ -2643,6 +2646,9 @@ video {
 }
 .pt-4 {
   padding-top: 1rem;
+}
+.pt-6 {
+  padding-top: 1.5rem;
 }
 .pt-8 {
   padding-top: 2rem;
@@ -4412,6 +4418,10 @@ input[type="search"]::-webkit-search-cancel-button {
 
   .md\:h-48 {
     height: 12rem;
+  }
+
+  .md\:h-80 {
+    height: 20rem;
   }
 
   .md\:h-\[450px\] {

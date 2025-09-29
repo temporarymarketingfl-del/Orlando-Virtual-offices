@@ -7,167 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Star, MapPin, Building, Users, TrendingUp, Check, X, ExternalLink } from "lucide-react";
 import Footer from "@/components/Footer";
-import officeImage1 from "@assets/generated_images/Coworking_space_interior_80761a04.png";
-import officeImage2 from "@assets/generated_images/Business_meeting_room_012350ca.png";
 import Image from "next/image";
+import Link from "next/link";
+import { providers, featureLabels, getTotalOrlandoLocations } from "@/data/providers";
 
 export default function Providers() {
   const [selectedTab, setSelectedTab] = useState("overview");
-
-  // Extended provider data with Orlando location counts
-  const providers = [
-    {
-      id: "regus",
-      name: "Regus",
-      fullName: "Regus Downtown Orlando", 
-      image: officeImage1,
-      rating: 4.6,
-      reviewCount: 94,
-      orlandoLocations: 5,
-      totalLocations: 3000,
-      priceRange: "$149 - $599/month",
-      basicPrice: 149,
-      premiumPrice: 299,
-      executivePrice: 599,
-      services: ["Virtual Office", "Meeting Rooms", "Mail Service", "Phone Answering"],
-      description: "Regus is the world's largest provider of flexible workspace solutions, with a strong presence in Orlando's business districts. Their downtown Orange Avenue location offers prestigious business addresses and comprehensive virtual office services.",
-      keyLocations: ["Downtown Orlando", "Lake Nona", "Dr. Phillips", "Millenia", "Winter Park"],
-      founded: 1989,
-      globalPresence: "100+ countries",
-      specialties: ["Enterprise Solutions", "Global Network", "24/7 Access"],
-      isPopular: true,
-      affiliateUrl: "https://example.com/regus-orlando",
-      features: {
-        businessAddress: true,
-        mailHandling: true,
-        phoneAnswering: true,
-        meetingRooms: true,
-        receptionistServices: true,
-        businessLounge: true,
-        networkingEvents: true,
-        globalLocations: true,
-        mobileApp: true,
-        virtualReceptionist: false
-      }
-    },
-    {
-      id: "opus-virtual",
-      name: "Opus Virtual Offices",
-      fullName: "Opus Virtual Offices Orlando",
-      image: officeImage2,
-      rating: 4.5,
-      reviewCount: 78,
-      orlandoLocations: 3,
-      totalLocations: 150,
-      priceRange: "$89 - $399/month",
-      basicPrice: 89,
-      premiumPrice: 189,
-      executivePrice: 399,
-      services: ["Virtual Office", "Live Call Answering", "Mail Forwarding", "Meeting Rooms"],
-      description: "Opus Virtual Offices provides professional virtual office solutions with live call answering services and premium Orlando business addresses. Known for exceptional customer service and flexible month-to-month plans.",
-      keyLocations: ["Downtown Orlando", "Dr. Phillips", "Lake Nona"],
-      founded: 2008,
-      globalPresence: "50+ US cities",
-      specialties: ["Live Answering", "Flexible Plans", "Customer Service"],
-      isPopular: false,
-      affiliateUrl: "https://example.com/opus-virtual-orlando",
-      features: {
-        businessAddress: true,
-        mailHandling: true,
-        phoneAnswering: true,
-        meetingRooms: true,
-        receptionistServices: true,
-        businessLounge: false,
-        networkingEvents: false,
-        globalLocations: false,
-        mobileApp: true,
-        virtualReceptionist: true
-      }
-    },
-    {
-      id: "alliance-virtual",
-      name: "Alliance Virtual Offices",
-      fullName: "Alliance Virtual Offices Orlando",
-      image: officeImage1,
-      rating: 4.4,
-      reviewCount: 156,
-      orlandoLocations: 4,
-      totalLocations: 1200,
-      priceRange: "$99 - $449/month",
-      basicPrice: 99,
-      premiumPrice: 229,
-      executivePrice: 449,
-      services: ["Virtual Office", "Business Address", "Phone Services", "Conference Rooms"],
-      description: "Alliance Virtual Offices is a leading provider of virtual office solutions across Orlando's key business districts. They offer comprehensive packages with professional phone answering and premium business addresses.",
-      keyLocations: ["Downtown Orlando", "Millenia", "Winter Park", "Dr. Phillips"],
-      founded: 1999,
-      globalPresence: "700+ locations worldwide",
-      specialties: ["Global Network", "Professional Services", "Established Provider"],
-      isPopular: true,
-      affiliateUrl: "https://example.com/alliance-virtual-orlando",
-      features: {
-        businessAddress: true,
-        mailHandling: true,
-        phoneAnswering: true,
-        meetingRooms: true,
-        receptionistServices: true,
-        businessLounge: true,
-        networkingEvents: false,
-        globalLocations: true,
-        mobileApp: false,
-        virtualReceptionist: false
-      }
-    },
-    {
-      id: "davinci-virtual",
-      name: "Davinci Virtual Offices",
-      fullName: "Davinci Virtual Offices Orlando",
-      image: officeImage2,
-      rating: 4.3,
-      reviewCount: 203,
-      orlandoLocations: 3,
-      totalLocations: 2000,
-      priceRange: "$79 - $379/month",
-      basicPrice: 79,
-      premiumPrice: 179,
-      executivePrice: 379,
-      services: ["Virtual Office", "Live Receptionist", "Mail Services", "Day Offices"],
-      description: "Davinci Virtual Offices delivers premium virtual office services with live receptionists and flexible workspace solutions. Their Orlando locations provide prestigious addresses in prime business districts.",
-      keyLocations: ["Downtown Orlando", "Lake Nona", "International Drive"],
-      founded: 2006,
-      globalPresence: "1000+ locations worldwide",
-      specialties: ["Live Receptionists", "Premium Locations", "Flexible Terms"],
-      isPopular: true,
-      affiliateUrl: "https://example.com/davinci-virtual-orlando",
-      features: {
-        businessAddress: true,
-        mailHandling: true,
-        phoneAnswering: true,
-        meetingRooms: true,
-        receptionistServices: true,
-        businessLounge: true,
-        networkingEvents: true,
-        globalLocations: true,
-        mobileApp: true,
-        virtualReceptionist: true
-      }
-    }
-  ];
-
-  const featureLabels = {
-    businessAddress: "Business Address",
-    mailHandling: "Mail Handling & Forwarding", 
-    phoneAnswering: "Phone Answering Service",
-    meetingRooms: "Meeting Room Access",
-    receptionistServices: "Live Receptionist",
-    businessLounge: "Business Lounge Access",
-    networkingEvents: "Networking Events",
-    globalLocations: "Global Location Access",
-    mobileApp: "Mobile App",
-    virtualReceptionist: "Virtual Receptionist AI"
-  };
-
-  const totalOrlandoLocations = providers.reduce((sum, provider) => sum + provider.orlandoLocations, 0);
+  const totalOrlandoLocations = getTotalOrlandoLocations();
 
   return (
     <div className="min-h-screen bg-background">
@@ -321,8 +167,10 @@ export default function Providers() {
                                   View Plans & Sign Up
                                 </a>
                               </Button>
-                              <Button variant="outline" data-testid={`provider-details-${provider.id}`}>
-                                More Details
+                              <Button variant="outline" asChild data-testid={`provider-details-${provider.id}`}>
+                                <Link href={`/providers/${provider.id}`}>
+                                  More Details
+                                </Link>
                               </Button>
                             </div>
                           </div>
