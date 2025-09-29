@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// Simple frontmatter parser using regex
+// Enhanced frontmatter parser to handle YAML-like structures
 function parseFrontmatter(content: string): { data: Record<string, any>, content: string } {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
@@ -13,47 +13,82 @@ function parseFrontmatter(content: string): { data: Record<string, any>, content
   const [, frontmatter, markdownContent] = match;
   const data: Record<string, any> = {};
   
-  // Parse YAML-like frontmatter
+  // Parse YAML-like frontmatter with support for nested objects
   const lines = frontmatter.split('\n');
+  let currentKey = '';
+  let currentObject: any = null;
+  let indentLevel = 0;
+  
   for (const line of lines) {
-    const colonIndex = line.indexOf(':');
+    const trimmedLine = line.trim();
+    if (!trimmedLine || trimmedLine.startsWith('#')) continue;
+    
+    const lineIndent = line.length - line.trimStart().length;
+    
+    // Check if this is a nested object property
+    if (lineIndent > indentLevel && currentObject) {
+      const colonIndex = trimmedLine.indexOf(':');
+      if (colonIndex !== -1) {
+        const key = trimmedLine.substring(0, colonIndex).trim();
+        let value = trimmedLine.substring(colonIndex + 1).trim();
+        value = parseValue(value);
+        currentObject[key] = value;
+      }
+      continue;
+    }
+    
+    // Reset for new top-level property
+    indentLevel = lineIndent;
+    currentObject = null;
+    
+    const colonIndex = trimmedLine.indexOf(':');
     if (colonIndex === -1) continue;
     
-    const key = line.substring(0, colonIndex).trim();
-    let value: any = line.substring(colonIndex + 1).trim();
+    const key = trimmedLine.substring(0, colonIndex).trim();
+    let value = trimmedLine.substring(colonIndex + 1).trim();
     
-    // Remove quotes if present
-    if ((value.startsWith('"') && value.endsWith('"')) || 
-        (value.startsWith("'") && value.endsWith("'"))) {
-      value = value.slice(1, -1);
+    // Check if this starts a nested object
+    if (!value) {
+      currentKey = key;
+      currentObject = {};
+      data[key] = currentObject;
+      indentLevel = lineIndent;
+      continue;
     }
     
-    // Handle arrays (simple implementation for tags, etc.)
-    if (value.startsWith('[') && value.endsWith(']')) {
-      value = value.slice(1, -1).split(',').map((item: string) => item.trim().replace(/["']/g, ''));
-    }
-    
-    // Handle booleans
-    if (value === 'true') value = true;
-    if (value === 'false') value = false;
-    
-    // Handle numbers
-    if (!isNaN(Number(value)) && value !== '') {
-      value = Number(value);
-    }
-    
-    // Handle dates
-    if (key.includes('At') || key.includes('Date') || key === 'publishedAt' || key === 'createdAt' || key === 'updatedAt') {
-      const date = new Date(value);
-      if (!isNaN(date.getTime())) {
-        value = date.toISOString();
-      }
-    }
-    
-    data[key] = value;
+    data[key] = parseValue(value);
   }
   
   return { data, content: markdownContent };
+}
+
+// Helper function to parse individual values
+function parseValue(value: string): any {
+  if (!value) return '';
+  
+  // Remove quotes if present
+  if ((value.startsWith('"') && value.endsWith('"')) || 
+      (value.startsWith("'") && value.endsWith("'"))) {
+    value = value.slice(1, -1);
+  }
+  
+  // Handle arrays
+  if (value.startsWith('[') && value.endsWith(']')) {
+    const arrayContent = value.slice(1, -1);
+    if (!arrayContent.trim()) return [];
+    return arrayContent.split(',').map((item: string) => item.trim().replace(/["']/g, ''));
+  }
+  
+  // Handle booleans
+  if (value === 'true') return true;
+  if (value === 'false') return false;
+  
+  // Handle numbers
+  if (!isNaN(Number(value)) && value !== '') {
+    return Number(value);
+  }
+  
+  return value;
 }
 
 // Basic markdown to HTML conversion (simple implementation)
@@ -80,6 +115,9 @@ function markdownToHtml(markdown: string): string {
 
 // Content directory paths
 const CONTENT_DIR = path.join(process.cwd(), 'content');
+
+// In-memory storage for view counts (in production, use a database)
+const viewCounts = new Map<string, number>();
 
 export interface ContentFile {
   slug: string;
@@ -113,7 +151,7 @@ export function readContentFile(type: string, slug: string): ContentFile | null 
   }
 }
 
-// Read all markdown files of a specific type
+// Read all markdown files of a specific type, excluding templates and drafts
 export function readAllContentFiles(type: string): ContentFile[] {
   try {
     const typeDir = path.join(CONTENT_DIR, type);
@@ -126,10 +164,15 @@ export function readAllContentFiles(type: string): ContentFile[] {
     const contentFiles: ContentFile[] = [];
     
     for (const file of files) {
-      if (file.endsWith('.md')) {
+      // Skip template files (starting with _) and non-markdown files
+      if (file.endsWith('.md') && !file.startsWith('_')) {
         const slug = file.replace('.md', '');
         const contentFile = readContentFile(type, slug);
         if (contentFile) {
+          // Skip draft content unless explicitly included
+          if (contentFile.data.status === 'draft' && contentFile.data.includeDrafts !== true) {
+            continue;
+          }
           contentFiles.push(contentFile);
         }
       }
@@ -205,4 +248,18 @@ export function calculateReadingTime(content: string): number {
   const wordsPerMinute = 200;
   const words = content.split(/\s+/).length;
   return Math.ceil(words / wordsPerMinute);
+}
+
+// View count management
+export function getViewCount(type: string, slug: string): number {
+  const key = `${type}:${slug}`;
+  return viewCounts.get(key) || 0;
+}
+
+export function incrementViewCount(type: string, slug: string): number {
+  const key = `${type}:${slug}`;
+  const currentCount = viewCounts.get(key) || 0;
+  const newCount = currentCount + 1;
+  viewCounts.set(key, newCount);
+  return newCount;
 }

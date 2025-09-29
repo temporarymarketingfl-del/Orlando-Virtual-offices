@@ -1,24 +1,73 @@
 import { NextResponse } from 'next/server';
-import { getPostBySlug, mockAuthors, mockCategories, mockBlogPosts } from '@/data/blogData';
+import { getContentBySlug, ensureContentDirectories, calculateReadingTime, getViewCount, incrementViewCount } from '../../../../../server/contentUtils';
 
 export async function GET(
   request: Request,
   { params }: { params: { slug: string } }
 ) {
   try {
-    const { slug } = params;
-    const post = getPostBySlug(slug);
+    ensureContentDirectories();
     
-    if (!post) {
+    const { slug } = params;
+    const contentFile = getContentBySlug('blog', slug);
+    
+    if (!contentFile) {
       return NextResponse.json(
         { success: false, error: 'Blog post not found' },
         { status: 404 }
       );
     }
     
-    // Get author and category details by ID
-    const author = post.authorId ? mockAuthors.find(a => a.id === post.authorId) : null;
-    const category = post.categoryId ? mockCategories.find(c => c.id === post.categoryId) : null;
+    // Transform to expected API format
+    const post = {
+      id: contentFile.slug,
+      title: contentFile.data.title || '',
+      slug: contentFile.data.slug || contentFile.slug,
+      content: contentFile.html,
+      excerpt: contentFile.data.excerpt || '',
+      featuredImage: contentFile.data.featuredImage || '',
+      authorId: contentFile.data.author || '',
+      categoryId: contentFile.data.category || '',
+      tags: contentFile.data.tags || [],
+      status: contentFile.data.status || 'published',
+      publishedAt: contentFile.data.publishedAt || contentFile.data.createdAt,
+      createdAt: contentFile.data.createdAt,
+      updatedAt: contentFile.data.updatedAt,
+      readingTime: contentFile.data.readingTime || calculateReadingTime(contentFile.content),
+      viewCount: getViewCount('blog', contentFile.slug),
+      metaDescription: contentFile.data.metaDescription || contentFile.data.excerpt || ''
+    };
+    
+    // Get author details if authorId exists
+    let author = null;
+    if (post.authorId) {
+      const authorFile = getContentBySlug('authors', post.authorId);
+      if (authorFile) {
+        author = {
+          id: authorFile.slug,
+          name: authorFile.data.name || '',
+          bio: authorFile.data.bio || '',
+          avatar: authorFile.data.avatar || '',
+          email: authorFile.data.email || '',
+          socialLinks: JSON.stringify(authorFile.data.socialLinks || {}),
+          slug: authorFile.data.slug || authorFile.slug,
+          isActive: authorFile.data.isActive !== false,
+          createdAt: authorFile.data.createdAt
+        };
+      }
+    }
+    
+    // Get category details if categoryId exists
+    let category = null;
+    if (post.categoryId) {
+      category = {
+        id: post.categoryId,
+        name: contentFile.data.categoryName || post.categoryId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        slug: post.categoryId,
+        description: contentFile.data.categoryDescription || '',
+        color: contentFile.data.categoryColor || '#6366f1'
+      };
+    }
     
     return NextResponse.json({
       success: true,
@@ -43,6 +92,8 @@ export async function POST(
   { params }: { params: { slug: string } }
 ) {
   try {
+    ensureContentDirectories();
+    
     const { slug } = params;
     
     // Safely parse request body
@@ -65,22 +116,22 @@ export async function POST(
       );
     }
     
-    const postIndex = mockBlogPosts.findIndex(post => post.slug === slug);
+    const contentFile = getContentBySlug('blog', slug);
     
-    if (postIndex === -1) {
+    if (!contentFile) {
       return NextResponse.json(
         { success: false, error: 'Blog post not found' },
         { status: 404 }
       );
     }
     
-    // Increment view count
-    mockBlogPosts[postIndex].viewCount = (mockBlogPosts[postIndex].viewCount || 0) + 1;
+    // Increment view count using in-memory storage
+    const newViewCount = incrementViewCount('blog', slug);
     
     return NextResponse.json({
       success: true,
       data: {
-        viewCount: mockBlogPosts[postIndex].viewCount
+        viewCount: newViewCount
       }
     });
   } catch (error) {
