@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { readAllContentFiles, ensureContentDirectories } from '../../../server/contentUtils';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const limit = parseInt(searchParams.get('limit') || '50');
+    const offset = parseInt(searchParams.get('offset') || '0');
+    const city = searchParams.get('city');
+    const featured = searchParams.get('featured') === 'true';
+    
     // Ensure content directories exist
     ensureContentDirectories();
     
@@ -56,12 +62,30 @@ export async function GET() {
     }));
     
     // Filter out inactive districts unless specifically requested
-    const activeDistricts = districts.filter(district => district.status === 'active');
+    let filteredDistricts = districts.filter(district => district.status === 'active');
+    
+    // Apply filters
+    if (city) {
+      filteredDistricts = filteredDistricts.filter(district => 
+        district.location.city.toLowerCase() === city.toLowerCase()
+      );
+    }
+    
+    if (featured) {
+      filteredDistricts = filteredDistricts.filter(district => district.featured);
+    }
+    
+    // Apply pagination
+    const total = filteredDistricts.length;
+    const paginatedDistricts = filteredDistricts.slice(offset, offset + limit);
     
     return NextResponse.json({
       success: true,
-      data: activeDistricts,
-      total: activeDistricts.length
+      data: paginatedDistricts,
+      total,
+      limit,
+      offset,
+      hasMore: offset + limit < total
     });
   } catch (error) {
     console.error('Error fetching districts:', error);

@@ -77,6 +77,16 @@ function parseSimpleValue(value: string): any {
     return trimmedValue.slice(1, -1);
   }
   
+  // Handle objects (simple JSON parsing for inline objects)
+  if (trimmedValue.startsWith('{') && trimmedValue.endsWith('}')) {
+    try {
+      return JSON.parse(trimmedValue);
+    } catch (error) {
+      console.warn('Failed to parse JSON object:', trimmedValue);
+      return trimmedValue;
+    }
+  }
+  
   // Handle arrays
   if (trimmedValue.startsWith('[') && trimmedValue.endsWith(']')) {
     const arrayContent = trimmedValue.slice(1, -1).trim();
@@ -96,29 +106,63 @@ function parseSimpleValue(value: string): any {
     return Number(trimmedValue);
   }
   
+  // Handle dates (ISO format)
+  if (trimmedValue.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/)) {
+    return trimmedValue;
+  }
+  
   return trimmedValue;
 }
 
-// Basic markdown to HTML conversion (simple implementation)
+// Improved markdown to HTML conversion with basic sanitization
 function markdownToHtml(markdown: string): string {
-  return markdown
+  // Remove potential script tags for basic XSS protection
+  const sanitized = markdown.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  
+  return sanitized
     // Headers
     .replace(/^### (.*$)/gm, '<h3>$1</h3>')
     .replace(/^## (.*$)/gm, '<h2>$1</h2>')
     .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    
+    // Lists
+    .replace(/^\* (.*$)/gm, '<li>$1</li>')
+    .replace(/^- (.*$)/gm, '<li>$1</li>')
+    .replace(/((?:<li>.*<\/li>\s*)+)/g, '<ul>$1</ul>')
+    
     // Bold and italic
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-    // Links
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-    // Paragraphs
-    .replace(/\n\n/g, '</p><p>')
-    // Wrap in paragraph tags
-    .replace(/^(.*)$/gm, '<p>$1</p>')
-    // Clean up empty paragraphs
-    .replace(/<p><\/p>/g, '')
-    // Fix header paragraphs
-    .replace(/<p>(<h[1-6]>.*<\/h[1-6]>)<\/p>/g, '$1');
+    
+    // Code blocks (basic)
+    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    
+    // Links with security
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" rel="noopener noreferrer">$1</a>')
+    
+    // Convert double newlines to paragraph breaks
+    .replace(/\n\n/g, '\n\n__PARAGRAPH_BREAK__\n\n')
+    
+    // Wrap content in paragraphs, but avoid wrapping block elements
+    .split('\n\n__PARAGRAPH_BREAK__\n\n')
+    .map(section => {
+      const trimmed = section.trim();
+      if (!trimmed) return '';
+      
+      // Don't wrap block elements in paragraphs
+      if (trimmed.match(/^<(?:h[1-6]|ul|ol|li|pre|code|blockquote)/)) {
+        return trimmed;
+      }
+      
+      // Wrap other content in paragraphs
+      return `<p>${trimmed}</p>`;
+    })
+    .filter(section => section)
+    .join('\n\n')
+    
+    // Clean up any remaining malformed structures
+    .replace(/<p>\s*(<(?:h[1-6]|ul|ol|pre|blockquote)[\s\S]*?<\/(?:h[1-6]|ul|ol|pre|blockquote)>)\s*<\/p>/g, '$1');
 }
 
 // Content directory paths

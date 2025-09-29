@@ -15,7 +15,7 @@ export async function GET() {
       bio: file.data.bio || '',
       avatar: file.data.avatar || '',
       email: file.data.email || '',
-      socialLinks: JSON.stringify(file.data.socialLinks || {}),
+      socialLinks: file.data.socialLinks || {},
       slug: file.data.slug || file.slug,
       isActive: file.data.isActive !== false,
       createdAt: file.data.createdAt,
