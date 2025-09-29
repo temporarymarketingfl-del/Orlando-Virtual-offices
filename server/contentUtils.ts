@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { resolveMediaReferences, resolveMediaPath } from './mediaUtils';
 
 // Simple but robust frontmatter parser
 function parseFrontmatter(content: string): { data: Record<string, any>, content: string } {
@@ -114,8 +115,8 @@ function parseSimpleValue(value: string): any {
   return trimmedValue;
 }
 
-// Improved markdown to HTML conversion with basic sanitization
-function markdownToHtml(markdown: string): string {
+// Improved markdown to HTML conversion with media support and basic sanitization
+function markdownToHtml(markdown: string, contentType?: string, slug?: string): string {
   // Remove potential script tags for basic XSS protection
   const sanitized = markdown.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
   
@@ -124,6 +125,15 @@ function markdownToHtml(markdown: string): string {
     .replace(/^### (.*$)/gm, '<h3>$1</h3>')
     .replace(/^## (.*$)/gm, '<h2>$1</h2>')
     .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    
+    // Images with alt text and path resolution
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
+      // Resolve relative media paths if contentType and slug are provided
+      if (contentType && slug && src.startsWith('./')) {
+        src = resolveMediaPath(contentType, slug, src);
+      }
+      return `<img src="${src}" alt="${alt}" loading="lazy" />`;
+    })
     
     // Lists
     .replace(/^\* (.*$)/gm, '<li>$1</li>')
@@ -138,8 +148,8 @@ function markdownToHtml(markdown: string): string {
     .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     
-    // Links with security
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" rel="noopener noreferrer">$1</a>')
+    // Links with security (but not images)
+    .replace(/(?<!\!)\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" rel="noopener noreferrer">$1</a>')
     
     // Convert double newlines to paragraph breaks
     .replace(/\n\n/g, '\n\n__PARAGRAPH_BREAK__\n\n')
@@ -151,7 +161,7 @@ function markdownToHtml(markdown: string): string {
       if (!trimmed) return '';
       
       // Don't wrap block elements in paragraphs
-      if (trimmed.match(/^<(?:h[1-6]|ul|ol|li|pre|code|blockquote)/)) {
+      if (trimmed.match(/^<(?:h[1-6]|ul|ol|li|pre|code|blockquote|img)/)) {
         return trimmed;
       }
       
@@ -162,7 +172,7 @@ function markdownToHtml(markdown: string): string {
     .join('\n\n')
     
     // Clean up any remaining malformed structures
-    .replace(/<p>\s*(<(?:h[1-6]|ul|ol|pre|blockquote)[\s\S]*?<\/(?:h[1-6]|ul|ol|pre|blockquote)>)\s*<\/p>/g, '$1');
+    .replace(/<p>\s*(<(?:h[1-6]|ul|ol|pre|blockquote|img)[\s\S]*?<\/(?:h[1-6]|ul|ol|pre|blockquote)>|<img[^>]*>)\s*<\/p>/g, '$1');
 }
 
 // Content directory paths
@@ -189,11 +199,16 @@ export function readContentFile(type: string, slug: string): ContentFile | null 
     
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const { data, content } = parseFrontmatter(fileContent);
-    const html = markdownToHtml(content);
+    
+    // Resolve media references in frontmatter
+    const resolvedData = resolveMediaReferences(data, type, slug);
+    
+    // Generate HTML with media path resolution
+    const html = markdownToHtml(content, type, slug);
     
     return {
       slug,
-      data,
+      data: resolvedData,
       content,
       html
     };
