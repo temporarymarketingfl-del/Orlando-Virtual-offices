@@ -31,6 +31,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Orlando Virtual Offices - Find Your Perfect Virtual Office Provider",
     description: "Find and compare Orlando's top virtual office providers. Discover flexible workspace solutions in Central Florida.",
+  },
+  verification: {
+    google: "zzATmeMg-Bs4sbmiTY9uvxIM5bDIoR4SyDuOQPgSchQ"
   }
 }
 
