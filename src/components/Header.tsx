@@ -38,6 +38,9 @@ export default function Header() {
               <Link href="/blog" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-blog">
                 Blog
               </Link>
+              <Link href="/faq" className="text-foreground hover:text-primary transition-colors whitespace-nowrap" data-testid="link-faq">
+                FAQ
+              </Link>
             </div>
           </nav>
 
@@ -139,6 +142,9 @@ export default function Header() {
                 <ProvidersDropdown />
                 <Link href="/blog" className="text-foreground hover:text-primary transition-colors py-2 block" data-testid="link-blog-mobile">
                   Blog
+                </Link>
+                <Link href="/faq" className="text-foreground hover:text-primary transition-colors py-2 block" data-testid="link-faq-mobile">
+                  FAQ
                 </Link>
               </div>
             </div>

@@ -5,10 +5,7 @@ import PopularProviders from "@/components/PopularProviders"
 import NeighborhoodDeepDive from "@/components/NeighborhoodDeepDive"
 import FeaturedLocations from "@/components/FeaturedLocations"
 import PricingComparisonTable from "@/components/PricingComparisonTable"
-import LocalBusinessResources from "@/components/LocalBusinessResources"
 import SuccessStories from "@/components/SuccessStories"
-import OrlandoVirtualOfficeFAQ from "@/components/OrlandoVirtualOfficeFAQ"
-import OrlandoMarketInsights from "@/components/OrlandoMarketInsights"
 import NewsletterSignup from "@/components/NewsletterSignup"
 import Footer from "@/components/Footer"
 
@@ -38,10 +35,7 @@ export default function HomePage() {
         <NeighborhoodDeepDive />
         <FeaturedLocations />
         <PricingComparisonTable />
-        <LocalBusinessResources />
         <SuccessStories />
-        <OrlandoVirtualOfficeFAQ />
-        <OrlandoMarketInsights />
         <NewsletterSignup />
       </main>
       <Footer />
