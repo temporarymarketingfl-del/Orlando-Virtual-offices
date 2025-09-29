@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// Enhanced frontmatter parser to handle YAML-like structures
+// Simple but robust frontmatter parser
 function parseFrontmatter(content: string): { data: Record<string, any>, content: string } {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
@@ -11,84 +11,92 @@ function parseFrontmatter(content: string): { data: Record<string, any>, content
   }
   
   const [, frontmatter, markdownContent] = match;
-  const data: Record<string, any> = {};
   
-  // Parse YAML-like frontmatter with support for nested objects
-  const lines = frontmatter.split('\n');
-  let currentKey = '';
-  let currentObject: any = null;
-  let indentLevel = 0;
-  
-  for (const line of lines) {
-    const trimmedLine = line.trim();
-    if (!trimmedLine || trimmedLine.startsWith('#')) continue;
+  try {
+    // Simple line-by-line parsing
+    const data: Record<string, any> = {};
+    const lines = frontmatter.split('\n');
+    let currentKey = '';
+    let currentObject: any = null;
     
-    const lineIndent = line.length - line.trimStart().length;
-    
-    // Check if this is a nested object property
-    if (lineIndent > indentLevel && currentObject) {
-      const colonIndex = trimmedLine.indexOf(':');
-      if (colonIndex !== -1) {
-        const key = trimmedLine.substring(0, colonIndex).trim();
-        let value = trimmedLine.substring(colonIndex + 1).trim();
-        value = parseValue(value);
-        currentObject[key] = value;
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const trimmedLine = line.trim();
+      
+      if (!trimmedLine || trimmedLine.startsWith('#')) continue;
+      
+      const indentLevel = line.length - line.trimStart().length;
+      
+      // Handle nested objects (simple 2-level support)
+      if (indentLevel > 0 && currentObject) {
+        const colonIndex = trimmedLine.indexOf(':');
+        if (colonIndex !== -1) {
+          const key = trimmedLine.substring(0, colonIndex).trim();
+          const value = trimmedLine.substring(colonIndex + 1).trim();
+          currentObject[key] = parseSimpleValue(value);
+        }
+        continue;
       }
-      continue;
+      
+      // Handle top-level properties
+      const colonIndex = trimmedLine.indexOf(':');
+      if (colonIndex === -1) continue;
+      
+      const key = trimmedLine.substring(0, colonIndex).trim();
+      const value = trimmedLine.substring(colonIndex + 1).trim();
+      
+      // Check if this starts a nested object
+      if (!value || value === '') {
+        currentKey = key;
+        currentObject = {};
+        data[key] = currentObject;
+        continue;
+      }
+      
+      // Reset nested object tracking for new top-level key
+      currentObject = null;
+      data[key] = parseSimpleValue(value);
     }
     
-    // Reset for new top-level property
-    indentLevel = lineIndent;
-    currentObject = null;
-    
-    const colonIndex = trimmedLine.indexOf(':');
-    if (colonIndex === -1) continue;
-    
-    const key = trimmedLine.substring(0, colonIndex).trim();
-    let value = trimmedLine.substring(colonIndex + 1).trim();
-    
-    // Check if this starts a nested object
-    if (!value) {
-      currentKey = key;
-      currentObject = {};
-      data[key] = currentObject;
-      indentLevel = lineIndent;
-      continue;
-    }
-    
-    data[key] = parseValue(value);
+    return { data, content: markdownContent };
+  } catch (error) {
+    console.error('Error parsing frontmatter:', error);
+    return { data: {}, content: markdownContent };
   }
-  
-  return { data, content: markdownContent };
 }
 
-// Helper function to parse individual values
-function parseValue(value: string): any {
+// Helper function to parse simple values
+function parseSimpleValue(value: string): any {
   if (!value) return '';
   
-  // Remove quotes if present
-  if ((value.startsWith('"') && value.endsWith('"')) || 
-      (value.startsWith("'") && value.endsWith("'"))) {
-    value = value.slice(1, -1);
+  const trimmedValue = value.trim();
+  
+  // Remove quotes
+  if ((trimmedValue.startsWith('"') && trimmedValue.endsWith('"')) || 
+      (trimmedValue.startsWith("'") && trimmedValue.endsWith("'"))) {
+    return trimmedValue.slice(1, -1);
   }
   
   // Handle arrays
-  if (value.startsWith('[') && value.endsWith(']')) {
-    const arrayContent = value.slice(1, -1);
-    if (!arrayContent.trim()) return [];
-    return arrayContent.split(',').map((item: string) => item.trim().replace(/["']/g, ''));
+  if (trimmedValue.startsWith('[') && trimmedValue.endsWith(']')) {
+    const arrayContent = trimmedValue.slice(1, -1).trim();
+    if (!arrayContent) return [];
+    return arrayContent.split(',').map((item: string) => {
+      const cleanItem = item.trim().replace(/^["']|["']$/g, '');
+      return cleanItem;
+    });
   }
   
   // Handle booleans
-  if (value === 'true') return true;
-  if (value === 'false') return false;
+  if (trimmedValue === 'true') return true;
+  if (trimmedValue === 'false') return false;
   
   // Handle numbers
-  if (!isNaN(Number(value)) && value !== '') {
-    return Number(value);
+  if (!isNaN(Number(trimmedValue)) && trimmedValue !== '') {
+    return Number(trimmedValue);
   }
   
-  return value;
+  return trimmedValue;
 }
 
 // Basic markdown to HTML conversion (simple implementation)
@@ -157,6 +165,7 @@ export function readAllContentFiles(type: string): ContentFile[] {
     const typeDir = path.join(CONTENT_DIR, type);
     
     if (!fs.existsSync(typeDir)) {
+      console.log(`Directory does not exist: ${typeDir}`);
       return [];
     }
     
@@ -177,7 +186,6 @@ export function readAllContentFiles(type: string): ContentFile[] {
         }
       }
     }
-    
     return contentFiles;
   } catch (error) {
     console.error(`Error reading content files for type ${type}:`, error);
@@ -203,6 +211,7 @@ export function getAllContent(type: string, options?: {
   if (options?.published) {
     content = content.filter(item => 
       item.data.status === 'published' || 
+      item.data.status === 'active' ||
       item.data.isActive === true ||
       (!item.data.status && !item.data.hasOwnProperty('isActive'))
     );
