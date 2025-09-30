@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, List, Grid } from 'lucide-react';
 import InteractiveMap from '@/components/InteractiveMap';
-import LocationsList from '@/components/LocationsList';
+import OfficesList from '@/components/OfficesList';
 import type { Location } from '@shared/schema';
 
 type ViewMode = 'map' | 'list' | 'split';
@@ -57,7 +57,7 @@ export default function Locations() {
               Orlando Virtual Office Locations
             </h1>
             <p className="text-sm text-muted-foreground" data-testid="page-description">
-              Explore premium business districts across Central Florida
+              Explore premium virtual offices across Central Florida
             </p>
           </div>
 
@@ -146,7 +146,7 @@ export default function Locations() {
             ) : ''}
           `}
         >
-          {/* Single LocationsList instance - always mounted */}
+          {/* Single OfficesList instance - always mounted */}
           <div 
             className={`
               ${viewMode === 'map' ? 'hidden' : ''}
@@ -156,9 +156,7 @@ export default function Locations() {
               ${!isLargeScreen && viewMode === 'split' ? 'border-b border-border' : ''}
             `}
           >
-            <LocationsList
-              selectedLocationId={selectedLocationId}
-              onLocationSelect={handleLocationSelect}
+            <OfficesList
               className="h-full flex flex-col"
             />
           </div>
@@ -192,8 +190,8 @@ export default function Locations() {
           
           <div className="hidden sm:flex items-center gap-4">
             <span>✨ Interactive Map</span>
-            <span>🏢 6 Districts</span>
-            <span>📍 42 Providers</span>
+            <span>🏢 Virtual Offices</span>
+            <span>📍 Multiple Providers</span>
           </div>
         </div>
       </footer>
