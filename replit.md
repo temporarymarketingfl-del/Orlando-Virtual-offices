@@ -10,21 +10,25 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### Animated Provider Comparison Component (September 30, 2025)
-Created an animated testimonials/provider comparison component for showcasing customer reviews and provider feedback:
+### Animated Provider Showcase - Homepage Replacement (September 30, 2025)
+Replaced the static PopularProviders grid with an animated carousel showcasing featured virtual office providers:
 
-- **Component Location**: `src/components/ui/animated-testimonials.tsx`
-- **Reusable Wrapper**: `src/components/ProviderComparison.tsx` with Orlando-specific provider testimonials
-- **Demo Page**: `/providers-demo` showcasing the component with sample testimonials
+- **Main Component**: `src/components/AnimatedProviderShowcase.tsx` - Replaces PopularProviders on homepage
+- **Base Component**: `src/components/ui/animated-testimonials.tsx` - Reusable carousel component
+- **Demo Page**: `/providers-demo` - Standalone demo with sample testimonials
+- **Data Source**: Fetches real provider data from `/api/providers?featured=true` endpoint
 - **Features**: 
-  - Animated image carousel with 3D rotation effects
-  - Word-by-word text reveal animation with blur effect
-  - Previous/Next navigation controls with hover animations
-  - Optional autoplay functionality (5-second intervals)
+  - Animated 3D image carousel with rotation effects
+  - Dynamic provider info from markdown files (name, specialties, locations, pricing)
+  - "Best for" text auto-generated from provider specialties
+  - CTA buttons linking to provider detail pages (`/providers/{slug}`)
+  - Previous/Next navigation with hover animations
+  - Autoplay functionality (5-second intervals)
+  - Unique fallback images for providers without featured images
   - Fully responsive design for mobile and desktop
-- **Technology**: Built with Framer Motion for smooth animations, uses Lucide React icons for navigation
-- **Test IDs**: Added data-testid attributes for testing (`button-prev-testimonial`, `button-next-testimonial`)
-- **Testing**: Verified functionality with Playwright - navigation, animations, and carousel behavior all working correctly
+- **Technology**: Built with Framer Motion for smooth animations, uses Lucide React icons, integrates with React Query for data fetching
+- **Test IDs**: `animated-providers-title`, `animated-providers-description`, `button-prev-provider`, `button-next-provider`, `button-view-{slug}`
+- **Testing**: Verified with Playwright - carousel navigation, animations, provider display, and CTA links all working correctly
 
 ### Homepage Office Cards (September 30, 2025)
 Updated the PopularProviders component to use API-driven office data from markdown files:
