@@ -1,0 +1,592 @@
+Build this as my initial prototype
+
+Copy-paste this component to /components/ui folder:
+```tsx
+expandable-card.tsx
+"use client";
+
+import React, { useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Clock,
+  GitBranch,
+  Github,
+  MessageSquare,
+  StepForwardIcon as Progress,
+  Star,
+  Users,
+  CheckCircle2,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Progress as ProgressBar } from "@/components/ui/progress";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useExpandable } from "@/components/hooks/use-expandable";
+
+interface ProjectStatusCardProps {
+  title: string;
+  progress: number;
+  dueDate: string;
+  contributors: Array<{ name: string; image?: string }>;
+  tasks: Array<{ title: string; completed: boolean }>;
+  githubStars: number;
+  openIssues: number;
+}
+
+export function ProjectStatusCard({
+  title,
+  progress,
+  dueDate,
+  contributors,
+  tasks,
+  githubStars,
+  openIssues,
+}: ProjectStatusCardProps) {
+  const { isExpanded, toggleExpand, animatedHeight } = useExpandable();
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      animatedHeight.set(isExpanded ? contentRef.current.scrollHeight : 0);
+    }
+  }, [isExpanded, animatedHeight]);
+
+  return (
+    <Card
+      className="w-full max-w-md cursor-pointer transition-all duration-300 hover:shadow-lg"
+      onClick={toggleExpand}
+    >
+      <CardHeader className="space-y-1">
+        <div className="flex justify-between items-start w-full">
+          <div className="space-y-2">
+            <Badge
+              variant="secondary"
+              className={
+                progress === 100
+                  ? "bg-green-100 text-green-600"
+                  : "bg-blue-100 text-blue-600"
+              }
+            >
+              {progress === 100 ? "Completed" : "In Progress"}
+            </Badge>
+            <h3 className="text-2xl font-semibold">{title}</h3>
+          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="outline" className="h-8 w-8">
+                  <Github className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>View on GitHub</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      </CardHeader>
+
+      <CardContent>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>Progress</span>
+              <span>{progress}%</span>
+            </div>
+            <ProgressBar value={progress} className="h-2" />
+          </div>
+
+          <motion.div
+            style={{ height: animatedHeight }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="overflow-hidden"
+          >
+            <div ref={contentRef}>
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="space-y-4 pt-2"
+                  >
+                    <div className="flex items-center justify-between text-sm text-gray-600">
+                      <div className="flex items-center">
+                        <Clock className="h-4 w-4 mr-2" />
+                        <span>Due {dueDate}</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center">
+                          <Star className="h-4 w-4 mr-1 text-yellow-400" />
+                          <span>{githubStars}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <GitBranch className="h-4 w-4 mr-1" />
+                          <span>{openIssues} issues</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-medium text-sm flex items-center">
+                        <Users className="h-4 w-4 mr-2" />
+                        Contributors
+                      </h4>
+                      <div className="flex -space-x-2">
+                        {contributors.map((contributor, index) => (
+                          <TooltipProvider key={index}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Avatar className="border-2 border-white">
+                                  <AvatarImage
+                                    src={
+                                      contributor.image ||
+                                      `/placeholder.svg?height=32&width=32&text=${contributor.name[0]}`
+                                    }
+                                    alt={contributor.name}
+                                  />
+                                  <AvatarFallback>
+                                    {contributor.name[0]}
+                                  </AvatarFallback>
+                                </Avatar>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{contributor.name}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="font-medium text-sm">Recent Tasks</h4>
+                      {tasks.map((task, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between text-sm"
+                        >
+                          <span className="text-gray-600">{task.title}</span>
+                          {task.completed && (
+                            <CheckCircle2 className="h-4 w-4 text-green-500" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Button className="w-full">
+                        <MessageSquare className="h-4 w-4 mr-2" />
+                        View Discussion
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
+      </CardContent>
+
+      <CardFooter>
+        <div className="flex items-center justify-between w-full text-sm text-gray-600">
+          <span>Last updated: 2 hours ago</span>
+          <span>{openIssues} open issues</span>
+        </div>
+      </CardFooter>
+    </Card>
+  );
+}
+
+demo.tsx
+import { ProjectStatusCard } from "@/components/ui/expandable-card"
+
+function ExpandableCardDemo() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      <ProjectStatusCard
+        title="Design System"
+        progress={100}
+        dueDate="Dec 31, 2023"
+        contributors={[
+          { name: "Emma" },
+          { name: "John" },
+          { name: "Lisa" },
+          { name: "David" }
+        ]}
+        tasks={[
+          { title: "Create Component Library", completed: true },
+          { title: "Implement Design Tokens", completed: true },
+          { title: "Write Style Guide", completed: true },
+          { title: "Set up Documentation", completed: true }
+        ]}
+        githubStars={256}
+        openIssues={0}
+      />
+
+      <ProjectStatusCard
+        title="Analytics Dashboard"
+        progress={45}
+        dueDate="Mar 1, 2024"
+        contributors={[
+          { name: "Michael" },
+          { name: "Sophie" },
+          { name: "James" }
+        ]}
+        tasks={[
+          { title: "Design Dashboard Layout", completed: true },
+          { title: "Implement Data Fetching", completed: true },
+          { title: "Create Visualization Components", completed: false },
+          { title: "Add Export Features", completed: false },
+          { title: "User Testing", completed: false }
+        ]}
+        githubStars={89}
+        openIssues={8}
+      />
+    </div>
+  )
+}
+
+export { ExpandableCardDemo };
+
+```
+
+Copy-paste these files for dependencies:
+```tsx
+Codehagen/use-expandable
+import { useState, useCallback } from "react";
+import { useSpring } from "framer-motion";
+
+export function useExpandable(initialState = false) {
+  const [isExpanded, setIsExpanded] = useState(initialState);
+
+  const springConfig = { stiffness: 300, damping: 30 };
+  const animatedHeight = useSpring(0, springConfig);
+
+  const toggleExpand = useCallback(() => {
+    setIsExpanded((prev) => !prev);
+  }, []);
+
+  return { isExpanded, toggleExpand, animatedHeight };
+}
+```
+```tsx
+shadcn/avatar
+"use client"
+
+import * as React from "react"
+import * as AvatarPrimitive from "@radix-ui/react-avatar"
+
+import { cn } from "@/lib/utils"
+
+const Avatar = React.forwardRef<
+  React.ElementRef<typeof AvatarPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <AvatarPrimitive.Root
+    ref={ref}
+    className={cn(
+      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
+      className,
+    )}
+    {...props}
+  />
+))
+Avatar.displayName = AvatarPrimitive.Root.displayName
+
+const AvatarImage = React.forwardRef<
+  React.ElementRef<typeof AvatarPrimitive.Image>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
+>(({ className, ...props }, ref) => (
+  <AvatarPrimitive.Image
+    ref={ref}
+    className={cn("aspect-square h-full w-full", className)}
+    {...props}
+  />
+))
+AvatarImage.displayName = AvatarPrimitive.Image.displayName
+
+const AvatarFallback = React.forwardRef<
+  React.ElementRef<typeof AvatarPrimitive.Fallback>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
+>(({ className, ...props }, ref) => (
+  <AvatarPrimitive.Fallback
+    ref={ref}
+    className={cn(
+      "flex h-full w-full items-center justify-center rounded-full bg-muted",
+      className,
+    )}
+    {...props}
+  />
+))
+AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+
+export { Avatar, AvatarImage, AvatarFallback }
+
+```
+```tsx
+shadcn/badge
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default:
+          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive:
+          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+        outline: "text-foreground",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+)
+
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof badgeVariants> {}
+
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return (
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+  )
+}
+
+export { Badge, badgeVariants }
+
+```
+```tsx
+shadcn/button
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+
+```
+```tsx
+shadcn/card
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      className,
+    )}
+    {...props}
+  />
+))
+Card.displayName = "Card"
+
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+))
+CardHeader.displayName = "CardHeader"
+
+const CardTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h3
+    ref={ref}
+    className={cn(
+      "text-2xl font-semibold leading-none tracking-tight",
+      className,
+    )}
+    {...props}
+  />
+))
+CardTitle.displayName = "CardTitle"
+
+const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+))
+CardDescription.displayName = "CardDescription"
+
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+))
+CardContent.displayName = "CardContent"
+
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props}
+  />
+))
+CardFooter.displayName = "CardFooter"
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+
+```
+```tsx
+shadcn/progress
+"use client"
+
+import * as React from "react"
+import * as ProgressPrimitive from "@radix-ui/react-progress"
+
+import { cn } from "@/lib/utils"
+
+const Progress = React.forwardRef<
+  React.ElementRef<typeof ProgressPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
+>(({ className, value, ...props }, ref) => (
+  <ProgressPrimitive.Root
+    ref={ref}
+    className={cn(
+      "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
+      className,
+    )}
+    {...props}
+  >
+    <ProgressPrimitive.Indicator
+      className="h-full w-full flex-1 bg-primary transition-all"
+      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+    />
+  </ProgressPrimitive.Root>
+))
+Progress.displayName = ProgressPrimitive.Root.displayName
+
+export { Progress }
+
+```
+```tsx
+shadcn/tooltip
+"use client"
+
+import * as React from "react"
+import * as TooltipPrimitive from "@radix-ui/react-tooltip"
+
+import { cn } from "@/lib/utils"
+
+const TooltipProvider = TooltipPrimitive.Provider
+
+const Tooltip = TooltipPrimitive.Root
+
+const TooltipTrigger = TooltipPrimitive.Trigger
+
+const TooltipContent = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
+>(({ className, sideOffset = 4, ...props }, ref) => (
+  <TooltipPrimitive.Content
+    ref={ref}
+    sideOffset={sideOffset}
+    className={cn(
+      "z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      className,
+    )}
+    {...props}
+  />
+))
+TooltipContent.displayName = TooltipPrimitive.Content.displayName
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+
+```
+
+Install these NPM dependencies:
+```bash
+lucide-react, framer-motion, @radix-ui/react-avatar, class-variance-authority, @radix-ui/react-slot, @radix-ui/react-progress, @radix-ui/react-tooltip
+```
