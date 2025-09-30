@@ -10,6 +10,22 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Animated Provider Comparison Component (September 30, 2025)
+Created an animated testimonials/provider comparison component for showcasing customer reviews and provider feedback:
+
+- **Component Location**: `src/components/ui/animated-testimonials.tsx`
+- **Reusable Wrapper**: `src/components/ProviderComparison.tsx` with Orlando-specific provider testimonials
+- **Demo Page**: `/providers-demo` showcasing the component with sample testimonials
+- **Features**: 
+  - Animated image carousel with 3D rotation effects
+  - Word-by-word text reveal animation with blur effect
+  - Previous/Next navigation controls with hover animations
+  - Optional autoplay functionality (5-second intervals)
+  - Fully responsive design for mobile and desktop
+- **Technology**: Built with Framer Motion for smooth animations, uses Lucide React icons for navigation
+- **Test IDs**: Added data-testid attributes for testing (`button-prev-testimonial`, `button-next-testimonial`)
+- **Testing**: Verified functionality with Playwright - navigation, animations, and carousel behavior all working correctly
+
 ### Homepage Office Cards (September 30, 2025)
 Updated the PopularProviders component to use API-driven office data from markdown files:
 
