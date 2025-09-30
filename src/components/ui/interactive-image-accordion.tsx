@@ -169,54 +169,52 @@ function AnimatedTestimonialsWithCTA({
 
   return (
     <div className="relative">
-      <div className="relative flex flex-col gap-6">
-        {/* Image Section - On Top */}
-        <div className="relative h-[400px] w-full">
-          <AnimatePresence>
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={`${testimonial.slug}-${index}`}
-                initial={{
-                  opacity: 0,
-                  scale: 0.9,
-                  z: -100,
-                  rotate: randomRotateY(),
-                }}
-                animate={{
-                  opacity: isActive(index) ? 1 : 0.7,
-                  scale: isActive(index) ? 1 : 0.95,
-                  z: isActive(index) ? 0 : -100,
-                  rotate: isActive(index) ? 0 : randomRotateY(),
-                  zIndex: isActive(index)
-                    ? 999
-                    : testimonials.length + 2 - index,
-                  y: isActive(index) ? [0, -80, 0] : 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.9,
-                  z: 100,
-                  rotate: randomRotateY(),
-                }}
-                transition={{
-                  duration: 0.4,
-                  ease: "easeInOut",
-                }}
-                className="absolute inset-0 origin-bottom"
-              >
-                <img
-                  src={testimonial.src}
-                  alt={testimonial.name}
-                  draggable={false}
-                  className="h-full w-full rounded-3xl object-cover object-center"
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+      <div className="relative h-[500px] md:h-[600px] w-full">
+        {/* Image Stack */}
+        <AnimatePresence>
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={`${testimonial.slug}-${index}`}
+              initial={{
+                opacity: 0,
+                scale: 0.9,
+                z: -100,
+                rotate: randomRotateY(),
+              }}
+              animate={{
+                opacity: isActive(index) ? 1 : 0.7,
+                scale: isActive(index) ? 1 : 0.95,
+                z: isActive(index) ? 0 : -100,
+                rotate: isActive(index) ? 0 : randomRotateY(),
+                zIndex: isActive(index)
+                  ? 999
+                  : testimonials.length + 2 - index,
+                y: isActive(index) ? [0, -80, 0] : 0,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.9,
+                z: 100,
+                rotate: randomRotateY(),
+              }}
+              transition={{
+                duration: 0.4,
+                ease: "easeInOut",
+              }}
+              className="absolute inset-0 origin-bottom"
+            >
+              <img
+                src={testimonial.src}
+                alt={testimonial.name}
+                draggable={false}
+                className="h-full w-full rounded-3xl object-cover object-center"
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
 
-        {/* Content Section - Below Image */}
-        <div className="flex flex-col gap-4">
+        {/* Content Overlay - Inside the card */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 rounded-b-3xl backdrop-blur-md bg-black/30">
           <motion.div
             key={active}
             initial={{
@@ -236,20 +234,21 @@ function AnimatedTestimonialsWithCTA({
               ease: "easeInOut",
             }}
           >
-            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
               {currentProvider.name}
             </h3>
-            <p className="text-sm text-muted-foreground mb-3">
+            <p className="text-sm text-white/80 mb-3">
               {currentProvider.designation}
             </p>
-            <p className="text-base md:text-lg text-foreground/80 mb-4">
+            <p className="text-base md:text-lg text-white/90 mb-4">
               {currentProvider.quote}
             </p>
             <div className="flex items-center gap-4">
               <Link href={`/providers/${currentProvider.slug}`}>
                 <Button 
-                  variant="default"
+                  variant="outline"
                   size="lg"
+                  className="bg-white text-primary border-white hover:bg-white/90"
                   data-testid={`button-view-${currentProvider.slug}`}
                 >
                   View Locations
@@ -261,17 +260,17 @@ function AnimatedTestimonialsWithCTA({
               <div className="flex gap-3">
                 <button
                   onClick={handlePrev}
-                  className="h-9 w-9 rounded-full bg-muted hover-elevate active-elevate-2 flex items-center justify-center group/button"
+                  className="h-9 w-9 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 flex items-center justify-center group/button transition-colors"
                   data-testid="button-prev-hero-provider"
                 >
-                  <ArrowLeft className="h-5 w-5 text-muted-foreground group-hover/button:rotate-12 transition-transform duration-300" />
+                  <ArrowLeft className="h-5 w-5 text-white group-hover/button:rotate-12 transition-transform duration-300" />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="h-9 w-9 rounded-full bg-muted hover-elevate active-elevate-2 flex items-center justify-center group/button"
+                  className="h-9 w-9 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 flex items-center justify-center group/button transition-colors"
                   data-testid="button-next-hero-provider"
                 >
-                  <ArrowRight className="h-5 w-5 text-muted-foreground group-hover/button:rotate-12 transition-transform duration-300" />
+                  <ArrowRight className="h-5 w-5 text-white group-hover/button:rotate-12 transition-transform duration-300" />
                 </button>
               </div>
             </div>
