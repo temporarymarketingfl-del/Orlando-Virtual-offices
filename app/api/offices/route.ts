@@ -6,6 +6,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const district = searchParams.get('district');
     const provider = searchParams.get('provider');
+    const featured = searchParams.get('featured') === 'true';
     const limit = parseInt(searchParams.get('limit') || '50');
     const offset = parseInt(searchParams.get('offset') || '0');
     
@@ -118,6 +119,11 @@ export async function GET(request: Request) {
         office.providerId?.toLowerCase() === provider.toLowerCase() ||
         office.providerName?.toLowerCase().includes(provider.toLowerCase())
       );
+    }
+    
+    // Filter by featured if specified
+    if (featured) {
+      offices = offices.filter(office => office.featured === true);
     }
     
     // Filter out inactive offices unless specifically requested
