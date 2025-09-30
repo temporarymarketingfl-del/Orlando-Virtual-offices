@@ -16,15 +16,15 @@ export default function Header() {
   return (
     <header className="w-full bg-card border-b border-card-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16 gap-4">
+        <div className="flex items-center h-16 gap-2 sm:gap-4 min-w-0">
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 max-w-[140px] sm:max-w-[180px] md:max-w-none">
             <Link href="/">
               <div className="flex items-center hover:opacity-80 transition-opacity cursor-pointer" data-testid="logo">
                 <img 
                   src="/logo.svg" 
                   alt="Orlando Virtual Offices" 
-                  className="h-auto w-1/2 md:w-1/4"
+                  className="h-auto w-full md:w-auto md:h-8"
                 />
               </div>
             </Link>

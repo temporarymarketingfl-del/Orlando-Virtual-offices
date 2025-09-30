@@ -67,7 +67,7 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: {
         relative cursor-pointer overflow-hidden
         transition-all duration-700 ease-in-out
         ${isActive 
-          ? 'w-[400px] md:w-[400px] h-auto md:h-[450px]' 
+          ? 'w-full md:w-[400px] h-auto md:h-[450px]' 
           : 'w-full md:w-[60px] h-auto md:h-[450px]'
         }
       `}

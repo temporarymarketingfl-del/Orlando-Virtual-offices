@@ -120,22 +120,22 @@ export default function ProviderCard({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-2 w-full">
+        <div className="flex gap-2 w-full min-w-0">
           <Button
             variant="outline"
-            className="flex-1"
+            className="flex-1 min-w-0"
             onClick={handleViewDetails}
             data-testid={`button-view-details-${id}`}
           >
-            View Details
+            <span className="truncate">View Details</span>
           </Button>
           <Button
-            className="flex-1"
+            className="flex-1 min-w-0"
             onClick={handleAffiliateClick}
             data-testid={`button-get-pricing-${id}`}
           >
-            <ExternalLink className="w-4 h-4 mr-2" />
-            Get Pricing
+            <ExternalLink className="w-4 h-4 mr-2 flex-shrink-0" />
+            <span className="truncate">Get Pricing</span>
           </Button>
         </div>
       </CardFooter>
