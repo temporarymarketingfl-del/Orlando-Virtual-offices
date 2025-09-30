@@ -8,6 +8,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const limitParam = searchParams.get('limit');
     const popularOnly = searchParams.get('popular') === 'true';
+    const featuredOnly = searchParams.get('featured') === 'true';
     const sortBy = searchParams.get('sortBy') || 'name';
     
     // Get all providers from markdown files
@@ -40,6 +41,7 @@ export async function GET(request: Request) {
       globalPresence: file.data.globalPresence || '',
       specialties: file.data.specialties || [],
       isPopular: file.data.isPopular || false,
+      featured: file.data.featured || false,
       affiliateUrl: file.data.affiliateUrl || '',
       features: file.data.features || {},
       benefits: file.data.benefits || [],
@@ -53,6 +55,10 @@ export async function GET(request: Request) {
     // Apply filters
     if (popularOnly) {
       providers = providers.filter((provider: any) => provider.isPopular);
+    }
+    
+    if (featuredOnly) {
+      providers = providers.filter((provider: any) => provider.featured);
     }
     
     // Apply limit with validation
