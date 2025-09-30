@@ -268,40 +268,58 @@ export default function LocationsList({
                 </div>
               </CardHeader>
 
-              <CardContent className="p-4 space-y-3">
-                {/* Statistics */}
-                <div className="flex items-center justify-between">
+              <CardContent className="p-3 space-y-2.5">
+                {/* Top row: Provider Count and Logos */}
+                <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center text-muted-foreground text-sm">
                     <Building className="w-4 h-4 mr-1" />
                     <span data-testid={`card-providers-${location.id}`}>
                       {location.providerCount} providers
                     </span>
                   </div>
-                  <div className="flex items-center text-primary font-medium text-sm">
-                    <DollarSign className="w-4 h-4 mr-1" />
-                    <span data-testid={`card-price-${location.id}`}>
-                      From {formatPrice(location.averagePrice)}
-                    </span>
+                  
+                  {/* Provider Logos */}
+                  {location.providerLogos && location.providerLogos.length > 0 && (
+                    <div className="flex items-center gap-1" data-testid={`provider-logos-${location.id}`}>
+                      {location.providerLogos.slice(0, 3).map((logo, index) => (
+                        <div 
+                          key={index} 
+                          className="w-6 h-6 rounded-sm bg-muted flex items-center justify-center overflow-hidden border border-border"
+                          data-testid={`provider-logo-${location.id}-${index}`}
+                        >
+                          <img 
+                            src={logo} 
+                            alt={`Provider ${index + 1}`} 
+                            className="w-full h-full object-contain p-0.5"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Popular Areas */}
+                <div>
+                  <p className="text-xs font-medium text-foreground mb-1.5">Popular areas:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {location.popularAreas.slice(0, 3).map((area, index) => (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="text-xs"
+                        data-testid={`card-area-${location.id}-${index}`}
+                      >
+                        {area}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
 
-                {/* Description */}
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {location.description}
-                </p>
-
-                {/* Key Features */}
-                <div className="flex flex-wrap gap-1">
-                  {location.keyFeatures.slice(0, 3).map((feature, index) => (
-                    <Badge
-                      key={index}
-                      variant="secondary"
-                      className="text-xs"
-                      data-testid={`card-feature-${location.id}-${index}`}
-                    >
-                      {feature}
-                    </Badge>
-                  ))}
+                {/* Pricing */}
+                <div className="flex items-center justify-end pt-1">
+                  <div className="text-sm font-medium text-primary" data-testid={`card-price-${location.id}`}>
+                    From {formatPrice(location.averagePrice)}
+                  </div>
                 </div>
               </CardContent>
             </Card>
