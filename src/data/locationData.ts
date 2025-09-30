@@ -22,7 +22,8 @@ export const ORLANDO_LOCATIONS: Location[] = [
       max: 599
     },
     description: "Orlando's central business district and financial hub with prestigious Orange Avenue addresses",
-    keyFeatures: ["Financial District", "Government Center", "Entertainment District"]
+    keyFeatures: ["Financial District", "Government Center", "Entertainment District"],
+    providerLogos: ["/logo.svg", "/logo.svg", "/logo.svg"]
   },
   {
     id: "lake-nona",
@@ -42,7 +43,8 @@ export const ORLANDO_LOCATIONS: Location[] = [
       max: 549
     },
     description: "Orlando's fastest-growing tech and medical district, perfect for innovative companies",
-    keyFeatures: ["Medical City", "Tech Hub", "Innovation District"]
+    keyFeatures: ["Medical City", "Tech Hub", "Innovation District"],
+    providerLogos: ["/logo.svg", "/logo.svg"]
   },
   {
     id: "winter-park",
@@ -62,7 +64,8 @@ export const ORLANDO_LOCATIONS: Location[] = [
       max: 649
     },
     description: "Upscale cultural and business district known for museums, boutiques, and prestigious addresses",
-    keyFeatures: ["Cultural District", "Luxury Shopping", "Museums"]
+    keyFeatures: ["Cultural District", "Luxury Shopping", "Museums"],
+    providerLogos: ["/logo.svg", "/logo.svg"]
   },
   {
     id: "dr-phillips",
@@ -82,7 +85,8 @@ export const ORLANDO_LOCATIONS: Location[] = [
       max: 459
     },
     description: "Upscale business corridor known for Restaurant Row and high-end commercial spaces",
-    keyFeatures: ["Restaurant Row", "Luxury Shopping", "Corporate Parks"]
+    keyFeatures: ["Restaurant Row", "Luxury Shopping", "Corporate Parks"],
+    providerLogos: ["/logo.svg", "/logo.svg"]
   },
   {
     id: "millenia",
@@ -102,7 +106,8 @@ export const ORLANDO_LOCATIONS: Location[] = [
       max: 479
     },
     description: "Strategic location near major attractions with excellent retail and entertainment access",
-    keyFeatures: ["Tourism Hub", "Shopping Center", "Entertainment District"]
+    keyFeatures: ["Tourism Hub", "Shopping Center", "Entertainment District"],
+    providerLogos: ["/logo.svg", "/logo.svg", "/logo.svg"]
   },
   {
     id: "metrowest",
@@ -122,7 +127,8 @@ export const ORLANDO_LOCATIONS: Location[] = [
       max: 399
     },
     description: "Master-planned community with modern business facilities and convenient access to major highways",
-    keyFeatures: ["Master-Planned", "Highway Access", "Modern Facilities"]
+    keyFeatures: ["Master-Planned", "Highway Access", "Modern Facilities"],
+    providerLogos: ["/logo.svg", "/logo.svg"]
   }
 ];
 

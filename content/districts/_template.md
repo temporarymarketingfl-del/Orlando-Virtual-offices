@@ -12,6 +12,7 @@ providerCount: 12
 averagePrice: 275
 priceRange: "$149 - $599"
 isHotspot: true
+providerLogos: ["/media/providers/regus-orlando/logo.svg", "/media/providers/opus-logo.svg", "/media/providers/davinci-logo.svg"]
 businessTypes: ["Legal Services", "Financial Services", "Government", "Technology", "Healthcare"]
 description: "Downtown Orlando is the city's central business district and the heart of Central Florida's economy. Home to major corporations, law firms, and government offices, it offers the most prestigious business addresses in the region."
 advantages: ["Prime business location", "Public transportation access", "Networking opportunities", "Government proximity"]

@@ -121,4 +121,5 @@ export interface Location {
   };
   description: string;
   keyFeatures: string[];
+  providerLogos?: string[];
 }
