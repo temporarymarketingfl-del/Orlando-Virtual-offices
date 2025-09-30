@@ -10,6 +10,22 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Map Marker and Centering Fix (September 30, 2025)
+Fixed critical bug preventing office markers from appearing on the map and map centering from working:
+
+- **Root Cause**: Components were accessing coordinates at wrong path in API response structure
+- **Fixes Applied**:
+  - Updated `InteractiveMap.tsx` TypeScript interface to have coordinates nested at `office.location.coordinates` instead of `office.coordinates`
+  - Updated `OfficesList.tsx` to extract coordinates from `office.location.coordinates` when passing to onOfficeSelect handler
+  - Both components now correctly match API response structure where coordinates are nested in location object
+- **Results**:
+  - All 4 office markers now render on map with correct coordinates
+  - Map centering works when clicking office cards (accuracy: ~16px from center)
+  - Repeat-click centering functions properly via timeout-based coordinate reset
+  - Popups display with office details, pricing, and amenities
+- **Data Validation**: All offices confirmed to have valid coordinates; guard in place to prevent errors if coordinates missing
+- **Testing**: Playwright tests pass with map centering verified for initial click, repeat click, and switching between offices
+
 ### Expandable Office Cards on Locations Page (September 30, 2025)
 Implemented expandable office cards with map centering functionality on the locations page:
 

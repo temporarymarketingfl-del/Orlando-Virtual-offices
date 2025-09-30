@@ -29,10 +29,10 @@ interface OfficeData {
     district: string;
     city: string;
     state: string;
-  };
-  coordinates?: {
-    lat: number;
-    lng: number;
+    coordinates?: {
+      lat: number;
+      lng: number;
+    };
   };
   pricing: {
     monthlyRate: number;
@@ -119,7 +119,7 @@ export default function OfficesList({
         description,
         isPopular: office.featured,
         affiliateUrl: `/offices/${office.id}`,
-        coordinates: office.coordinates
+        coordinates: office.location?.coordinates
       };
     });
 

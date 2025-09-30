@@ -1,11 +1,17 @@
 "use client"
 
 import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, List, Grid } from 'lucide-react';
-import InteractiveMap from '@/components/InteractiveMap';
 import OfficesList from '@/components/OfficesList';
+
+// Dynamically import the map component with SSR disabled
+const InteractiveMap = dynamic(() => import('@/components/InteractiveMap'), {
+  ssr: false,
+  loading: () => <div className="h-full w-full flex items-center justify-center bg-muted">Loading map...</div>
+});
 
 type ViewMode = 'map' | 'list' | 'split';
 

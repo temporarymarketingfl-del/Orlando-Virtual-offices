@@ -24,10 +24,10 @@ interface OfficeData {
     district: string;
     city: string;
     state: string;
-  };
-  coordinates?: {
-    lat: number;
-    lng: number;
+    coordinates?: {
+      lat: number;
+      lng: number;
+    };
   };
   pricing: {
     monthlyRate: number;
@@ -107,7 +107,7 @@ export default function InteractiveMap({
   const mapRef = useRef<LeafletMap | null>(null);
 
   // Fetch offices from API
-  const { data: officesData, isLoading } = useQuery<ApiResponse>({
+  const { data: officesData } = useQuery<ApiResponse>({
     queryKey: ['/api/offices'],
   });
 
@@ -169,116 +169,99 @@ export default function InteractiveMap({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        {isLoading ? (
-          <div className="absolute top-4 left-4 z-[1000] bg-background p-2 rounded-md shadow-md">
-            <Skeleton className="h-4 w-32" />
-          </div>
-        ) : (
-          officesData?.data?.map((office) => {
-            // Skip offices without coordinates
-            if (!office.coordinates) return null;
-            
-            const lat = Number(office.coordinates.lat);
-            const lng = Number(office.coordinates.lng);
-            
-            if (isNaN(lat) || isNaN(lng)) {
-              console.error('Skipping marker for office with invalid coordinates:', office.name, office.coordinates);
-              return null;
-            }
-            
-            const districtName = office.location?.district
-              ?.split('-')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(' ') || '';
-            
-            return (
-              <Marker
-                key={office.id}
-                position={[lat, lng]}
-                icon={createOfficeIcon(office.featured)}
-                eventHandlers={{
-                  click: () => handleMarkerClick(office.id),
-                }}
-              >
-                <Popup closeOnClick={false} className="custom-popup">
-                  <Card className="border-0 shadow-none min-w-72" data-testid={`popup-card-${office.id}`}>
-                    <CardHeader className="p-3 pb-2">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <h3 className="font-semibold text-base text-foreground" data-testid={`popup-title-${office.id}`}>
-                            {office.displayName || office.name}
-                          </h3>
-                          <p className="text-xs text-muted-foreground flex items-center gap-1">
-                            <MapPin className="w-3 h-3" />
-                            {districtName}
-                          </p>
-                        </div>
-                        {office.featured && (
-                          <Badge className="bg-primary text-primary-foreground text-xs" data-testid={`popup-featured-${office.id}`}>
-                            Featured
-                          </Badge>
-                        )}
+        {officesData?.data?.filter(office => !!office.location?.coordinates).map((office) => {
+          const lat = Number(office.location!.coordinates!.lat);
+          const lng = Number(office.location!.coordinates!.lng);
+          
+          if (isNaN(lat) || isNaN(lng)) return null;
+          
+          const districtName = office.location?.district
+            ?.split('-')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ') || '';
+          
+          return (
+            <Marker
+              key={office.id}
+              position={[lat, lng]}
+              icon={createOfficeIcon(office.featured)}
+              eventHandlers={{
+                click: () => handleMarkerClick(office.id),
+              }}
+            >
+              <Popup closeOnClick={false} className="custom-popup">
+                <Card className="border-0 shadow-none min-w-72" data-testid={`popup-card-${office.id}`}>
+                  <CardHeader className="p-3 pb-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h3 className="font-semibold text-base text-foreground" data-testid={`popup-title-${office.id}`}>
+                          {office.displayName || office.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          {districtName}
+                        </p>
                       </div>
-                    </CardHeader>
+                      {office.featured && (
+                        <Badge className="bg-primary text-primary-foreground text-xs" data-testid={`popup-featured-${office.id}`}>
+                          Featured
+                        </Badge>
+                      )}
+                    </div>
+                  </CardHeader>
+                  
+                  <CardContent className="p-3 pt-0 space-y-2">
+                    {office.images && office.images.length > 0 && (
+                      <img
+                        src={office.images[0]}
+                        alt={office.displayName || office.name}
+                        className="w-full h-24 object-cover rounded-md"
+                      />
+                    )}
                     
-                    <CardContent className="p-3 pt-0 space-y-2">
-                      {/* Image */}
-                      {office.images && office.images.length > 0 && (
-                        <img
-                          src={office.images[0]}
-                          alt={office.displayName || office.name}
-                          className="w-full h-24 object-cover rounded-md"
-                        />
-                      )}
-                      
-                      {/* Address */}
-                      <p className="text-xs text-muted-foreground">
-                        {office.location?.address}
-                      </p>
-                      
-                      {/* Price */}
-                      <div className="flex items-center text-primary font-medium">
-                        <DollarSign className="w-4 h-4 mr-1" />
-                        <span data-testid={`popup-price-${office.id}`} className="text-sm">
-                          {office.pricing?.monthlyRate > 0 ? `From $${office.pricing.monthlyRate}/mo` : 'Contact for pricing'}
-                        </span>
-                      </div>
-                      
-                      {/* Services */}
-                      {office.services && office.services.length > 0 && (
-                        <div>
-                          <p className="text-xs font-medium text-foreground mb-1">Services:</p>
-                          <div className="flex flex-wrap gap-1">
-                            {office.services.slice(0, 3).map((service, index) => (
-                              <Badge
-                                key={index}
-                                variant="secondary"
-                                className="text-xs"
-                                data-testid={`popup-service-${office.id}-${index}`}
-                              >
-                                {service}
-                              </Badge>
-                            ))}
-                          </div>
+                    <p className="text-xs text-muted-foreground">
+                      {office.location?.address}
+                    </p>
+                    
+                    <div className="flex items-center text-primary font-medium">
+                      <DollarSign className="w-4 h-4 mr-1" />
+                      <span data-testid={`popup-price-${office.id}`} className="text-sm">
+                        {office.pricing?.monthlyRate > 0 ? `From $${office.pricing.monthlyRate}/mo` : 'Contact for pricing'}
+                      </span>
+                    </div>
+                    
+                    {office.amenities && office.amenities.length > 0 && (
+                      <div>
+                        <p className="text-xs font-medium text-foreground mb-1">Amenities:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {office.amenities.slice(0, 3).map((amenity, index) => (
+                            <Badge
+                              key={index}
+                              variant="secondary"
+                              className="text-xs"
+                              data-testid={`popup-amenity-${office.id}-${index}`}
+                            >
+                              {amenity}
+                            </Badge>
+                          ))}
                         </div>
-                      )}
-                      
-                      {/* Action Button */}
-                      <Button
-                        className="w-full mt-2"
-                        size="sm"
-                        onClick={() => window.location.href = `/offices/${office.id}`}
-                        data-testid={`popup-view-${office.id}`}
-                      >
-                        View Details
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Popup>
-              </Marker>
-            );
-          })
-        )}
+                      </div>
+                    )}
+                    
+                    <Button
+                      className="w-full mt-2"
+                      size="sm"
+                      onClick={() => window.location.href = `/offices/${office.id}`}
+                      data-testid={`popup-view-${office.id}`}
+                    >
+                      View Details
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Popup>
+            </Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );
