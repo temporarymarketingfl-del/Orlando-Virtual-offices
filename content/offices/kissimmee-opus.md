@@ -70,7 +70,7 @@ addOnServices:
     price: 50
     description: "Written messages delivered via email or text"
 status: "available"
-featured: false
+featured: true
 createdAt: "2024-03-15"
 updatedAt: "2024-03-15"
 ---
