@@ -3,8 +3,6 @@ import { LandingAccordionItem } from "@/components/ui/interactive-image-accordio
 import OrlandoBusinessAdvantages from "@/components/OrlandoBusinessAdvantages"
 import AnimatedProviderShowcase from "@/components/AnimatedProviderShowcase"
 import NeighborhoodDeepDive from "@/components/NeighborhoodDeepDive"
-import FeaturedLocations from "@/components/FeaturedLocations"
-import PricingComparisonTable from "@/components/PricingComparisonTable"
 import SuccessStories from "@/components/SuccessStories"
 import NewsletterSignup from "@/components/NewsletterSignup"
 import Footer from "@/components/Footer"
@@ -33,8 +31,6 @@ export default function HomePage() {
         <OrlandoBusinessAdvantages />
         <AnimatedProviderShowcase />
         <NeighborhoodDeepDive />
-        <FeaturedLocations />
-        <PricingComparisonTable />
         <SuccessStories />
         <NewsletterSignup />
       </main>
