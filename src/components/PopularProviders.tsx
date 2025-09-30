@@ -17,15 +17,20 @@ interface OfficeData {
   id: string;
   name: string;
   displayName: string;
+  description: string;
+  excerpt: string;
   location: {
     address: string;
     district: string;
+    city: string;
+    state: string;
   };
   pricing: {
     monthlyRate: number;
     currency: string;
   };
   amenities: string[];
+  images: string[];
   features: Record<string, boolean>;
   status: string;
   featured: boolean;
@@ -47,40 +52,47 @@ export default function PopularProviders() {
     const pricing = office.pricing;
     const lowestPrice = pricing?.monthlyRate || 0;
     
-    // Format location
+    // Format location from district
     const districtName = office.location?.district
       ?.split('-')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ') || '';
     
-    const location = districtName ? `${districtName}, Orlando, FL` : 'Orlando, FL';
+    const city = office.location?.city || 'Orlando';
+    const state = office.location?.state || 'FL';
+    const location = districtName ? `${districtName}, ${city}, ${state}` : `${city}, ${state}`;
     
     // Format price range (show a range based on the lowest price)
     const priceRange = lowestPrice > 0 
       ? `$${lowestPrice} - $${Math.round(lowestPrice * 1.5)}/month`
       : 'Contact for pricing';
     
-    // Get services from amenities and features
-    const services: string[] = [];
-    if (office.amenities) {
-      services.push(...office.amenities.slice(0, 4));
-    }
+    // Get services from amenities (limit to 6 for consistent display)
+    const services = office.amenities && office.amenities.length > 0 
+      ? office.amenities.slice(0, 6)
+      : ['Virtual Office', 'Mail Service', 'Phone Answering', 'Meeting Rooms'];
     
-    // Get description from excerpt or create one
-    const description = `Professional virtual office solutions in ${districtName || 'Orlando'} with comprehensive business support and modern amenities.`;
+    // Use excerpt from markdown or generate description
+    const description = office.excerpt || office.description || 
+      `Professional virtual office solutions in ${districtName || city} with comprehensive business support and modern amenities.`;
+    
+    // Use image from markdown if available, otherwise use placeholder
+    const image = (office.images && office.images.length > 0) 
+      ? office.images[0] 
+      : placeholderImages[index % placeholderImages.length];
     
     // Generate deterministic review count based on office ID
     const reviewCount = ((office.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 100) + 50);
     
     return {
-      id: office.id || office.name.toLowerCase().replace(/\s+/g, '-'),
+      id: office.id,
       name: office.displayName || office.name,
-      image: placeholderImages[index % placeholderImages.length],
+      image,
       rating: 4.5,
       reviewCount,
       location,
       priceRange,
-      services: services.length > 0 ? services : ['Virtual Office', 'Mail Service', 'Phone Answering', 'Meeting Rooms'],
+      services,
       description,
       isPopular: office.featured,
       affiliateUrl: `/offices/${office.id}`

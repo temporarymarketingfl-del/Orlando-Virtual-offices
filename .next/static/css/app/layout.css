@@ -1500,6 +1500,12 @@ video {
 .mt-auto {
   margin-top: auto;
 }
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -1676,6 +1682,15 @@ video {
 }
 .min-h-9 {
   min-height: 2.25rem;
+}
+.min-h-\[28px\] {
+  min-height: 28px;
+}
+.min-h-\[60px\] {
+  min-height: 60px;
+}
+.min-h-\[72px\] {
+  min-height: 72px;
 }
 .min-h-\[80px\] {
   min-height: 80px;
