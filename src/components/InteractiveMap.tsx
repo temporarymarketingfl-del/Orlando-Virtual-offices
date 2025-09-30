@@ -103,7 +103,7 @@ export default function InteractiveMap({
           mapRef.current.whenReady(() => {
             if (mapRef.current) {
               mapRef.current.invalidateSize();
-              mapRef.current.flyTo(coords, 15, {
+              mapRef.current.setView(coords, 15, {
                 animate: true,
                 duration: 1.5,
               });
@@ -113,52 +113,23 @@ export default function InteractiveMap({
       } else if (selectedLocationId) {
         const location = ORLANDO_LOCATIONS.find(loc => loc.id === selectedLocationId);
         if (location && location.coordinates) {
-          // Add validation to prevent NaN coordinates
           const lat = Number(location.coordinates.lat);
           const lng = Number(location.coordinates.lng);
           
           if (!isNaN(lat) && !isNaN(lng)) {
-            console.log('Flying to location:', location.cityName, 'at coordinates:', lat, lng);
-          console.log('Types:', typeof lat, typeof lng);
-          console.log('Array to be passed:', [lat, lng]);
-          console.log('MapRef exists:', !!mapRef.current);
-          
-          try {
-            // Create the coordinate array and validate it one more time
             const coords: [number, number] = [lat, lng];
-            console.log('Final coords array:', coords, 'Valid array elements:', coords.every(c => typeof c === 'number' && !isNaN(c)));
-            
-            if (mapRef.current && coords.every(c => typeof c === 'number' && !isNaN(c))) {
-              // Use whenReady to ensure map is fully initialized and invalidateSize before flyTo
-              mapRef.current.whenReady(() => {
-                if (mapRef.current) {
-                  console.log('Map is ready, calling invalidateSize and flyTo');
-                  mapRef.current.invalidateSize();
-                  mapRef.current.flyTo(coords, 14, {
-                    animate: true,
-                    duration: 1.5,
-                  });
-                  console.log('flyTo completed successfully');
-                }
-              });
-            } else {
-              console.error('Failed validation before flyTo:', {
-                mapRefExists: !!mapRef.current,
-                coordsValid: coords.every(c => typeof c === 'number' && !isNaN(c)),
-                coords
-              });
-            }
-          } catch (error) {
-            console.error('Error in flyTo operation:', error);
-            console.error('Coordinates at error time:', lat, lng);
+            mapRef.current.whenReady(() => {
+              if (mapRef.current) {
+                mapRef.current.invalidateSize();
+                mapRef.current.flyTo(coords, 14, {
+                  animate: true,
+                  duration: 1.5,
+                });
+              }
+            });
           }
-        } else {
-          console.error('Invalid coordinates for location:', location.cityName, location.coordinates);
         }
-      } else {
-        console.warn('Location not found for ID:', selectedLocationId);
       }
-    }
     }
   }, [selectedLocationId, selectedCoordinates]);
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, List, Grid } from 'lucide-react';
@@ -43,14 +43,31 @@ export default function Locations() {
   const [selectedCoordinates, setSelectedCoordinates] = useState<{ lat: number; lng: number }>();
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const isLargeScreen = useMediaQuery('(min-width: 1024px)'); // lg breakpoint
+  const coordinatesResetTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const handleLocationSelect = (location: Location) => {
     setSelectedLocationId(location.id);
   };
 
   const handleOfficeSelect = (coordinates: { lat: number; lng: number }) => {
+    // Clear any pending reset
+    if (coordinatesResetTimeoutRef.current) {
+      clearTimeout(coordinatesResetTimeoutRef.current);
+    }
+    
     setSelectedCoordinates(coordinates);
+    // Reset coordinates after a brief delay to allow repeated clicks on the same office
+    coordinatesResetTimeoutRef.current = setTimeout(() => setSelectedCoordinates(undefined), 100);
   };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (coordinatesResetTimeoutRef.current) {
+        clearTimeout(coordinatesResetTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="h-screen flex flex-col bg-background">
