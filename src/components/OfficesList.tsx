@@ -30,6 +30,10 @@ interface OfficeData {
     city: string;
     state: string;
   };
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
   pricing: {
     monthlyRate: number;
     currency: string;
@@ -49,10 +53,12 @@ interface ApiResponse {
 
 interface OfficesListProps {
   className?: string;
+  onOfficeSelect?: (coordinates: { lat: number; lng: number }) => void;
 }
 
 export default function OfficesList({ 
-  className = "h-full overflow-hidden flex flex-col"
+  className = "h-full overflow-hidden flex flex-col",
+  onOfficeSelect
 }: OfficesListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'price'>('name');
@@ -112,7 +118,8 @@ export default function OfficesList({
         amenities: office.amenities || [],
         description,
         isPopular: office.featured,
-        affiliateUrl: `/offices/${office.id}`
+        affiliateUrl: `/offices/${office.id}`,
+        coordinates: office.coordinates
       };
     });
 
@@ -217,7 +224,11 @@ export default function OfficesList({
           </div>
         ) : (
           offices.map((office) => (
-            <ExpandableProviderCard key={office.id} {...office} />
+            <ExpandableProviderCard 
+              key={office.id} 
+              {...office} 
+              onSelect={onOfficeSelect}
+            />
           ))
         )}
       </div>

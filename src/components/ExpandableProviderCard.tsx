@@ -22,6 +22,8 @@ interface ExpandableProviderCardProps {
   description?: string;
   isPopular?: boolean;
   affiliateUrl?: string;
+  coordinates?: { lat: number; lng: number };
+  onSelect?: (coordinates: { lat: number; lng: number }) => void;
 }
 
 export default function ExpandableProviderCard({
@@ -37,7 +39,9 @@ export default function ExpandableProviderCard({
   amenities = [],
   description,
   isPopular = false,
-  affiliateUrl
+  affiliateUrl,
+  coordinates,
+  onSelect
 }: ExpandableProviderCardProps) {
   const { isExpanded, toggleExpand, animatedHeight } = useExpandable();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -54,6 +58,11 @@ export default function ExpandableProviderCard({
       return;
     }
     toggleExpand();
+    
+    // Call onSelect with coordinates if available
+    if (coordinates && onSelect) {
+      onSelect(coordinates);
+    }
   };
 
   const handleCTA = () => {

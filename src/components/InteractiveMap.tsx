@@ -55,6 +55,7 @@ function MapRefSetter({ mapRef }: { mapRef: React.MutableRefObject<LeafletMap | 
 
 interface InteractiveMapProps {
   selectedLocationId?: string;
+  selectedCoordinates?: { lat: number; lng: number };
   onLocationSelect?: (location: Location) => void;
   className?: string;
   viewMode?: string;
@@ -62,7 +63,8 @@ interface InteractiveMapProps {
 }
 
 export default function InteractiveMap({ 
-  selectedLocationId, 
+  selectedLocationId,
+  selectedCoordinates,
   onLocationSelect,
   className = "h-96 w-full",
   viewMode,
@@ -86,17 +88,37 @@ export default function InteractiveMap({
     }
   }, [viewMode, isLargeScreen]);
 
-  // Center map on selected location when it changes
+  // Center map on selected coordinates or location when they change
   useEffect(() => {
-    if (selectedLocationId && mapRef.current) {
-      const location = ORLANDO_LOCATIONS.find(loc => loc.id === selectedLocationId);
-      if (location && location.coordinates) {
-        // Add validation to prevent NaN coordinates
-        const lat = Number(location.coordinates.lat);
-        const lng = Number(location.coordinates.lng);
+    if (mapRef.current) {
+      // Prioritize selectedCoordinates over selectedLocationId
+      if (selectedCoordinates) {
+        const lat = Number(selectedCoordinates.lat);
+        const lng = Number(selectedCoordinates.lng);
         
         if (!isNaN(lat) && !isNaN(lng)) {
-          console.log('Flying to location:', location.cityName, 'at coordinates:', lat, lng);
+          console.log('Flying to office coordinates:', lat, lng);
+          const coords: [number, number] = [lat, lng];
+          
+          mapRef.current.whenReady(() => {
+            if (mapRef.current) {
+              mapRef.current.invalidateSize();
+              mapRef.current.flyTo(coords, 15, {
+                animate: true,
+                duration: 1.5,
+              });
+            }
+          });
+        }
+      } else if (selectedLocationId) {
+        const location = ORLANDO_LOCATIONS.find(loc => loc.id === selectedLocationId);
+        if (location && location.coordinates) {
+          // Add validation to prevent NaN coordinates
+          const lat = Number(location.coordinates.lat);
+          const lng = Number(location.coordinates.lng);
+          
+          if (!isNaN(lat) && !isNaN(lng)) {
+            console.log('Flying to location:', location.cityName, 'at coordinates:', lat, lng);
           console.log('Types:', typeof lat, typeof lng);
           console.log('Array to be passed:', [lat, lng]);
           console.log('MapRef exists:', !!mapRef.current);
@@ -137,7 +159,8 @@ export default function InteractiveMap({
         console.warn('Location not found for ID:', selectedLocationId);
       }
     }
-  }, [selectedLocationId]);
+    }
+  }, [selectedLocationId, selectedCoordinates]);
 
   const handleMarkerClick = (location: Location) => {
     onLocationSelect?.(location);

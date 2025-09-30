@@ -40,6 +40,7 @@ function useMediaQuery(query: string): boolean {
 
 export default function Locations() {
   const [selectedLocationId, setSelectedLocationId] = useState<string>();
+  const [selectedCoordinates, setSelectedCoordinates] = useState<{ lat: number; lng: number }>();
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const isLargeScreen = useMediaQuery('(min-width: 1024px)'); // lg breakpoint
 
@@ -47,11 +48,15 @@ export default function Locations() {
     setSelectedLocationId(location.id);
   };
 
+  const handleOfficeSelect = (coordinates: { lat: number; lng: number }) => {
+    setSelectedCoordinates(coordinates);
+  };
+
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* Header */}
       <header className="flex-shrink-0 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center justify-between px-4 py-3">
+        <div className="max-w-[1280px] mx-auto w-full px-4 md:px-8 flex items-center justify-between py-3">
           <div>
             <h1 className="text-2xl font-bold text-foreground" data-testid="page-title">
               Orlando Virtual Office Locations
@@ -134,9 +139,10 @@ export default function Locations() {
 
       {/* Main Content - Single map instance always mounted, controlled with CSS Grid */}
       <main className="flex-1 overflow-hidden" data-testid="main-content">
-        <div 
-          className={`
-            h-full transition-all duration-200
+        <div className="max-w-[1280px] mx-auto w-full h-full px-4 md:px-8">
+          <div 
+            className={`
+              h-full transition-all duration-200
             ${viewMode === 'map' ? 'grid grid-cols-1' : ''}
             ${viewMode === 'list' ? 'grid grid-cols-1' : ''}
             ${viewMode === 'split' ? (
@@ -158,6 +164,7 @@ export default function Locations() {
           >
             <OfficesList
               className="h-full flex flex-col"
+              onOfficeSelect={handleOfficeSelect}
             />
           </div>
 
@@ -172,12 +179,14 @@ export default function Locations() {
             <InteractiveMap
               key="single-persistent-map"
               selectedLocationId={selectedLocationId}
+              selectedCoordinates={selectedCoordinates}
               onLocationSelect={handleLocationSelect}
               className="h-full w-full"
               viewMode={viewMode}
               isLargeScreen={isLargeScreen}
             />
           </div>
+        </div>
         </div>
       </main>
 
