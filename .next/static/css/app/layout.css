@@ -1361,6 +1361,9 @@ video {
 .z-\[60\] {
   z-index: 60;
 }
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
 .-m-2\.5 {
   margin: -0.625rem;
 }

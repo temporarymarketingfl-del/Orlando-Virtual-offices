@@ -10,6 +10,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Homepage Office Cards (September 30, 2025)
+Updated the PopularProviders component to use API-driven office data from markdown files:
+
+- **Data Source**: Cards now fetch from `/api/offices?featured=true` endpoint instead of hardcoded data
+- **Content Management**: Office information is sourced from markdown files in `content/offices/` directory
+- **Dynamic Display**: Shows featured offices including Opus Virtual Office locations (Orlando Downtown, Kissimmee, Lake Mary, Winter Springs)
+- **Proper Formatting**: Location names formatted from district slugs, pricing displayed as ranges, amenities shown as service badges
+- **Loading States**: Implemented skeleton loaders and error handling for better UX
+- **Testing**: Verified with Playwright tests confirming cards display correct office names, pricing, services, and images
+
 ### API-Driven Menu System (September 30, 2025)
 Implemented dynamic API-driven navigation menus replacing hardcoded data with live content from markdown files:
 

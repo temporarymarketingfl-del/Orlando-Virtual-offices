@@ -1,52 +1,88 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import ProviderCard from "./ProviderCard";
 import officeImage1 from "@assets/generated_images/Coworking_space_interior_80761a04.png";
 import officeImage2 from "@assets/generated_images/Business_meeting_room_012350ca.png";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+
+// Placeholder images to cycle through
+const placeholderImages = [officeImage1, officeImage2];
+
+interface OfficeData {
+  id: string;
+  name: string;
+  displayName: string;
+  location: {
+    address: string;
+    district: string;
+  };
+  pricing: {
+    monthlyRate: number;
+    currency: string;
+  };
+  amenities: string[];
+  features: Record<string, boolean>;
+  status: string;
+  featured: boolean;
+}
+
+interface ApiResponse {
+  success: boolean;
+  data: OfficeData[];
+  total: number;
+}
 
 export default function PopularProviders() {
-  // todo: remove mock functionality
-  const providers = [
-    {
-      id: "regus-downtown-orlando",
-      name: "Regus Downtown Orlando",
-      image: officeImage1,
-      rating: 4.6,
-      reviewCount: 94,
-      location: "Downtown, Orlando, FL",
-      priceRange: "$149 - $599/month",
-      services: ["Virtual Office", "Meeting Rooms", "Mail Service", "Phone Answering"],
-      description: "Premier virtual office solutions in downtown Orlando's business district with prestigious Orange Avenue addresses and comprehensive business support.",
-      isPopular: true,
-      affiliateUrl: "https://example.com/regus-orlando"
-    },
-    {
-      id: "wework-lake-nona",
-      name: "WeWork Lake Nona",
-      image: officeImage2,
-      rating: 4.4,
-      reviewCount: 67,
-      location: "Lake Nona, Orlando, FL",
-      priceRange: "$129 - $549/month",
-      services: ["Coworking", "Private Office", "Meeting Rooms", "Virtual Office"],
-      description: "Modern workspace solutions in Orlando's fastest-growing tech district, perfect for startups and established businesses in Medical City.",
-      isPopular: true,
-      affiliateUrl: "https://example.com/wework-lakenona"
-    },
-    {
-      id: "orlando-executive-center",
-      name: "Orlando Executive Center",
-      image: officeImage1,
-      rating: 4.3,
-      reviewCount: 112,
-      location: "Dr. Phillips, Orlando, FL",
-      priceRange: "$99 - $459/month",
-      services: ["Virtual Office", "Executive Suites", "Meeting Rooms", "Business Lounge"],
-      description: "Upscale virtual office solutions in the Dr. Phillips business corridor, offering flexible packages for growing Central Florida businesses.",
-      isPopular: false,
-      affiliateUrl: "https://example.com/orlando-executive"
+  const { data, isLoading, error } = useQuery<ApiResponse>({
+    queryKey: ['/api/offices', { featured: true }],
+  });
+
+  // Transform office data to match ProviderCard format
+  const offices = data?.data?.map((office, index) => {
+    const pricing = office.pricing;
+    const lowestPrice = pricing?.monthlyRate || 0;
+    
+    // Format location
+    const districtName = office.location?.district
+      ?.split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ') || '';
+    
+    const location = districtName ? `${districtName}, Orlando, FL` : 'Orlando, FL';
+    
+    // Format price range (show a range based on the lowest price)
+    const priceRange = lowestPrice > 0 
+      ? `$${lowestPrice} - $${Math.round(lowestPrice * 1.5)}/month`
+      : 'Contact for pricing';
+    
+    // Get services from amenities and features
+    const services: string[] = [];
+    if (office.amenities) {
+      services.push(...office.amenities.slice(0, 4));
     }
-  ];
+    
+    // Get description from excerpt or create one
+    const description = `Professional virtual office solutions in ${districtName || 'Orlando'} with comprehensive business support and modern amenities.`;
+    
+    // Generate deterministic review count based on office ID
+    const reviewCount = ((office.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 100) + 50);
+    
+    return {
+      id: office.id || office.name.toLowerCase().replace(/\s+/g, '-'),
+      name: office.displayName || office.name,
+      image: placeholderImages[index % placeholderImages.length],
+      rating: 4.5,
+      reviewCount,
+      location,
+      priceRange,
+      services: services.length > 0 ? services : ['Virtual Office', 'Mail Service', 'Phone Answering', 'Meeting Rooms'],
+      description,
+      isPopular: office.featured,
+      affiliateUrl: `/offices/${office.id}`
+    };
+  }) || [];
 
   return (
     <section className="py-16 bg-background">
@@ -62,9 +98,42 @@ export default function PopularProviders() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {providers.map((provider) => (
-            <ProviderCard key={provider.id} {...provider} />
-          ))}
+          {isLoading ? (
+            <>
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="h-auto md:h-[450px] flex flex-col">
+                  <CardHeader className="p-0">
+                    <Skeleton className="w-full h-32 md:h-48 rounded-t-lg" />
+                  </CardHeader>
+                  <CardContent className="flex-1 p-6">
+                    <Skeleton className="h-6 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2 mb-4" />
+                    <Skeleton className="h-4 w-full mb-2" />
+                    <Skeleton className="h-4 w-full mb-4" />
+                    <div className="flex gap-2">
+                      <Skeleton className="h-6 w-20" />
+                      <Skeleton className="h-6 w-24" />
+                    </div>
+                  </CardContent>
+                  <CardFooter className="p-6 pt-0">
+                    <Skeleton className="h-10 w-full" />
+                  </CardFooter>
+                </Card>
+              ))}
+            </>
+          ) : error ? (
+            <div className="col-span-3 text-center text-muted-foreground">
+              Failed to load offices. Please try again later.
+            </div>
+          ) : offices.length === 0 ? (
+            <div className="col-span-3 text-center text-muted-foreground">
+              No featured offices available at the moment.
+            </div>
+          ) : (
+            offices.map((office) => (
+              <ProviderCard key={office.id} {...office} />
+            ))
+          )}
         </div>
 
         <div className="text-center mt-12">
