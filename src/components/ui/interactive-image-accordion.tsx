@@ -169,7 +169,7 @@ function AnimatedTestimonialsWithCTA({
 
   return (
     <div className="relative">
-      <div className="relative h-[500px] md:h-[600px] w-full">
+      <div className="relative h-[500px] md:h-[600px] w-full overflow-hidden rounded-3xl">
         {/* Image Stack */}
         <AnimatePresence>
           {testimonials.map((testimonial, index) => (
@@ -392,8 +392,8 @@ export function LandingAccordionItem() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-start gap-8 lg:gap-12">
           
-          {/* Left Side: Text Content - Takes 1/3 */}
-          <div className="w-full md:w-1/3 text-center md:text-left">
+          {/* Left Side: Text Content - Takes 1/2 */}
+          <div className="w-full md:w-1/2 text-center md:text-left">
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight tracking-tighter">
               Find Your Perfect Virtual Office in Orlando
             </h1>
@@ -439,8 +439,8 @@ export function LandingAccordionItem() {
             </div>
           </div>
 
-          {/* Right Side: Provider Carousel - Takes 2/3 */}
-          <div className="w-full md:w-2/3">
+          {/* Right Side: Provider Carousel - Takes 1/2 */}
+          <div className="w-full md:w-1/2">
             <HeroProviderCarousel />
           </div>
         </div>
