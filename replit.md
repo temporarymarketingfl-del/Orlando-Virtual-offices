@@ -10,13 +10,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### Animated Provider Showcase - Homepage Replacement (September 30, 2025)
-Replaced the static PopularProviders grid with an animated carousel showcasing featured virtual office providers:
+### Animated Provider Carousel - Hero Section & Homepage (September 30, 2025)
+Implemented animated carousel showcasing featured virtual office providers in both the hero section and dedicated homepage section:
 
-- **Main Component**: `src/components/AnimatedProviderShowcase.tsx` - Replaces PopularProviders on homepage
+- **Hero Carousel**: `HeroProviderCarousel` in `src/components/ui/interactive-image-accordion.tsx` - Replaced accordion in hero section
+- **Homepage Section**: `src/components/AnimatedProviderShowcase.tsx` - Dedicated provider showcase section below hero
 - **Base Component**: `src/components/ui/animated-testimonials.tsx` - Reusable carousel component
 - **Demo Page**: `/providers-demo` - Standalone demo with sample testimonials
-- **Data Source**: Fetches real provider data from `/api/providers?featured=true` endpoint
+- **Data Source**: Fetches real provider data from `/api/providers?featured=true&limit=4` endpoint
 - **Features**: 
   - Animated 3D image carousel with rotation effects
   - Dynamic provider info from markdown files (name, specialties, locations, pricing)
@@ -26,9 +27,12 @@ Replaced the static PopularProviders grid with an animated carousel showcasing f
   - Autoplay functionality (5-second intervals)
   - Unique fallback images for providers without featured images
   - Fully responsive design for mobile and desktop
+- **Hero Integration**: Carousel displays on right side of hero section alongside search and CTA elements
 - **Technology**: Built with Framer Motion for smooth animations, uses Lucide React icons, integrates with React Query for data fetching
-- **Test IDs**: `animated-providers-title`, `animated-providers-description`, `button-prev-provider`, `button-next-provider`, `button-view-{slug}`
-- **Testing**: Verified with Playwright - carousel navigation, animations, provider display, and CTA links all working correctly
+- **Test IDs**: 
+  - Hero: `button-prev-hero-provider`, `button-next-hero-provider`, `button-view-{slug}`
+  - Homepage section: `animated-providers-title`, `animated-providers-description`, `button-prev-provider`, `button-next-provider`, `button-view-{slug}`
+- **Testing**: Verified with Playwright - carousel renders in hero section, navigation works, animations smooth, and CTA links functional
 
 ### Homepage Office Cards (September 30, 2025)
 Updated the PopularProviders component to use API-driven office data from markdown files:
