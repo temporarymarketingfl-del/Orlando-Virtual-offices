@@ -43,14 +43,14 @@ export default function ProviderCard({
   };
 
   return (
-    <Card className="hover-elevate h-auto md:h-[450px] flex flex-col" data-testid={`card-provider-${id}`}>
+    <Card className="hover-elevate h-auto md:h-[450px] flex flex-col overflow-hidden" data-testid={`card-provider-${id}`}>
       <CardHeader className="p-0">
         {/* Provider Image */}
         <div className="relative">
           <img
             src={image}
             alt={`${name} office space`}
-            className="w-full h-32 md:h-48 object-cover rounded-t-lg"
+            className="w-full h-32 md:h-48 object-cover"
           />
           {isPopular && (
             <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground" data-testid="badge-popular">
