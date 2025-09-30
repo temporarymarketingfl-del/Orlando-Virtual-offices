@@ -214,7 +214,7 @@ function AnimatedTestimonialsWithCTA({
         </AnimatePresence>
 
         {/* Content Overlay - Inside the card */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 rounded-b-3xl backdrop-blur-md bg-black/30">
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 rounded-b-3xl backdrop-blur-md bg-black/30 z-[1000]">
           <motion.div
             key={active}
             initial={{
