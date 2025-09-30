@@ -21,7 +21,7 @@ export default function HeroSection() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img
-          src={heroImage}
+          src={typeof heroImage === 'string' ? heroImage : heroImage.src}
           alt="Modern office building"
           className="w-full h-full object-cover"
         />
@@ -33,7 +33,7 @@ export default function HeroSection() {
         {/* Professional Receptionist */}
         <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hidden xl:block">
           <img
-            src={receptionistPortrait}
+            src={typeof receptionistPortrait === 'string' ? receptionistPortrait : receptionistPortrait.src}
             alt=""
             className="w-80 h-auto"
           />

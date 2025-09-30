@@ -7,10 +7,14 @@ import cityImage1 from "@assets/generated_images/Downtown_business_district_5854
 import cityImage2 from "@assets/generated_images/Modern_office_building_hero_3a280a24.png";
 
 export default function NeighborhoodDeepDive() {
+  // Extract image src strings from imported image objects
+  const img1 = typeof cityImage1 === 'string' ? cityImage1 : cityImage1.src;
+  const img2 = typeof cityImage2 === 'string' ? cityImage2 : cityImage2.src;
+
   const neighborhoods = [
     {
       name: "Downtown Orlando",
-      image: cityImage1,
+      image: img1,
       description: "Orlando's central business district and financial hub with prestigious Orange Avenue addresses",
       priceRange: "$149 - $599",
       providers: 12,
@@ -26,7 +30,7 @@ export default function NeighborhoodDeepDive() {
     },
     {
       name: "Lake Nona Medical City",
-      image: cityImage2,
+      image: img2,
       description: "Orlando's fastest-growing tech and medical district, perfect for innovative companies",
       priceRange: "$129 - $549",
       providers: 8,
@@ -42,7 +46,7 @@ export default function NeighborhoodDeepDive() {
     },
     {
       name: "Dr. Phillips",
-      image: cityImage1,
+      image: img1,
       description: "Upscale business corridor known for Restaurant Row and high-end commercial spaces",
       priceRange: "$99 - $459",
       providers: 5,
@@ -58,7 +62,7 @@ export default function NeighborhoodDeepDive() {
     },
     {
       name: "Millenia",
-      image: cityImage2,
+      image: img2,
       description: "International business district with global connectivity and luxury retail",
       priceRange: "$169 - $489",
       providers: 7,
@@ -74,7 +78,7 @@ export default function NeighborhoodDeepDive() {
     },
     {
       name: "Winter Park",
-      image: cityImage1,
+      image: img1,
       description: "Historic and cultural business district with upscale Park Avenue commercial area",
       priceRange: "$189 - $629",
       providers: 6,
@@ -90,7 +94,7 @@ export default function NeighborhoodDeepDive() {
     },
     {
       name: "MetroWest",
-      image: cityImage2,
+      image: img2,
       description: "Growing business community with affordable options and easy highway access",
       priceRange: "$89 - $329",
       providers: 4,
@@ -124,7 +128,7 @@ export default function NeighborhoodDeepDive() {
             <Card key={index} className="hover-elevate overflow-hidden" data-testid={`neighborhood-card-${index}`}>
               <div className="aspect-video relative">
                 <img
-                  src={neighborhood.image.src}
+                  src={neighborhood.image}
                   alt={`${neighborhood.name} business district in Orlando showing modern commercial buildings and business environment`}
                   className="w-full h-full object-cover"
                   data-testid={`neighborhood-image-${index}`}

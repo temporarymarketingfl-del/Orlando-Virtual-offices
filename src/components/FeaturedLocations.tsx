@@ -5,13 +5,17 @@ import cityImage1 from "@assets/generated_images/Downtown_business_district_5854
 import cityImage2 from "@assets/generated_images/Modern_office_building_hero_3a280a24.png";
 
 export default function FeaturedLocations() {
+  // Extract image src strings from imported image objects
+  const img1 = typeof cityImage1 === 'string' ? cityImage1 : cityImage1.src;
+  const img2 = typeof cityImage2 === 'string' ? cityImage2 : cityImage2.src;
+
   // todo: remove mock functionality
   const locations = [
     {
       id: "downtown-orlando",
       cityName: "Downtown Orlando",
       stateName: "Orlando, FL",
-      image: cityImage1,
+      image: img1,
       providerCount: 12,
       averagePrice: "$199",
       popularAreas: ["Orange Avenue", "Church Street", "Thornton Park"],
@@ -21,7 +25,7 @@ export default function FeaturedLocations() {
       id: "lake-nona",
       cityName: "Lake Nona",
       stateName: "Orlando, FL",
-      image: cityImage2,
+      image: img2,
       providerCount: 8,
       averagePrice: "$179",
       popularAreas: ["Medical City", "Town Center", "Laureate Park"],
@@ -31,7 +35,7 @@ export default function FeaturedLocations() {
       id: "winter-park",
       cityName: "Winter Park",
       stateName: "Orlando, FL",
-      image: cityImage1,
+      image: img1,
       providerCount: 6,
       averagePrice: "$229",
       popularAreas: ["Park Avenue", "College Quarter", "Hannibal Square"],
@@ -41,7 +45,7 @@ export default function FeaturedLocations() {
       id: "dr-phillips",
       cityName: "Dr. Phillips",
       stateName: "Orlando, FL",
-      image: cityImage2,
+      image: img2,
       providerCount: 5,
       averagePrice: "$189",
       popularAreas: ["Restaurant Row", "Bay Hill", "Windermere"],
@@ -51,7 +55,7 @@ export default function FeaturedLocations() {
       id: "millenia",
       cityName: "Millenia",
       stateName: "Orlando, FL",
-      image: cityImage1,
+      image: img1,
       providerCount: 7,
       averagePrice: "$169",
       popularAreas: ["Universal Boulevard", "Turkey Lake", "International Drive"],
@@ -61,7 +65,7 @@ export default function FeaturedLocations() {
       id: "metrowest",
       cityName: "MetroWest",
       stateName: "Orlando, FL",
-      image: cityImage2,
+      image: img2,
       providerCount: 4,
       averagePrice: "$159",
       popularAreas: ["Town Center", "Hiawassee", "Colonial Drive"],

@@ -7,8 +7,11 @@ import officeImage2 from "@assets/generated_images/Business_meeting_room_012350c
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
-// Placeholder images to cycle through
-const placeholderImages = [officeImage1, officeImage2];
+// Placeholder images to cycle through - extract src string from imported images
+const placeholderImages = [
+  typeof officeImage1 === 'string' ? officeImage1 : officeImage1.src,
+  typeof officeImage2 === 'string' ? officeImage2 : officeImage2.src
+];
 
 interface OfficeData {
   id: string;

@@ -8,7 +8,7 @@ export const ORLANDO_LOCATIONS: Location[] = [
     id: "downtown-orlando",
     cityName: "Downtown Orlando",
     stateName: "Orlando, FL",
-    image: cityImage1,
+    image: typeof cityImage1 === 'string' ? cityImage1 : cityImage1.src,
     providerCount: 12,
     averagePrice: 199, // Changed from "$199" to numeric 199
     popularAreas: ["Orange Avenue", "Church Street", "Thornton Park"],
@@ -28,7 +28,7 @@ export const ORLANDO_LOCATIONS: Location[] = [
     id: "lake-nona",
     cityName: "Lake Nona",
     stateName: "Orlando, FL", 
-    image: cityImage2,
+    image: typeof cityImage2 === 'string' ? cityImage2 : cityImage2.src,
     providerCount: 8,
     averagePrice: 179, // Changed from "$179" to numeric 179
     popularAreas: ["Medical City", "Town Center", "Laureate Park"],
@@ -48,7 +48,7 @@ export const ORLANDO_LOCATIONS: Location[] = [
     id: "winter-park",
     cityName: "Winter Park",
     stateName: "Orlando, FL",
-    image: cityImage1,
+    image: typeof cityImage1 === 'string' ? cityImage1 : cityImage1.src,
     providerCount: 6,
     averagePrice: 229, // Changed from "$229" to numeric 229
     popularAreas: ["Park Avenue", "College Quarter", "Hannibal Square"],
@@ -68,7 +68,7 @@ export const ORLANDO_LOCATIONS: Location[] = [
     id: "dr-phillips",
     cityName: "Dr. Phillips",
     stateName: "Orlando, FL",
-    image: cityImage2,
+    image: typeof cityImage2 === 'string' ? cityImage2 : cityImage2.src,
     providerCount: 5,
     averagePrice: 189, // Changed from "$189" to numeric 189
     popularAreas: ["Restaurant Row", "Bay Hill", "Windermere"],
@@ -88,7 +88,7 @@ export const ORLANDO_LOCATIONS: Location[] = [
     id: "millenia",
     cityName: "Millenia",
     stateName: "Orlando, FL",
-    image: cityImage1,
+    image: typeof cityImage1 === 'string' ? cityImage1 : cityImage1.src,
     providerCount: 7,
     averagePrice: 169, // Changed from "$169" to numeric 169
     popularAreas: ["Universal Boulevard", "Turkey Lake", "International Drive"],
@@ -108,7 +108,7 @@ export const ORLANDO_LOCATIONS: Location[] = [
     id: "metrowest",
     cityName: "MetroWest",
     stateName: "Orlando, FL",
-    image: cityImage2,
+    image: typeof cityImage2 === 'string' ? cityImage2 : cityImage2.src,
     providerCount: 4,
     averagePrice: 159, // Changed from "$159" to numeric 159
     popularAreas: ["Town Center", "Hiawassee", "Colonial Drive"],

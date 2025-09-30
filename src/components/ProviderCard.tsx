@@ -8,7 +8,7 @@ import { Star, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
 interface ProviderCardProps {
   id: string;
   name: string;
-  image: string | any;
+  image: string;
   rating: number;
   reviewCount: number;
   location: string;
