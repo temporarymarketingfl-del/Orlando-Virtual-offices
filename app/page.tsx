@@ -1,7 +1,6 @@
 import { Metadata } from "next"
 import { LandingAccordionItem } from "@/components/ui/interactive-image-accordion"
 import OrlandoBusinessAdvantages from "@/components/OrlandoBusinessAdvantages"
-import AnimatedProviderShowcase from "@/components/AnimatedProviderShowcase"
 import NeighborhoodDeepDive from "@/components/NeighborhoodDeepDive"
 import SuccessStories from "@/components/SuccessStories"
 import NewsletterSignup from "@/components/NewsletterSignup"
@@ -29,7 +28,6 @@ export default function HomePage() {
       <main>
         <LandingAccordionItem />
         <OrlandoBusinessAdvantages />
-        <AnimatedProviderShowcase />
         <NeighborhoodDeepDive />
         <SuccessStories />
         <NewsletterSignup />
