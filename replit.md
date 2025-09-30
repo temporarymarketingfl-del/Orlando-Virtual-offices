@@ -10,6 +10,23 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Expandable Office Cards on Locations Page (September 30, 2025)
+Implemented expandable office cards with map centering functionality on the locations page:
+
+- **Components Created**:
+  - `src/hooks/use-expandable.ts` - Custom hook managing expand/collapse state with framer-motion animations
+  - `src/components/ExpandableProviderCard.tsx` - Expandable card showing office picture, provider, address, price initially, with expandable amenities, services, and description
+  - `src/components/OfficesList.tsx` - Container component fetching and displaying office cards with search/sort functionality
+- **Page Layout**: Max-width 1280px with 32px padding on desktop (16px on mobile), split view with scrollable office list and interactive map
+- **Map Centering**: Clicking an office card centers the map on that office's coordinates
+  - Uses timeout-based coordinate reset mechanism (100ms) to enable repeated clicks on same office
+  - Proper cleanup with useRef to prevent memory leaks and setState on unmounted components
+  - TypeScript type: `ReturnType<typeof setTimeout>` for browser compatibility
+- **Data Source**: Fetches from `/api/offices` endpoint with markdown file content
+- **Animations**: Smooth spring-based expand/collapse using framer-motion
+- **Responsive Design**: Mobile view modes (list/map toggle), desktop shows both simultaneously
+- **Testing**: Playwright tests confirm expandable cards work, map centering functional including repeat clicks on same office
+
 ### Animated Provider Carousel - Hero Section & Homepage (September 30, 2025)
 Implemented animated carousel showcasing featured virtual office providers in both the hero section and dedicated homepage section:
 
