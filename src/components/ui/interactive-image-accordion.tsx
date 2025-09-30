@@ -169,56 +169,54 @@ function AnimatedTestimonialsWithCTA({
 
   return (
     <div className="relative">
-      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Image Section */}
-        <div>
-          <div className="relative h-80 w-full">
-            <AnimatePresence>
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={`${testimonial.slug}-${index}`}
-                  initial={{
-                    opacity: 0,
-                    scale: 0.9,
-                    z: -100,
-                    rotate: randomRotateY(),
-                  }}
-                  animate={{
-                    opacity: isActive(index) ? 1 : 0.7,
-                    scale: isActive(index) ? 1 : 0.95,
-                    z: isActive(index) ? 0 : -100,
-                    rotate: isActive(index) ? 0 : randomRotateY(),
-                    zIndex: isActive(index)
-                      ? 999
-                      : testimonials.length + 2 - index,
-                    y: isActive(index) ? [0, -80, 0] : 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.9,
-                    z: 100,
-                    rotate: randomRotateY(),
-                  }}
-                  transition={{
-                    duration: 0.4,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute inset-0 origin-bottom"
-                >
-                  <img
-                    src={testimonial.src}
-                    alt={testimonial.name}
-                    draggable={false}
-                    className="h-full w-full rounded-3xl object-cover object-center"
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+      <div className="relative flex flex-col gap-6">
+        {/* Image Section - On Top */}
+        <div className="relative h-[400px] w-full">
+          <AnimatePresence>
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={`${testimonial.slug}-${index}`}
+                initial={{
+                  opacity: 0,
+                  scale: 0.9,
+                  z: -100,
+                  rotate: randomRotateY(),
+                }}
+                animate={{
+                  opacity: isActive(index) ? 1 : 0.7,
+                  scale: isActive(index) ? 1 : 0.95,
+                  z: isActive(index) ? 0 : -100,
+                  rotate: isActive(index) ? 0 : randomRotateY(),
+                  zIndex: isActive(index)
+                    ? 999
+                    : testimonials.length + 2 - index,
+                  y: isActive(index) ? [0, -80, 0] : 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.9,
+                  z: 100,
+                  rotate: randomRotateY(),
+                }}
+                transition={{
+                  duration: 0.4,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-0 origin-bottom"
+              >
+                <img
+                  src={testimonial.src}
+                  alt={testimonial.name}
+                  draggable={false}
+                  className="h-full w-full rounded-3xl object-cover object-center"
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
-        {/* Content Section */}
-        <div className="flex justify-between flex-col py-4">
+        {/* Content Section - Below Image */}
+        <div className="flex flex-col gap-4">
           <motion.div
             key={active}
             initial={{
@@ -238,42 +236,46 @@ function AnimatedTestimonialsWithCTA({
               ease: "easeInOut",
             }}
           >
-            <h3 className="text-2xl font-bold text-foreground mb-2">
+            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
               {currentProvider.name}
             </h3>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground mb-3">
               {currentProvider.designation}
             </p>
-            <p className="text-base text-foreground/80 mb-6">
+            <p className="text-base md:text-lg text-foreground/80 mb-4">
               {currentProvider.quote}
             </p>
-            <Link href={`/providers/${currentProvider.slug}`}>
-              <Button 
-                variant="default"
-                data-testid={`button-view-${currentProvider.slug}`}
-              >
-                View Locations
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link href={`/providers/${currentProvider.slug}`}>
+                <Button 
+                  variant="default"
+                  size="lg"
+                  data-testid={`button-view-${currentProvider.slug}`}
+                >
+                  View Locations
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              
+              {/* Navigation buttons inline with CTA */}
+              <div className="flex gap-3">
+                <button
+                  onClick={handlePrev}
+                  className="h-9 w-9 rounded-full bg-muted hover-elevate active-elevate-2 flex items-center justify-center group/button"
+                  data-testid="button-prev-hero-provider"
+                >
+                  <ArrowLeft className="h-5 w-5 text-muted-foreground group-hover/button:rotate-12 transition-transform duration-300" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="h-9 w-9 rounded-full bg-muted hover-elevate active-elevate-2 flex items-center justify-center group/button"
+                  data-testid="button-next-hero-provider"
+                >
+                  <ArrowRight className="h-5 w-5 text-muted-foreground group-hover/button:rotate-12 transition-transform duration-300" />
+                </button>
+              </div>
+            </div>
           </motion.div>
-
-          <div className="flex gap-4 pt-4 md:pt-0">
-            <button
-              onClick={handlePrev}
-              className="h-7 w-7 rounded-full bg-muted hover-elevate active-elevate-2 flex items-center justify-center group/button"
-              data-testid="button-prev-hero-provider"
-            >
-              <ArrowLeft className="h-5 w-5 text-muted-foreground group-hover/button:rotate-12 transition-transform duration-300" />
-            </button>
-            <button
-              onClick={handleNext}
-              className="h-7 w-7 rounded-full bg-muted hover-elevate active-elevate-2 flex items-center justify-center group/button"
-              data-testid="button-next-hero-provider"
-            >
-              <ArrowRight className="h-5 w-5 text-muted-foreground group-hover/button:rotate-12 transition-transform duration-300" />
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -389,28 +391,28 @@ export function LandingAccordionItem() {
     <div className="bg-background font-sans">
       <section className="py-12 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="flex flex-col md:flex-row items-start gap-8 lg:gap-12">
           
-          {/* Left Side: Text Content */}
-          <div className="w-full md:w-1/2 text-center md:text-left">
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight tracking-tighter">
+          {/* Left Side: Text Content - Takes 1/3 */}
+          <div className="w-full md:w-1/3 text-center md:text-left">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight tracking-tighter">
               Find Your Perfect Virtual Office in Orlando
             </h1>
-            <p className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto md:mx-0">
+            <p className="mt-4 md:mt-6 text-base md:text-lg text-muted-foreground">
               Compare Orlando's top virtual office providers and find professional business addresses in Downtown, Lake Nona, Winter Park, and other prime Central Florida locations.
             </p>
             
             {/* Search Field */}
-            <div className="mt-8 max-w-lg mx-auto md:mx-0">
-              <div className="flex flex-col sm:flex-row gap-3">
+            <div className="mt-6 md:mt-8">
+              <div className="flex flex-col gap-3">
                 <Input
                   type="text"
                   placeholder="Search Orlando neighborhoods..."
-                  className="flex-1"
+                  className="w-full"
                   data-testid="input-location-search"
                 />
                 <Button
-                  className="whitespace-nowrap"
+                  className="w-full"
                   data-testid="button-search-offices"
                 >
                   Search Virtual Offices
@@ -424,11 +426,12 @@ export function LandingAccordionItem() {
               </div>
             </div>
             
-            <div className="mt-8">
+            <div className="mt-6 md:mt-8">
               <Link href="#providers">
                 <Button
                   variant="secondary"
                   size="lg"
+                  className="w-full md:w-auto"
                   data-testid="button-browse-providers"
                 >
                   Browse Virtual Offices
@@ -437,8 +440,8 @@ export function LandingAccordionItem() {
             </div>
           </div>
 
-          {/* Right Side: Provider Carousel */}
-          <div className="w-full md:w-1/2">
+          {/* Right Side: Provider Carousel - Takes 2/3 */}
+          <div className="w-full md:w-2/3">
             <HeroProviderCarousel />
           </div>
         </div>
