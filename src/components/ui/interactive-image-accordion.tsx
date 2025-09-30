@@ -169,7 +169,7 @@ function AnimatedTestimonialsWithCTA({
 
   return (
     <div className="relative">
-      <div className="relative h-[500px] md:h-[600px] w-full overflow-hidden rounded-3xl">
+      <div className="relative h-[500px] md:h-[600px] w-full">
         {/* Image Stack */}
         <AnimatePresence>
           {testimonials.map((testimonial, index) => (
