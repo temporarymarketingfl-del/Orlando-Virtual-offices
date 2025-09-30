@@ -116,7 +116,7 @@ function parseSimpleValue(value: string): any {
 }
 
 // Improved markdown to HTML conversion with media support and basic sanitization
-function markdownToHtml(markdown: string, contentType?: string, slug?: string): string {
+export function markdownToHtml(markdown: string, contentType?: string, slug?: string): string {
   // Remove potential script tags for basic XSS protection
   const sanitized = markdown.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
   

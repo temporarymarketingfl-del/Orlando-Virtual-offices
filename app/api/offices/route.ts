@@ -53,11 +53,11 @@ export async function GET(request: Request) {
       
       // Pricing
       pricing: {
-        monthlyRate: file.data.monthlyRate || 0,
+        monthlyRate: file.data.pricing?.mailOnly || file.data.pricing?.allInclusive || file.data.monthlyRate || 0,
         setupFee: file.data.setupFee || 0,
         depositRequired: file.data.depositRequired || false,
-        currency: file.data.currency || 'USD',
-        billingCycle: file.data.billingCycle || 'monthly'
+        currency: file.data.pricing?.currency || file.data.currency || 'USD',
+        billingCycle: file.data.pricing?.period || file.data.billingCycle || 'monthly'
       },
       
       // Services and amenities
@@ -127,7 +127,7 @@ export async function GET(request: Request) {
     }
     
     // Filter out inactive offices unless specifically requested
-    offices = offices.filter(office => office.status === 'active');
+    offices = offices.filter(office => office.status === 'active' || office.status === 'available');
     
     // Apply pagination
     const total = offices.length;

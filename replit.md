@@ -10,6 +10,17 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### API-Driven Menu System (September 30, 2025)
+Implemented dynamic API-driven navigation menus replacing hardcoded data with live content from markdown files:
+
+- **Locations Dropdown**: Fetches featured offices from `/api/offices?featured=true`, groups by district, displays office count and lowest pricing with currency formatting
+- **Providers Dropdown**: Fetches featured providers from `/api/providers?featured=true&limit=4`, displays provider cards with ratings and price ranges
+- **API Enhancements**: Added featured filtering support, fixed status filtering to accept both 'active' and 'available' statuses, corrected pricing mapping to use mailOnly as monthlyRate
+- **Query Client Fix**: Updated React Query client in `src/providers/index.tsx` to properly construct URLs with query parameters using URLSearchParams
+- **Deterministic Sorting**: Locations sorted by price → office count → name for stable display order
+- **Production Polish**: Added Infinity guards for pricing, currency formatting with "/mo" suffix, removed unused queryClient file
+- **Testing**: End-to-end Playwright tests confirm both dropdowns successfully load and display API-driven content
+
 ### Orlando Market Localization (September 15, 2025)
 Successfully transformed the platform from a nationwide virtual office aggregator to a focused Orlando, FL market presence:
 

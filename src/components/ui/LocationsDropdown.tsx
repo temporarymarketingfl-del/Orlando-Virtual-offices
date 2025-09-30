@@ -57,7 +57,14 @@ export default function LocationsDropdown() {
           }
           return acc;
         }, {} as Record<string, DistrictGroup>)
-      ).slice(0, 4) // Show top 4 districts
+      )
+      .sort((a, b) => {
+        // Sort by price, then by office count desc, then by name
+        if (a.lowestPrice !== b.lowestPrice) return a.lowestPrice - b.lowestPrice;
+        if (a.officeCount !== b.officeCount) return b.officeCount - a.officeCount;
+        return a.displayName.localeCompare(b.displayName);
+      })
+      .slice(0, 4) // Show top 4 districts
     : [];
 
   return (
@@ -82,7 +89,8 @@ export default function LocationsDropdown() {
                 <div className="flex flex-col">
                   <span className="font-medium text-foreground">{district.displayName}</span>
                   <span className="text-xs text-muted-foreground">
-                    {district.officeCount} {district.officeCount === 1 ? 'office' : 'offices'} • From ${district.lowestPrice}
+                    {district.officeCount} {district.officeCount === 1 ? 'office' : 'offices'}
+                    {district.lowestPrice !== Infinity && ` • From ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(district.lowestPrice)}/mo`}
                   </span>
                 </div>
               </div>
