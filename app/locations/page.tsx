@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, List, Grid } from 'lucide-react';
 import InteractiveMap from '@/components/InteractiveMap';
 import OfficesList from '@/components/OfficesList';
-import type { Location } from '@shared/schema';
 
 type ViewMode = 'map' | 'list' | 'split';
 
@@ -39,15 +38,11 @@ function useMediaQuery(query: string): boolean {
 }
 
 export default function Locations() {
-  const [selectedLocationId, setSelectedLocationId] = useState<string>();
+  const [selectedOfficeId, setSelectedOfficeId] = useState<string>();
   const [selectedCoordinates, setSelectedCoordinates] = useState<{ lat: number; lng: number }>();
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const isLargeScreen = useMediaQuery('(min-width: 1024px)'); // lg breakpoint
   const coordinatesResetTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
-
-  const handleLocationSelect = (location: Location) => {
-    setSelectedLocationId(location.id);
-  };
 
   const handleOfficeSelect = (coordinates: { lat: number; lng: number }) => {
     // Clear any pending reset
@@ -58,6 +53,10 @@ export default function Locations() {
     setSelectedCoordinates(coordinates);
     // Reset coordinates after a brief delay to allow repeated clicks on the same office
     coordinatesResetTimeoutRef.current = setTimeout(() => setSelectedCoordinates(undefined), 100);
+  };
+
+  const handleMapOfficeSelect = (officeId: string) => {
+    setSelectedOfficeId(officeId);
   };
 
   // Cleanup timeout on unmount
@@ -140,12 +139,12 @@ export default function Locations() {
               </Button>
             </div>
 
-            {/* Selected Location Badge */}
-            {selectedLocationId && (
+            {/* Selected Office Badge */}
+            {selectedOfficeId && (
               <Badge 
                 variant="outline" 
                 className="ml-2"
-                data-testid="badge-selected-location"
+                data-testid="badge-selected-office"
               >
                 Selected
               </Badge>
@@ -173,8 +172,8 @@ export default function Locations() {
           <div 
             className={`
               ${viewMode === 'map' ? 'hidden' : ''}
-              ${viewMode === 'list' ? 'block' : ''}
-              ${viewMode === 'split' ? 'block' : ''}
+              ${viewMode === 'list' ? 'block h-full' : ''}
+              ${viewMode === 'split' ? 'block h-full' : ''}
               ${isLargeScreen && viewMode === 'split' ? 'border-r border-border' : ''}
               ${!isLargeScreen && viewMode === 'split' ? 'border-b border-border' : ''}
             `}
@@ -189,15 +188,15 @@ export default function Locations() {
           <div 
             className={`
               ${viewMode === 'list' ? 'hidden' : ''}
-              ${viewMode === 'map' ? 'block' : ''}
-              ${viewMode === 'split' ? 'block' : ''}
+              ${viewMode === 'map' ? 'block h-full' : ''}
+              ${viewMode === 'split' ? 'block h-full' : ''}
             `}
           >
             <InteractiveMap
               key="single-persistent-map"
-              selectedLocationId={selectedLocationId}
+              selectedLocationId={selectedOfficeId}
               selectedCoordinates={selectedCoordinates}
-              onLocationSelect={handleLocationSelect}
+              onLocationSelect={handleMapOfficeSelect}
               className="h-full w-full"
               viewMode={viewMode}
               isLargeScreen={isLargeScreen}

@@ -8,9 +8,43 @@ import L from 'leaflet';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin, Building, TrendingUp, DollarSign } from 'lucide-react';
-import { ORLANDO_LOCATIONS, ORLANDO_CENTER, DEFAULT_ZOOM, formatPrice } from '@/data/locationData';
-import type { Location } from '@shared/schema';
+import { MapPin, Building, DollarSign } from 'lucide-react';
+import { ORLANDO_CENTER, DEFAULT_ZOOM } from '@/data/locationData';
+import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from '@/components/ui/skeleton';
+
+interface OfficeData {
+  id: string;
+  name: string;
+  displayName: string;
+  description: string;
+  excerpt: string;
+  location: {
+    address: string;
+    district: string;
+    city: string;
+    state: string;
+  };
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  pricing: {
+    monthlyRate: number;
+    currency: string;
+  };
+  amenities: string[];
+  services: string[];
+  images: string[];
+  status: string;
+  featured: boolean;
+}
+
+interface ApiResponse {
+  success: boolean;
+  data: OfficeData[];
+  total: number;
+}
 
 // Fix for default marker icons in React Leaflet using ESM-safe imports
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -20,10 +54,10 @@ L.Icon.Default.mergeOptions({
   shadowUrl: new URL('leaflet/dist/images/marker-shadow.png', import.meta.url).href,
 });
 
-// Custom marker icons with inline styles instead of Tailwind classes
-const createCustomIcon = (isHotspot: boolean, providerCount: number) => {
-  const color = isHotspot ? '#f97316' : '#3b82f6'; // Orange for hotspots, blue for regular
-  const borderColor = isHotspot ? '#f97316' : '#3b82f6';
+// Custom marker icons for offices
+const createOfficeIcon = (isFeatured: boolean) => {
+  const color = isFeatured ? '#548ea1' : '#3b82f6'; // Primary color for featured, blue for regular
+  const borderColor = isFeatured ? '#548ea1' : '#3b82f6';
   
   return L.divIcon({
     html: `
@@ -31,7 +65,7 @@ const createCustomIcon = (isHotspot: boolean, providerCount: number) => {
         <div style="width: 32px; height: 32px; border-radius: 50%; background-color: white; border: 2px solid ${borderColor}; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); display: flex; align-items: center; justify-content: center;">
           <div style="width: 16px; height: 16px; border-radius: 50%; background-color: ${color};"></div>
         </div>
-        ${isHotspot ? `<div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background-color: #f97316; border-radius: 50%; border: 1px solid white;"></div>` : ''}
+        ${isFeatured ? `<div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background-color: #548ea1; border-radius: 50%; border: 1px solid white;"></div>` : ''}
       </div>
     `,
     className: 'custom-marker',
@@ -56,7 +90,7 @@ function MapRefSetter({ mapRef }: { mapRef: React.MutableRefObject<LeafletMap | 
 interface InteractiveMapProps {
   selectedLocationId?: string;
   selectedCoordinates?: { lat: number; lng: number };
-  onLocationSelect?: (location: Location) => void;
+  onLocationSelect?: (officeId: string) => void;
   className?: string;
   viewMode?: string;
   isLargeScreen?: boolean;
@@ -71,6 +105,11 @@ export default function InteractiveMap({
   isLargeScreen
 }: InteractiveMapProps) {
   const mapRef = useRef<LeafletMap | null>(null);
+
+  // Fetch offices from API
+  const { data: officesData, isLoading } = useQuery<ApiResponse>({
+    queryKey: ['/api/offices'],
+  });
 
   // Invalidate map size when view mode OR screen size changes (as recommended by architect)
   useEffect(() => {
@@ -88,53 +127,31 @@ export default function InteractiveMap({
     }
   }, [viewMode, isLargeScreen]);
 
-  // Center map on selected coordinates or location when they change
+  // Center map on selected coordinates when they change
   useEffect(() => {
-    if (mapRef.current) {
-      // Prioritize selectedCoordinates over selectedLocationId
-      if (selectedCoordinates) {
-        const lat = Number(selectedCoordinates.lat);
-        const lng = Number(selectedCoordinates.lng);
+    if (mapRef.current && selectedCoordinates) {
+      const lat = Number(selectedCoordinates.lat);
+      const lng = Number(selectedCoordinates.lng);
+      
+      if (!isNaN(lat) && !isNaN(lng)) {
+        console.log('Centering map on office coordinates:', lat, lng);
+        const coords: [number, number] = [lat, lng];
         
-        if (!isNaN(lat) && !isNaN(lng)) {
-          console.log('Flying to office coordinates:', lat, lng);
-          const coords: [number, number] = [lat, lng];
-          
-          mapRef.current.whenReady(() => {
-            if (mapRef.current) {
-              mapRef.current.invalidateSize();
-              mapRef.current.setView(coords, 15, {
-                animate: true,
-                duration: 1.5,
-              });
-            }
-          });
-        }
-      } else if (selectedLocationId) {
-        const location = ORLANDO_LOCATIONS.find(loc => loc.id === selectedLocationId);
-        if (location && location.coordinates) {
-          const lat = Number(location.coordinates.lat);
-          const lng = Number(location.coordinates.lng);
-          
-          if (!isNaN(lat) && !isNaN(lng)) {
-            const coords: [number, number] = [lat, lng];
-            mapRef.current.whenReady(() => {
-              if (mapRef.current) {
-                mapRef.current.invalidateSize();
-                mapRef.current.flyTo(coords, 14, {
-                  animate: true,
-                  duration: 1.5,
-                });
-              }
+        mapRef.current.whenReady(() => {
+          if (mapRef.current) {
+            mapRef.current.invalidateSize();
+            mapRef.current.setView(coords, 15, {
+              animate: true,
+              duration: 1.0,
             });
           }
-        }
+        });
       }
     }
-  }, [selectedLocationId, selectedCoordinates]);
+  }, [selectedCoordinates]);
 
-  const handleMarkerClick = (location: Location) => {
-    onLocationSelect?.(location);
+  const handleMarkerClick = (officeId: string) => {
+    onLocationSelect?.(officeId);
   };
 
   return (
@@ -152,107 +169,116 @@ export default function InteractiveMap({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        {ORLANDO_LOCATIONS.map((location) => {
-          // Validate coordinates before rendering marker
-          const lat = Number(location.coordinates.lat);
-          const lng = Number(location.coordinates.lng);
-          
-          if (isNaN(lat) || isNaN(lng)) {
-            console.error('Skipping marker for location with invalid coordinates:', location.cityName, location.coordinates);
-            return null;
-          }
-          
-          return (
-            <Marker
-              key={location.id}
-              position={[lat, lng]}
-              icon={createCustomIcon(location.isHotspot, location.providerCount)}
-              eventHandlers={{
-                click: () => handleMarkerClick(location),
-              }}
-            >
-            <Popup closeOnClick={false} className="custom-popup">
-              <Card className="border-0 shadow-none min-w-80" data-testid={`popup-card-${location.id}`}>
-                <CardHeader className="p-3 pb-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <h3 className="font-semibold text-lg text-foreground" data-testid={`popup-title-${location.id}`}>
-                        {location.cityName}
-                      </h3>
-                      <p className="text-sm text-muted-foreground flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        {location.stateName}
+        {isLoading ? (
+          <div className="absolute top-4 left-4 z-[1000] bg-background p-2 rounded-md shadow-md">
+            <Skeleton className="h-4 w-32" />
+          </div>
+        ) : (
+          officesData?.data?.map((office) => {
+            // Skip offices without coordinates
+            if (!office.coordinates) return null;
+            
+            const lat = Number(office.coordinates.lat);
+            const lng = Number(office.coordinates.lng);
+            
+            if (isNaN(lat) || isNaN(lng)) {
+              console.error('Skipping marker for office with invalid coordinates:', office.name, office.coordinates);
+              return null;
+            }
+            
+            const districtName = office.location?.district
+              ?.split('-')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ') || '';
+            
+            return (
+              <Marker
+                key={office.id}
+                position={[lat, lng]}
+                icon={createOfficeIcon(office.featured)}
+                eventHandlers={{
+                  click: () => handleMarkerClick(office.id),
+                }}
+              >
+                <Popup closeOnClick={false} className="custom-popup">
+                  <Card className="border-0 shadow-none min-w-72" data-testid={`popup-card-${office.id}`}>
+                    <CardHeader className="p-3 pb-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <h3 className="font-semibold text-base text-foreground" data-testid={`popup-title-${office.id}`}>
+                            {office.displayName || office.name}
+                          </h3>
+                          <p className="text-xs text-muted-foreground flex items-center gap-1">
+                            <MapPin className="w-3 h-3" />
+                            {districtName}
+                          </p>
+                        </div>
+                        {office.featured && (
+                          <Badge className="bg-primary text-primary-foreground text-xs" data-testid={`popup-featured-${office.id}`}>
+                            Featured
+                          </Badge>
+                        )}
+                      </div>
+                    </CardHeader>
+                    
+                    <CardContent className="p-3 pt-0 space-y-2">
+                      {/* Image */}
+                      {office.images && office.images.length > 0 && (
+                        <img
+                          src={office.images[0]}
+                          alt={office.displayName || office.name}
+                          className="w-full h-24 object-cover rounded-md"
+                        />
+                      )}
+                      
+                      {/* Address */}
+                      <p className="text-xs text-muted-foreground">
+                        {office.location?.address}
                       </p>
-                    </div>
-                    {location.isHotspot && (
-                      <Badge className="bg-orange-500 text-white" data-testid={`popup-hotspot-${location.id}`}>
-                        <TrendingUp className="w-3 h-3 mr-1" />
-                        Hot
-                      </Badge>
-                    )}
-                  </div>
-                </CardHeader>
-                
-                <CardContent className="p-3 pt-0 space-y-3">
-                  {/* Image */}
-                  <img
-                    src={location.image}
-                    alt={`${location.cityName} business district`}
-                    className="w-full h-32 object-cover rounded-md"
-                  />
-                  
-                  {/* Statistics */}
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center text-muted-foreground">
-                      <Building className="w-4 h-4 mr-1" />
-                      <span data-testid={`popup-providers-${location.id}`}>
-                        {location.providerCount} providers
-                      </span>
-                    </div>
-                    <div className="flex items-center text-primary font-medium">
-                      <DollarSign className="w-4 h-4 mr-1" />
-                      <span data-testid={`popup-price-${location.id}`}>
-                        From {formatPrice(location.averagePrice)}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {location.description}
-                  </p>
-                  
-                  {/* Popular Areas */}
-                  <div>
-                    <p className="text-sm font-medium text-foreground mb-2">Popular Areas:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {location.popularAreas.map((area, index) => (
-                        <Badge
-                          key={index}
-                          variant="secondary"
-                          className="text-xs"
-                          data-testid={`popup-area-${location.id}-${index}`}
-                        >
-                          {area}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Action Button */}
-                  <Button
-                    className="w-full mt-3"
-                    onClick={() => handleMarkerClick(location)}
-                    data-testid={`popup-explore-${location.id}`}
-                  >
-                    Explore {location.cityName}
-                  </Button>
-                </CardContent>
-              </Card>
-            </Popup>
-            </Marker>
-          );
-        })}
+                      
+                      {/* Price */}
+                      <div className="flex items-center text-primary font-medium">
+                        <DollarSign className="w-4 h-4 mr-1" />
+                        <span data-testid={`popup-price-${office.id}`} className="text-sm">
+                          {office.pricing?.monthlyRate > 0 ? `From $${office.pricing.monthlyRate}/mo` : 'Contact for pricing'}
+                        </span>
+                      </div>
+                      
+                      {/* Services */}
+                      {office.services && office.services.length > 0 && (
+                        <div>
+                          <p className="text-xs font-medium text-foreground mb-1">Services:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {office.services.slice(0, 3).map((service, index) => (
+                              <Badge
+                                key={index}
+                                variant="secondary"
+                                className="text-xs"
+                                data-testid={`popup-service-${office.id}-${index}`}
+                              >
+                                {service}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Action Button */}
+                      <Button
+                        className="w-full mt-2"
+                        size="sm"
+                        onClick={() => window.location.href = `/offices/${office.id}`}
+                        data-testid={`popup-view-${office.id}`}
+                      >
+                        View Details
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Popup>
+              </Marker>
+            );
+          })
+        )}
       </MapContainer>
     </div>
   );
