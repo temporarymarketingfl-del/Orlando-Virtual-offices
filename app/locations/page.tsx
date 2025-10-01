@@ -24,21 +24,18 @@ function useMediaQuery(query: string): boolean {
 
   useEffect(() => {
     const media = window.matchMedia(query);
-    console.log('Media query initialized:', query, 'matches:', media.matches);
     
     if (media.matches !== matches) {
       setMatches(media.matches);
-      console.log('Media query updated:', matches, '->', media.matches);
     }
     
     const listener = () => {
-      console.log('Media query changed:', media.matches);
       setMatches(media.matches);
     };
     
     media.addEventListener('change', listener);
     return () => media.removeEventListener('change', listener);
-  }, [query]); // Fixed: removed 'matches' from deps to avoid unnecessary re-runs
+  }, [query]);
 
   return matches;
 }
@@ -46,7 +43,7 @@ function useMediaQuery(query: string): boolean {
 export default function Locations() {
   const [selectedOfficeId, setSelectedOfficeId] = useState<string>();
   const [selectedCoordinates, setSelectedCoordinates] = useState<{ lat: number; lng: number }>();
-  const [viewMode, setViewMode] = useState<ViewMode>('split');
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
   const isLargeScreen = useMediaQuery('(min-width: 1024px)'); // lg breakpoint
   const coordinatesResetTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -73,6 +70,13 @@ export default function Locations() {
       }
     };
   }, []);
+
+  // Force mobile to list/map only (no split view on mobile)
+  useEffect(() => {
+    if (!isLargeScreen && viewMode === 'split') {
+      setViewMode('list');
+    }
+  }, [isLargeScreen, viewMode]);
 
   return (
     <div className="h-screen flex flex-col bg-background">
