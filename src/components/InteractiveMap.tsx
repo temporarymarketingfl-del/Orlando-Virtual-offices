@@ -197,6 +197,7 @@ export default function InteractiveMap({
                   id={office.id}
                   name={office.displayName || office.name}
                   address={office.location?.address || ''}
+                  image={office.images?.[0] || ''}
                   affiliateUrl={office.contact?.website || ''}
                 />
               </Popup>

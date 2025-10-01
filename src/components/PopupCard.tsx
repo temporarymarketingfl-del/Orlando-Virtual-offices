@@ -9,6 +9,7 @@ interface PopupCardProps {
   id: string;
   name: string;
   address: string;
+  image?: string;
   affiliateUrl?: string;
 }
 
@@ -16,6 +17,7 @@ export default function PopupCard({
   id,
   name,
   address,
+  image,
   affiliateUrl
 }: PopupCardProps) {
   const handleCTA = (e: React.MouseEvent) => {
@@ -39,6 +41,18 @@ export default function PopupCard({
               alt="Opus Virtual Office" 
               className="h-10 w-auto"
               data-testid={`popup-logo-${id}`}
+            />
+          </div>
+        )}
+        
+        {/* Location Picture */}
+        {image && (
+          <div className="w-full">
+            <img 
+              src={image} 
+              alt={name}
+              className="w-full h-32 object-cover rounded-md"
+              data-testid={`popup-image-${id}`}
             />
           </div>
         )}
