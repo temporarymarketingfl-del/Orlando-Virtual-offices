@@ -210,10 +210,10 @@ export default function ExpandableProviderCard({
                       </div>
                     )}
 
-                    {/* Amenities */}
+                    {/* Features */}
                     {amenities.length > 0 && (
                       <div>
-                        <h4 className="font-medium text-sm mb-2">Amenities:</h4>
+                        <h4 className="font-medium text-sm mb-2">Features:</h4>
                         <div className="grid grid-cols-1 gap-1">
                           {amenities.slice(0, 6).map((amenity, index) => (
                             <div 
