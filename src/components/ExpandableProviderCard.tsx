@@ -141,7 +141,7 @@ export default function ExpandableProviderCard({
             </div>
           </div>
 
-          {/* Price and Actions - Always Visible */}
+          {/* Price and View on Map - Always Visible */}
           <div className="flex items-center justify-between">
             <div className="flex items-center text-primary">
               <DollarSign className="w-5 h-5" />
@@ -149,47 +149,31 @@ export default function ExpandableProviderCard({
                 {priceRange}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              {coordinates && onSelect && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleViewOnMap}
-                  className="h-8"
-                  data-testid={`button-view-on-map-${id}`}
-                >
-                  <MapPin className="w-4 h-4 mr-1" />
-                  View on Map
-                </Button>
-              )}
-              <motion.div
-                animate={{ rotate: isExpanded ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-                data-testid={`icon-expand-${id}`}
+            {coordinates && onSelect && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleViewOnMap}
+                className="h-8"
+                data-testid={`button-view-on-map-${id}`}
               >
-                <ChevronDown className="w-5 h-5 text-muted-foreground" />
-              </motion.div>
-            </div>
+                <MapPin className="w-4 h-4 mr-1" />
+                View on Map
+              </Button>
+            )}
           </div>
 
-          {/* Popular Areas - Always Visible if available */}
-          {popularAreas.length > 0 && (
-            <div>
-              <p className="text-xs font-medium text-muted-foreground mb-1">Popular areas:</p>
-              <div className="flex flex-wrap gap-1">
-                {popularAreas.slice(0, 3).map((area, index) => (
-                  <Badge 
-                    key={index} 
-                    variant="secondary" 
-                    className="text-xs"
-                    data-testid={`badge-area-${index}-${id}`}
-                  >
-                    {area}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* See Included Features - Always Visible */}
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">See included features</span>
+            <motion.div
+              animate={{ rotate: isExpanded ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              data-testid={`icon-expand-${id}`}
+            >
+              <ChevronDown className="w-5 h-5 text-muted-foreground" />
+            </motion.div>
+          </div>
 
           {/* Expandable Content */}
           <motion.div
