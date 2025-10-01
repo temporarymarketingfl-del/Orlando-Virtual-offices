@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useExpandable } from "@/hooks/use-expandable";
+import opusLogo from "@assets/providers/Opus-Logo.svg";
 
 interface ExpandableProviderCardProps {
   id: string;
@@ -88,16 +89,31 @@ export default function ExpandableProviderCard({
             className="w-full h-full object-cover"
             data-testid={`img-office-${id}`}
           />
+          
+          {/* Provider Logo */}
+          {name.toLowerCase().includes('opus') && (
+            <div className="absolute top-3 right-3 bg-white rounded-lg p-2 shadow-md">
+              <img
+                src={typeof opusLogo === 'string' ? opusLogo : opusLogo.src}
+                alt="Opus Virtual Offices"
+                className="h-8 w-auto"
+                data-testid={`img-provider-logo-${id}`}
+              />
+            </div>
+          )}
+          
+          {/* Popular Badge - Bottom Left */}
           {isPopular && (
             <Badge 
-              className="absolute top-3 left-3 bg-primary text-primary-foreground" 
+              className="absolute bottom-3 left-3 bg-primary text-primary-foreground" 
               data-testid="badge-popular"
             >
               Popular
             </Badge>
           )}
+          
           {providerCount && (
-            <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm rounded-md px-3 py-1">
+            <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-sm rounded-md px-3 py-1">
               <div className="flex items-center text-white text-sm">
                 <Building2 className="w-4 h-4 mr-1" />
                 <span className="font-medium">{providerCount} providers</span>
