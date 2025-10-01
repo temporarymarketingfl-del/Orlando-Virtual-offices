@@ -1298,6 +1298,9 @@ video {
 .bottom-0 {
   bottom: 0px;
 }
+.bottom-2 {
+  bottom: 0.5rem;
+}
 .bottom-3 {
   bottom: 0.75rem;
 }
@@ -2582,6 +2585,9 @@ video {
 .p-1 {
   padding: 0.25rem;
 }
+.p-1\.5 {
+  padding: 0.375rem;
+}
 .p-2 {
   padding: 0.5rem;
 }
@@ -2690,9 +2696,6 @@ video {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-.pb-2 {
-  padding-bottom: 0.5rem;
 }
 .pb-3 {
   padding-bottom: 0.75rem;
