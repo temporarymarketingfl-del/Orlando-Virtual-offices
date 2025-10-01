@@ -188,6 +188,7 @@ export default function Locations() {
             <OfficesList
               className="h-full flex flex-col"
               onOfficeSelect={handleOfficeSelect}
+              viewMode={viewMode}
             />
           </div>
 
