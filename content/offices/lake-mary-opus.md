@@ -15,6 +15,7 @@ pricing:
   currency: "USD"
   period: "monthly"
 availability: true
+images: ["/media/offices/lake-mary-opus/office.jpg"]
 amenities: ["Business Address", "Live Receptionist", "Mail Handling", "Phone Answering", "Call Forwarding", "Voicemail to Email", "Fax to Email", "Meeting Rooms"]
 features:
   liveReceptionist: true

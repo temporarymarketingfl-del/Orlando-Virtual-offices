@@ -17,6 +17,7 @@ pricing:
   currency: "USD"
   period: "monthly"
 availability: true
+images: ["/media/offices/orlando-opus/office.jpg"]
 amenities: ["Business Address", "Live Receptionist", "Mail Handling", "Phone Answering", "Call Forwarding", "Voicemail to Email", "Fax to Email", "Digital Mail Notifications", "Meeting Rooms", "Fitness Center", "Café", "Bank Branch"]
 features:
   liveReceptionist: true
