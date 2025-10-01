@@ -5,14 +5,11 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { Map as LeafletMap } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { MapPin, Building, DollarSign } from 'lucide-react';
+import { MapPin, Building } from 'lucide-react';
 import { ORLANDO_CENTER, DEFAULT_ZOOM } from '@/data/locationData';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
-import opusLogo from "@assets/providers/Opus-Logo.svg";
+import PopupCard from '@/components/PopupCard';
 
 interface OfficeData {
   id: string;
@@ -191,91 +188,18 @@ export default function InteractiveMap({
               }}
             >
               <Popup closeOnClick={false} className="custom-popup">
-                <Card className="border-0 shadow-none min-w-72" data-testid={`popup-card-${office.id}`}>
-                  <CardContent className="p-0">
-                    {/* Image with overlays - matching left column card */}
-                    <div className="relative">
-                      {office.images && office.images.length > 0 && (
-                        <img
-                          src={office.images[0]}
-                          alt={office.displayName || office.name}
-                          className="w-full h-40 object-cover rounded-t-lg"
-                        />
-                      )}
-                      
-                      {/* Opus Logo - top right */}
-                      {office.name.toLowerCase().includes("opus") && (
-                        <div className="absolute top-2 right-2 bg-white rounded-md p-1.5">
-                          <img 
-                            src={opusLogo} 
-                            alt="Opus Virtual Office" 
-                            className="h-5 w-auto"
-                          />
-                        </div>
-                      )}
-                      
-                      {/* Popular Badge - bottom left */}
-                      {office.featured && (
-                        <Badge 
-                          className="absolute bottom-2 left-2 bg-primary text-primary-foreground text-xs"
-                          data-testid={`popup-featured-${office.id}`}
-                        >
-                          Popular
-                        </Badge>
-                      )}
-                    </div>
-                    
-                    {/* Content below image */}
-                    <div className="p-3 space-y-2">
-                      {/* Name and Address */}
-                      <div>
-                        <h3 className="font-semibold text-base text-foreground line-clamp-2" data-testid={`popup-title-${office.id}`}>
-                          {office.displayName || office.name}
-                        </h3>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {office.location?.address}
-                        </p>
-                      </div>
-                      
-                      {/* Price */}
-                      <div className="flex items-center text-primary font-medium">
-                        <DollarSign className="w-4 h-4 mr-1" />
-                        <span data-testid={`popup-price-${office.id}`} className="text-sm">
-                          {office.pricing?.monthlyRate > 0 ? `From $${office.pricing.monthlyRate}/mo` : 'Contact for pricing'}
-                        </span>
-                      </div>
-                      
-                      {/* Features */}
-                      {office.amenities && office.amenities.length > 0 && (
-                        <div>
-                          <p className="text-xs font-medium text-foreground mb-1">Features:</p>
-                          <div className="flex flex-wrap gap-1">
-                            {office.amenities.slice(0, 3).map((amenity, index) => (
-                              <Badge
-                                key={index}
-                                variant="secondary"
-                                className="text-xs"
-                                data-testid={`popup-amenity-${office.id}-${index}`}
-                              >
-                                {amenity}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* CTA Button */}
-                      <Button
-                        className="w-full mt-2"
-                        size="sm"
-                        onClick={() => window.location.href = `/offices/${office.id}`}
-                        data-testid={`popup-view-${office.id}`}
-                      >
-                        View Details
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                <PopupCard
+                  id={office.id}
+                  name={office.displayName || office.name}
+                  image={office.images?.[0] || ''}
+                  address={office.location?.address || ''}
+                  priceRange={office.pricing?.monthlyRate > 0 ? `From $${office.pricing.monthlyRate}/mo` : 'Contact for pricing'}
+                  services={office.services || []}
+                  amenities={office.amenities || []}
+                  description={office.excerpt || office.description || ''}
+                  isPopular={office.featured}
+                  affiliateUrl={`/offices/${office.id}`}
+                />
               </Popup>
             </Marker>
           );
