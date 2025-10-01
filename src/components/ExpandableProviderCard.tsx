@@ -53,13 +53,15 @@ export default function ExpandableProviderCard({
   }, [isExpanded, animatedHeight]);
 
   const handleClick = (e: React.MouseEvent) => {
-    // Don't toggle if clicking on the CTA button
-    if ((e.target as HTMLElement).closest('button[data-cta]')) {
+    // Don't toggle if clicking on buttons
+    if ((e.target as HTMLElement).closest('button')) {
       return;
     }
     toggleExpand();
-    
-    // Call onSelect with coordinates if available
+  };
+
+  const handleViewOnMap = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (coordinates && onSelect) {
       onSelect(coordinates);
     }
@@ -123,7 +125,7 @@ export default function ExpandableProviderCard({
             </div>
           </div>
 
-          {/* Price - Always Visible */}
+          {/* Price and Actions - Always Visible */}
           <div className="flex items-center justify-between">
             <div className="flex items-center text-primary">
               <DollarSign className="w-5 h-5" />
@@ -131,13 +133,27 @@ export default function ExpandableProviderCard({
                 {priceRange}
               </span>
             </div>
-            <motion.div
-              animate={{ rotate: isExpanded ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-              data-testid={`icon-expand-${id}`}
-            >
-              <ChevronDown className="w-5 h-5 text-muted-foreground" />
-            </motion.div>
+            <div className="flex items-center gap-2">
+              {coordinates && onSelect && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleViewOnMap}
+                  className="h-8"
+                  data-testid={`button-view-on-map-${id}`}
+                >
+                  <MapPin className="w-4 h-4 mr-1" />
+                  View on Map
+                </Button>
+              )}
+              <motion.div
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+                data-testid={`icon-expand-${id}`}
+              >
+                <ChevronDown className="w-5 h-5 text-muted-foreground" />
+              </motion.div>
+            </div>
           </div>
 
           {/* Popular Areas - Always Visible if available */}

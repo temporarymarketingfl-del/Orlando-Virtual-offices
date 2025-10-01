@@ -10,6 +10,21 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Locations Page UX Improvements (October 1, 2025)
+Fixed scroll functionality and map stability when interacting with office cards:
+
+- **Vertical Scrolling**: Office cards container now scrolls properly
+  - Added `overflow-hidden` to grid column wrappers to contain content
+  - Inner cards container has `overflow-y-auto` for vertical scrolling
+  - Grid uses `gap-0` to eliminate spacing between columns
+- **Map Stability**: Separated card expansion from map centering
+  - Clicking a card now only expands/collapses it (map stays fixed)
+  - Added explicit "View on Map" button for intentional map centering
+  - Multiple cards can be expanded without affecting map position
+  - Button appears between price and expand chevron with MapPin icon
+- **UX Benefits**: Clear separation of actions prevents accidental map movement while browsing details
+- **Testing**: Playwright tests confirm cards expand without moving map (0px delta), and "View on Map" button successfully centers map (~376px movement)
+
 ### Map Marker and Centering Fix (September 30, 2025)
 Fixed critical bug preventing office markers from appearing on the map and map centering from working:
 
@@ -20,7 +35,7 @@ Fixed critical bug preventing office markers from appearing on the map and map c
   - Both components now correctly match API response structure where coordinates are nested in location object
 - **Results**:
   - All 4 office markers now render on map with correct coordinates
-  - Map centering works when clicking office cards (accuracy: ~16px from center)
+  - Map centering works when clicking "View on Map" button (accuracy: ~16px from center)
   - Repeat-click centering functions properly via timeout-based coordinate reset
   - Popups display with office details, pricing, and amenities
 - **Data Validation**: All offices confirmed to have valid coordinates; guard in place to prevent errors if coordinates missing

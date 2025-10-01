@@ -169,14 +169,15 @@ export default function Locations() {
             ${viewMode === 'list' ? 'grid grid-cols-1' : ''}
             ${viewMode === 'split' ? (
               isLargeScreen 
-                ? 'grid grid-cols-[2fr_3fr]' 
-                : 'grid grid-rows-[1fr_1fr]'
+                ? 'grid grid-cols-[2fr_3fr] gap-0' 
+                : 'grid grid-rows-[1fr_1fr] gap-0'
             ) : ''}
           `}
         >
           {/* Single OfficesList instance - always mounted */}
           <div 
             className={`
+              overflow-hidden
               ${viewMode === 'map' ? 'hidden' : ''}
               ${viewMode === 'list' ? 'block h-full' : ''}
               ${viewMode === 'split' ? 'block h-full' : ''}
@@ -193,6 +194,7 @@ export default function Locations() {
           {/* Single InteractiveMap instance - always mounted */}
           <div 
             className={`
+              overflow-hidden
               ${viewMode === 'list' ? 'hidden' : ''}
               ${viewMode === 'map' ? 'block h-full' : ''}
               ${viewMode === 'split' ? 'block h-full' : ''}
