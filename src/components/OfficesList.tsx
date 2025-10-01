@@ -190,9 +190,9 @@ export default function OfficesList({
       </div>
 
       {/* Office Cards List */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4" data-testid="offices-cards-container">
+      <div className="flex-1 overflow-y-auto p-4" data-testid="offices-cards-container">
         {isLoading ? (
-          <>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
               <Card key={i} className="overflow-hidden">
                 <CardHeader className="p-0">
@@ -209,27 +209,29 @@ export default function OfficesList({
                 </CardContent>
               </Card>
             ))}
-          </>
+          </div>
         ) : error ? (
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="text-center py-8 text-muted-foreground col-span-full">
             <MapPin className="w-12 h-12 mx-auto mb-4 opacity-50" />
             <h3 className="font-medium mb-2">Failed to load offices</h3>
             <p className="text-sm">Please try again later</p>
           </div>
         ) : offices.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="text-center py-8 text-muted-foreground col-span-full">
             <MapPin className="w-12 h-12 mx-auto mb-4 opacity-50" />
             <h3 className="font-medium mb-2">No offices found</h3>
             <p className="text-sm">Try adjusting your search terms</p>
           </div>
         ) : (
-          offices.map((office) => (
-            <ExpandableProviderCard 
-              key={office.id} 
-              {...office} 
-              onSelect={onOfficeSelect}
-            />
-          ))
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {offices.map((office) => (
+              <ExpandableProviderCard 
+                key={office.id} 
+                {...office} 
+                onSelect={onOfficeSelect}
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>
