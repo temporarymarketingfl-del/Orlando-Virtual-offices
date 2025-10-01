@@ -36,6 +36,11 @@ interface OfficeData {
   images: string[];
   status: string;
   featured: boolean;
+  contact: {
+    phone: string;
+    email: string;
+    website: string;
+  };
 }
 
 interface ApiResponse {
@@ -191,14 +196,8 @@ export default function InteractiveMap({
                 <PopupCard
                   id={office.id}
                   name={office.displayName || office.name}
-                  image={office.images?.[0] || ''}
                   address={office.location?.address || ''}
-                  priceRange={office.pricing?.monthlyRate > 0 ? `From $${office.pricing.monthlyRate}/mo` : 'Contact for pricing'}
-                  services={office.services || []}
-                  amenities={office.amenities || []}
-                  description={office.excerpt || office.description || ''}
-                  isPopular={office.featured}
-                  affiliateUrl={`/offices/${office.id}`}
+                  affiliateUrl={office.contact?.website || ''}
                 />
               </Popup>
             </Marker>
